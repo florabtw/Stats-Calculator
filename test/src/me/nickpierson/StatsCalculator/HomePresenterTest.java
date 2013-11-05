@@ -1,0 +1,95 @@
+package me.nickpierson.StatsCalculator;
+
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import me.nickpierson.StatsCalculator.utils.MyConstants;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+
+import com.thecellutioncenter.mvplib.ActionListener;
+
+@Config(manifest = Config.NONE)
+@RunWith(RobolectricTestRunner.class)
+public class HomePresenterTest {
+
+	protected HomeModel model;
+	protected HomeView view;
+	protected Activity activity;
+	protected ArgumentCaptor<ActionListener> listener;
+
+	@Before
+	public void setup() {
+		model = mock(HomeModel.class);
+		view = mock(HomeView.class);
+		activity = mock(Activity.class);
+
+		listener = ArgumentCaptor.forClass(ActionListener.class);
+	}
+
+	public void createPresenter() {
+		HomePresenter.setup(activity, model, view);
+	}
+
+	@Test
+	public void whenContactDeveloperMenuItemSelected_ThenEmailIntentIsShown() {
+		Uri emailUri = Uri.fromParts("mailto", MyConstants.DEVELOPER_EMAIL, null);
+		Intent emailIntent = new Intent(Intent.ACTION_SENDTO, emailUri);
+		emailIntent.putExtra(Intent.EXTRA_SUBJECT, MyConstants.EMAIL_SUBJECT);
+		Intent testIntent = Intent.createChooser(emailIntent, MyConstants.EMAIL_CHOOSER_TITLE);
+
+		createPresenter();
+
+		verify(view).addListener(listener.capture(), eq(HomeView.Types.MENU_CONTACT));
+
+		listener.getValue().fire();
+
+		verify(activity).startActivity(testIntent);
+	}
+
+	@Test
+	public void whenRateThisAppMenuItemIsSelected_ThenUserIsDirectedToPlayStore() {
+		when(activity.getApplicationContext()).thenReturn(mock(Context.class));
+		when(activity.getApplicationContext().getPackageName()).thenReturn("StatsCalculator");
+		Uri uri = Uri.parse("market://details?id=" + activity.getApplicationContext().getPackageName());
+		Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+		createPresenter();
+
+		verify(view).addListener(listener.capture(), eq(HomeView.Types.MENU_RATE));
+
+		listener.getValue().fire();
+
+		verify(activity).startActivity(rateAppIntent);
+	}
+
+	@Test
+	public void whenRateThisAppMenuItemIsSelectedWithNoPlayStore_ThenUserIsShownError() {
+		when(activity.getApplicationContext()).thenReturn(mock(Context.class));
+		when(activity.getApplicationContext().getPackageName()).thenReturn("StatsCalculator");
+		Uri uri = Uri.parse("market://details?id=" + activity.getApplicationContext().getPackageName());
+		Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
+		doThrow(new ActivityNotFoundException()).when(activity).startActivity(rateAppIntent);
+
+		createPresenter();
+
+		verify(view).addListener(listener.capture(), eq(HomeView.Types.MENU_RATE));
+
+		listener.getValue().fire();
+
+		verify(view).showToast(MyConstants.RATE_ERROR);
+	}
+}
