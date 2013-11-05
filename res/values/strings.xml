@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Stats Calculator</string>
+    <string name="app_title">Stats Calculator</string>
     <string name="save_list">Save List</string>
     <string name="load_or_delete_list">Load/Delete List</string>
     <string name="basic_input_hint">eg: 59.4x2,61.34,60x3,65.9</string>
