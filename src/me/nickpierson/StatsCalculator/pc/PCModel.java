@@ -131,12 +131,6 @@ public class PCModel extends DataActionHandler {
 	}
 
 	public BigInteger factorial(int num) {
-		// TODO: This should be in free version, not library
-		// Which means this class will become abstract as well as this method
-		return calculateFact(num);
-	}
-
-	public BigInteger calculateFact(int num) {
 		BigInteger cachedValue = factCache.get(num);
 		if (cachedValue != null) {
 			return cachedValue;
