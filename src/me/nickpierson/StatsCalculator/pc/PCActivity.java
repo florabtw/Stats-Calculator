@@ -1,6 +1,6 @@
 package me.nickpierson.StatsCalculator.pc;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.KeypadActivity;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
@@ -25,7 +25,7 @@ public class PCActivity extends ActionBarActivity implements KeypadActivity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			view.setResults((ArrayList<String>) savedInstanceState.getSerializable(MyConstants.RESULTS_KEY));
+			view.showResults((HashMap<String, String>) savedInstanceState.getSerializable(MyConstants.RESULTS_KEY));
 
 			if (savedInstanceState.getBoolean(MyConstants.KEYPAD_KEY)) {
 				view.showKeypad();

@@ -40,21 +40,17 @@ public class BasicAdapter extends ArrayAdapter<BasicListItem> {
 		view.tvTitle.setText(getItem(position).getTitle());
 
 		Double answer = getItem(position).getAnswer();
-		if (answer == null) {
-			view.tvAnswer.setText("None");
+		String stringAnswer = answer.toString();
+		if (answer > MyConstants.MAX_PLAIN_FORMAT) {
+			DecimalFormat format = new DecimalFormat(MyConstants.DECIMAL_FORMAT_LARGE);
+			stringAnswer = format.format(answer);
 		} else {
-			String stringAnswer = answer.toString();
-			if (answer > MyConstants.MAX_PLAIN_FORMAT) {
-				DecimalFormat format = new DecimalFormat(MyConstants.DECIMAL_FORMAT_LARGE);
-				stringAnswer = format.format(answer);
-			} else {
-				DecimalFormat format = new DecimalFormat();
-				format.setMaximumFractionDigits(MyConstants.DECIMAL_PLACES_LARGE);
-				stringAnswer = format.format(answer);
-			}
-
-			view.tvAnswer.setText(stringAnswer);
+			DecimalFormat format = new DecimalFormat();
+			format.setMaximumFractionDigits(MyConstants.DECIMAL_PLACES_LARGE);
+			stringAnswer = format.format(answer);
 		}
+
+		view.tvAnswer.setText(stringAnswer);
 
 		return convertView;
 	}

@@ -67,7 +67,6 @@ public class BasicView extends DataActionHandler {
 		keypadHelper.watchEditText(etInput);
 
 		lvResults.setAdapter(resultsAdapter);
-
 		flFrame.addView(lvResults);
 
 		etInput.setOnTouchListener(new OnTouchListener() {

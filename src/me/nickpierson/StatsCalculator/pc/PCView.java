@@ -1,6 +1,6 @@
 package me.nickpierson.StatsCalculator.pc;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.KeypadHelper;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,43 +37,29 @@ public class PCView extends ActionHandler {
 	private EditText etNVal;
 	private EditText etRVal;
 	private EditText etNVals;
-	private TextView tvNFact;
-	private TextView tvRFact;
-	private TextView tvNPermR;
-	private TextView tvNChooseR;
-	private TextView tvIndistinct;
 	private Activity activity;
 	private Toast toast;
 	private KeypadHelper keypadHelper;
-	private ScrollView svResults;
+	private ListView lvResults;
 	private TableLayout tlKeypad;
 	private FrameLayout flFrame;
 	private TextView tvNsTitle;
-	private TextView tvNPermRTitle;
-	private TextView tvNChooseRTitle;
-	private TextView tvIndistinctTitle;
+	private PCAdapter resultsAdapter;
 
 	public PCView(Activity activity) {
 		this.activity = activity;
 		view = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.perm_comb, null);
-		svResults = (ScrollView) LayoutInflater.from(activity).inflate(R.layout.perm_comb_results, null);
+		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.perm_comb_results, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.pc_flFrame);
 		tvNsTitle = (TextView) view.findViewById(R.id.pc_ns_title);
-		tvNFact = (TextView) svResults.findViewById(R.id.pc_tvNFact);
-		tvRFact = (TextView) svResults.findViewById(R.id.pc_tvRFact);
-		tvNPermR = (TextView) svResults.findViewById(R.id.pc_tvNPermR);
-		tvNChooseR = (TextView) svResults.findViewById(R.id.pc_tvNChooseR);
-		tvIndistinct = (TextView) svResults.findViewById(R.id.pc_tvIndistinct);
-		tvNPermRTitle = (TextView) svResults.findViewById(R.id.pc_results_tvNPermR);
-		tvNChooseRTitle = (TextView) svResults.findViewById(R.id.pc_results_tvNCombR);
-		tvIndistinctTitle = (TextView) svResults.findViewById(R.id.pc_results_tvIndistinctTitle);
+		resultsAdapter = new PCAdapter(activity, R.layout.perm_comb_results_item);
 		ImageButton btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
 		Button btnMultiply = (Button) tlKeypad.findViewById(R.id.keypad_times);
 
-		subscriptNPermRTitle();
-		subscriptNChooseRTitle();
-		subscriptIndisctinctTitle();
+		// subscriptNPermRTitle();
+		// subscriptNChooseRTitle();
+		// subscriptIndisctinctTitle();
 		subscriptNsTitle();
 
 		etNVal = (EditText) view.findViewById(R.id.pc_etNVal);
@@ -90,7 +76,9 @@ public class PCView extends ActionHandler {
 		keypadHelper.disableSoftInputFromAppearing(etRVal);
 		keypadHelper.disableSoftInputFromAppearing(etNVals);
 
-		flFrame.addView(svResults);
+		resultsAdapter.addAll(MyConstants.PC_TITLES);
+		lvResults.setAdapter(resultsAdapter);
+		flFrame.addView(lvResults);
 
 		btnMultiply.setEnabled(false);
 		btnBackspace.setOnLongClickListener(new OnLongClickListener() {
@@ -106,27 +94,30 @@ public class PCView extends ActionHandler {
 		});
 	}
 
-	private void subscriptNPermRTitle() {
-		SpannableStringBuilder string = new SpannableStringBuilder(tvNPermRTitle.getText());
-		subscriptText(string, 0, 1);
-		subscriptText(string, 2, 3);
-		tvNPermRTitle.setText(string);
-	}
-
-	private void subscriptNChooseRTitle() {
-		SpannableStringBuilder string = new SpannableStringBuilder(tvNChooseRTitle.getText());
-		subscriptText(string, 0, 1);
-		subscriptText(string, 2, 3);
-		tvNChooseRTitle.setText(string);
-	}
-
-	private void subscriptIndisctinctTitle() {
-		SpannableStringBuilder string = new SpannableStringBuilder(tvIndistinctTitle.getText());
-		subscriptText(string, 6, 7);
-		subscriptText(string, 9, 10);
-		subscriptText(string, 12, 13);
-		tvIndistinctTitle.setText(string);
-	}
+	// private void subscriptNPermRTitle() {
+	// SpannableStringBuilder string = new
+	// SpannableStringBuilder(tvNPermRTitle.getText());
+	// subscriptText(string, 0, 1);
+	// subscriptText(string, 2, 3);
+	// tvNPermRTitle.setText(string);
+	// }
+	//
+	// private void subscriptNChooseRTitle() {
+	// SpannableStringBuilder string = new
+	// SpannableStringBuilder(tvNChooseRTitle.getText());
+	// subscriptText(string, 0, 1);
+	// subscriptText(string, 2, 3);
+	// tvNChooseRTitle.setText(string);
+	// }
+	//
+	// private void subscriptIndisctinctTitle() {
+	// SpannableStringBuilder string = new
+	// SpannableStringBuilder(tvIndistinctTitle.getText());
+	// subscriptText(string, 6, 7);
+	// subscriptText(string, 9, 10);
+	// subscriptText(string, 12, 13);
+	// tvIndistinctTitle.setText(string);
+	// }
 
 	private void subscriptNsTitle() {
 		SpannableStringBuilder nsTitle = new SpannableStringBuilder(tvNsTitle.getText());
@@ -152,42 +143,19 @@ public class PCView extends ActionHandler {
 		});
 	}
 
-	public void showDefaultValues() {
-		setNFactorial(MyConstants.NOT_APPLICABLE);
-		setRFactorial(MyConstants.NOT_APPLICABLE);
-		setPermutation(MyConstants.NOT_APPLICABLE);
-		setCombination(MyConstants.NOT_APPLICABLE);
-		setIndistinct(MyConstants.NOT_APPLICABLE);
+	public void showResults(HashMap<String, String> results) {
+		resultsAdapter.setResults(results);
+		showResults();
+	}
+
+	public void showResults() {
+		flFrame.removeAllViews();
+		flFrame.addView(lvResults);
 	}
 
 	public void showKeypad() {
 		flFrame.removeAllViews();
 		flFrame.addView(tlKeypad);
-	}
-
-	public void showResults() {
-		flFrame.removeAllViews();
-		flFrame.addView(svResults);
-	}
-
-	public void setNFactorial(String text) {
-		tvNFact.setText(text);
-	}
-
-	public void setRFactorial(String text) {
-		tvRFact.setText(text);
-	}
-
-	public void setPermutation(String text) {
-		tvNPermR.setText(text);
-	}
-
-	public void setCombination(String text) {
-		tvNChooseR.setText(text);
-	}
-
-	public void setIndistinct(String text) {
-		tvIndistinct.setText(text);
 	}
 
 	public void showToast(String message) {
@@ -252,22 +220,8 @@ public class PCView extends ActionHandler {
 		return etNVals.getText().toString();
 	}
 
-	public ArrayList<String> getResults() {
-		ArrayList<String> results = new ArrayList<String>();
-		results.add(tvNFact.getText().toString());
-		results.add(tvRFact.getText().toString());
-		results.add(tvNPermR.getText().toString());
-		results.add(tvNChooseR.getText().toString());
-		results.add(tvIndistinct.getText().toString());
-		return results;
-	}
-
-	public void setResults(ArrayList<String> results) {
-		setNFactorial(results.get(0));
-		setRFactorial(results.get(1));
-		setPermutation(results.get(2));
-		setCombination(results.get(3));
-		setIndistinct(results.get(4));
+	public HashMap<String, String> getResults() {
+		return resultsAdapter.getResults();
 	}
 
 	public View getView() {

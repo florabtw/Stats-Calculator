@@ -37,11 +37,6 @@
     <string name="pc_n">n =</string>
     <string name="pc_r">r =</string>
     <string name="pc_ns">n1,n2,n3,&#8230; =</string>
-    <string name="n_fact">n!</string>
-    <string name="r_fact">r!</string>
-    <string name="n_perm_r">nPr</string>
-    <string name="n_comb_r">nCr</string>
-    <string name="indistinct_perm">n! \u00F7\nn1!n2!n3!&#8230;</string>
     <string name="request_list_name">What would you like to name the list?</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
@@ -59,5 +54,13 @@
     <string name="backspace_Desc">Backspace</string>
     <string name="home_menu_contact">Contact developer</string>
     <string name="home_menu_rate">Rate this app</string>
+
+    <!--
+    <string name="n_fact">n!</string>
+    <string name="r_fact">r!</string>
+    <string name="n_perm_r">nPr</string>
+    <string name="n_comb_r">nCr</string>
+    <string name="indistinct_perm">n! \u00F7\nn1!n2!n3!&#8230;</string>
+    -->
 
 </resources>

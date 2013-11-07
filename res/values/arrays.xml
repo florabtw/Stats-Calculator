@@ -36,4 +36,14 @@
         <item>@drawable/kurtosis</item>
     </string-array>
 
+    <!--
+    <string-array name="pc_titles">
+        <item>@string/n_fact</item>
+        <item>@string/r_fact</item>
+        <item>@string/n_perm_r</item>
+        <item>@string/n_comb_r</item>
+        <item>@string/indistinct_perm</item>
+    </string-array>
+    -->
+
 </resources>
