@@ -94,31 +94,6 @@ public class PCView extends ActionHandler {
 		});
 	}
 
-	// private void subscriptNPermRTitle() {
-	// SpannableStringBuilder string = new
-	// SpannableStringBuilder(tvNPermRTitle.getText());
-	// subscriptText(string, 0, 1);
-	// subscriptText(string, 2, 3);
-	// tvNPermRTitle.setText(string);
-	// }
-	//
-	// private void subscriptNChooseRTitle() {
-	// SpannableStringBuilder string = new
-	// SpannableStringBuilder(tvNChooseRTitle.getText());
-	// subscriptText(string, 0, 1);
-	// subscriptText(string, 2, 3);
-	// tvNChooseRTitle.setText(string);
-	// }
-	//
-	// private void subscriptIndisctinctTitle() {
-	// SpannableStringBuilder string = new
-	// SpannableStringBuilder(tvIndistinctTitle.getText());
-	// subscriptText(string, 6, 7);
-	// subscriptText(string, 9, 10);
-	// subscriptText(string, 12, 13);
-	// tvIndistinctTitle.setText(string);
-	// }
-
 	private void subscriptNsTitle() {
 		SpannableStringBuilder nsTitle = new SpannableStringBuilder(tvNsTitle.getText());
 		subscriptText(nsTitle, 1, 2);
@@ -145,6 +120,7 @@ public class PCView extends ActionHandler {
 
 	public void showResults(HashMap<String, String> results) {
 		resultsAdapter.setResults(results);
+		resultsAdapter.notifyDataSetChanged();
 		showResults();
 	}
 
