@@ -165,13 +165,6 @@ public class PCModelTest {
 		verify(listenerNs).fire(mapNAndNs);
 	}
 
-	private void addAllListeners() {
-		model.addListener(listenerN, PCModel.Types.VALID_N);
-		model.addListener(listenerR, PCModel.Types.VALID_R);
-		model.addListener(listenerNs, PCModel.Types.VALID_NS);
-		model.addListener(listener, PCModel.Types.DONE_VALIDATING);
-	}
-
 	@Test
 	public void factorialReturnsCorrectValue() {
 		assertEquals(BigInteger.valueOf(120), model.factorial(5));
@@ -209,14 +202,6 @@ public class PCModelTest {
 		assertEquals(BigInteger.valueOf(120), model.indistinctPermutation(5, makeArrayList(0)));
 	}
 
-	public ArrayList<Integer> makeArrayList(int... values) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		for (int val : values) {
-			list.add(val);
-		}
-		return list;
-	}
-
 	@Test
 	public void formatReturnsFormattedNumber() {
 		String expectedReturn1 = "1.0000000E9";
@@ -228,5 +213,49 @@ public class PCModelTest {
 		assertEquals(expectedReturn2, model.format(BigInteger.valueOf(1234567898765L)));
 		assertEquals(expectedReturn3, model.format(BigInteger.valueOf(999999999999L)));
 		assertEquals(expectedReturn4, model.format(BigInteger.valueOf(989999999999L)));
+	}
+
+	@Test
+	public void updateResult_AddsResultToResultsHashMap() {
+		HashMap<String, String> expectedMap = new HashMap<String, String>();
+		assertEquals(expectedMap, model.getResults());
+		String key = "Anything";
+		String result = "Anything result";
+
+		model.updateResult(key, result);
+		expectedMap.put(key, result);
+
+		assertEquals(expectedMap, model.getResults());
+	}
+
+	@Test
+	public void clearResults_ClearsResultsHashMap() {
+		HashMap<String, String> expectedMap = new HashMap<String, String>();
+		String key = "Anything";
+		String result = "Anything result";
+		expectedMap.put(key, result);
+		model.updateResult(key, result);
+
+		assertEquals(expectedMap, model.getResults());
+
+		model.clearResults();
+		expectedMap.clear();
+
+		assertEquals(expectedMap, model.getResults());
+	}
+
+	public ArrayList<Integer> makeArrayList(int... values) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int val : values) {
+			list.add(val);
+		}
+		return list;
+	}
+
+	private void addAllListeners() {
+		model.addListener(listenerN, PCModel.Types.VALID_N);
+		model.addListener(listenerR, PCModel.Types.VALID_R);
+		model.addListener(listenerNs, PCModel.Types.VALID_NS);
+		model.addListener(listener, PCModel.Types.DONE_VALIDATING);
 	}
 }

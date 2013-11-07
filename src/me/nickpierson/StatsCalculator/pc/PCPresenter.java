@@ -42,13 +42,6 @@ public class PCPresenter {
 				String nFact = format(model.factorial(n), model);
 
 				model.updateResult(MyConstants.PC_TITLES[0], nFact);
-
-				Integer r = (Integer) data.get(PCModel.Keys.R_VALUE);
-				if (r != null) {
-					view.showToast("R is not null");
-				} else {
-					view.showToast("R IS null");
-				}
 			}
 		}, PCModel.Types.VALID_N);
 

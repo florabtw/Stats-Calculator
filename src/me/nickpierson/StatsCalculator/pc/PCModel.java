@@ -166,10 +166,12 @@ public class PCModel extends DataActionHandler {
 		return factorial(n).divide(denom);
 	}
 
+	// TODO: Test
 	public void updateResult(String key, String result) {
 		results.put(key, result);
 	}
 
+	// TODO: Test
 	public void clearResults() {
 		results.clear();
 	}
