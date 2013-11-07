@@ -25,11 +25,10 @@ import com.thecellutioncenter.mvplib.DataActionListener;
 public class PCModelTest {
 
 	private PCModel model;
+	private ActionListener listener;
 	private DataActionListener listenerN;
 	private DataActionListener listenerR;
-	private DataActionListener listenerNAndR;
-	private DataActionListener listenerNAndNs;
-	private DataActionListener listenerAll;
+	private DataActionListener listenerNs;
 
 	private String testN;
 	private String testR;
@@ -39,7 +38,6 @@ public class PCModelTest {
 	private HashMap<Enum<?>, Integer> mapR;
 	private HashMap<Enum<?>, Integer> mapNAndR;
 	private HashMap<Enum<?>, Object> mapNAndNs;
-	private HashMap<Enum<?>, Object> mapAll;
 
 	@Before
 	public void setup() {
@@ -57,7 +55,6 @@ public class PCModelTest {
 		mapR = new HashMap<Enum<?>, Integer>();
 		mapNAndR = new HashMap<Enum<?>, Integer>();
 		mapNAndNs = new HashMap<Enum<?>, Object>();
-		mapAll = new HashMap<Enum<?>, Object>();
 
 		mapN.put(PCModel.Keys.N_VALUE, 20);
 		mapR.put(PCModel.Keys.R_VALUE, 10);
@@ -65,27 +62,22 @@ public class PCModelTest {
 		mapNAndR.put(PCModel.Keys.R_VALUE, 10);
 		mapNAndNs.put(PCModel.Keys.N_VALUE, 20);
 		mapNAndNs.put(PCModel.Keys.N_VALUES, nVals);
-		mapAll.put(PCModel.Keys.N_VALUE, 20);
-		mapAll.put(PCModel.Keys.R_VALUE, 10);
-		mapAll.put(PCModel.Keys.N_VALUES, nVals);
 
+		listener = mock(ActionListener.class);
 		listenerN = mock(DataActionListener.class);
 		listenerR = mock(DataActionListener.class);
-		listenerNAndR = mock(DataActionListener.class);
-		listenerNAndNs = mock(DataActionListener.class);
-		listenerAll = mock(DataActionListener.class);
+		listenerNs = mock(DataActionListener.class);
 	}
 
 	@Test
 	public void validateInputNotifiesPresenter_IfValueOverOneThousandIsEntered() {
-		ActionListener listener = mock(ActionListener.class);
 		model.addListener(listener, PCModel.Types.INPUT_OVER_MAX_VALUE);
 
 		model.validateInput("1001", "", "");
 		model.validateInput("", "1001", "");
 		model.validateInput("1001", "1001", "");
 
-		verify(listener, times(6)).fire();
+		verify(listener, times(4)).fire();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -102,9 +94,8 @@ public class PCModelTest {
 
 		verify(listenerN, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
 		verify(listenerR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerAll, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listenerNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listener, times(6)).fire();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -116,11 +107,9 @@ public class PCModelTest {
 		model.validateInput(testN, "", "10,11");
 
 		verify(listenerN, times(2)).fire(mapN);
-
 		verify(listenerR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerAll, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listenerNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listener, times(2)).fire();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -132,11 +121,9 @@ public class PCModelTest {
 		model.validateInput("", testR, "3,4");
 
 		verify(listenerR, times(2)).fire(mapR);
-
 		verify(listenerN, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerAll, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listenerNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listener, times(2)).fire();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -145,12 +132,12 @@ public class PCModelTest {
 		addAllListeners();
 
 		model.validateInput(testN, testR, "");
+		// model.validateInput(testN, testR, "1001");
 
-		verify(listenerNAndR).fire(mapNAndR);
-		verify(listenerN, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerAll, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listenerN).fire(mapN);
+		verify(listenerR).fire(mapNAndR);
+		verify(listenerNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listener, times(2)).fire();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -161,34 +148,28 @@ public class PCModelTest {
 		model.validateInput(testN, "", testNs);
 		model.validateInput(testN, "", "3,,,,,,2,");
 
-		verify(listenerNAndNs, times(2)).fire(mapNAndNs);
-
-		verify(listenerN, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listenerN, times(2)).fire(mapN);
+		verify(listenerNs, times(2)).fire(mapNAndNs);
 		verify(listenerR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerAll, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listener, times(2)).fire();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void validateInputHandlesInputCorrectly_ForAllValues() {
 		addAllListeners();
 
 		model.validateInput(testN, testR, testNs);
 
-		verify(listenerAll).fire(mapAll);
-		verify(listenerN, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndR, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
-		verify(listenerNAndNs, never()).fire((HashMap<Enum<?>, ?>) any(Object.class));
+		verify(listenerN).fire(mapN);
+		verify(listenerR).fire(mapNAndR);
+		verify(listenerNs).fire(mapNAndNs);
 	}
 
 	private void addAllListeners() {
-		model.addListener(listenerN, PCModel.Types.ONLY_VALID_N);
-		model.addListener(listenerR, PCModel.Types.ONLY_VALID_R);
-		model.addListener(listenerNAndR, PCModel.Types.VALID_N_AND_R);
-		model.addListener(listenerNAndNs, PCModel.Types.VALID_N_AND_NS);
-		model.addListener(listenerAll, PCModel.Types.ALL_VALUES_VALID);
+		model.addListener(listenerN, PCModel.Types.VALID_N);
+		model.addListener(listenerR, PCModel.Types.VALID_R);
+		model.addListener(listenerNs, PCModel.Types.VALID_NS);
+		model.addListener(listener, PCModel.Types.DONE_VALIDATING);
 	}
 
 	@Test
