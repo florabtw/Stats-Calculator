@@ -290,7 +290,6 @@ public class BasicModel extends DataActionHandler {
 		return sum / denom;
 	}
 
-	// TODO: Test
 	public HashMap<String, String> formatResults(HashMap<String, Double> oldResults) {
 		HashMap<String, String> results = new HashMap<String, String>();
 
