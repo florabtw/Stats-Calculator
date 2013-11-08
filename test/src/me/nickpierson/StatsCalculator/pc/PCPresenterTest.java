@@ -1,9 +1,9 @@
 package me.nickpierson.StatsCalculator.pc;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,10 +44,6 @@ public class PCPresenterTest {
 		when(view.getNVal()).thenReturn("nval");
 		when(view.getRVal()).thenReturn("rval");
 		when(view.getNVals()).thenReturn("nval,nval");
-		when(model.factorial(any(Integer.class))).thenReturn(BigInteger.ONE);
-		when(model.permutation(any(Integer.class), any(Integer.class))).thenReturn(BigInteger.valueOf(2));
-		when(model.combination(any(Integer.class), any(Integer.class))).thenReturn(BigInteger.valueOf(3));
-		when(model.indistinctPermutation(any(Integer.class), anyListOf(Integer.class))).thenReturn(BigInteger.valueOf(4));
 	}
 
 	public void createPresenter() {
@@ -58,7 +54,8 @@ public class PCPresenterTest {
 	public void viewIsInitializedWithDefaultValues() {
 		createPresenter();
 
-		verify(view).showDefaultValues();
+		verify(model).clearResults();
+		verify(view).showResults(makeEmptyResultsMap());
 	}
 
 	@Test
@@ -73,14 +70,14 @@ public class PCPresenterTest {
 	}
 
 	@Test
-	public void whenCalculateButtonIsPressed_ThenDisplayedValuesAreCleared() {
+	public void whenCalculateButtonIsPressed_ThenPreviousResultsAreCleared() {
 		createPresenter();
 
 		verify(view).addListener(listener.capture(), eq(PCView.Types.DONE_PRESSED));
 
 		listener.getValue().fire();
 
-		verify(view, times(2)).showDefaultValues();
+		verify(model, times(2)).clearResults();
 	}
 
 	@Test
@@ -95,187 +92,104 @@ public class PCPresenterTest {
 	}
 
 	@Test
-	public void whenOnlyNValueIsShownValid_ThenRelatedValuesAreDisplayed() {
-		createPresenter();
+	public void whenNValueIsShownValid_ThenRelatedValuesAreDisplayed() {
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
-		int testNVal = 6;
-		map.put(PCModel.Keys.N_VALUE, testNVal);
+		map.put(PCModel.Keys.N_VALUE, 6);
+		when(model.factorial(6)).thenReturn(BigInteger.valueOf(720));
+		createPresenter();
 
-		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.ONLY_VALID_N));
+		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
 
 		dataListener.getValue().fire(map);
 
-		verifyResultsShown();
-		verifyNFact(testNVal);
-		verify(view).setRFactorial(MyConstants.NOT_APPLICABLE);
-		verify(view).setPermutation(MyConstants.NOT_APPLICABLE);
-		verify(view).setCombination(MyConstants.NOT_APPLICABLE);
-		verify(view).setIndistinct(MyConstants.NOT_APPLICABLE);
+		verify(model).updateResult(MyConstants.N_FACT, "720");
 	}
 
 	@Test
 	public void whenOnlyRValueIsShownValid_ThenRelatedValuesAreDisplayed() {
-		createPresenter();
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
-		int testRVal = 5;
-		map.put(PCModel.Keys.R_VALUE, testRVal);
+		map.put(PCModel.Keys.R_VALUE, 5);
+		when(model.factorial(5)).thenReturn(BigInteger.valueOf(120));
+		createPresenter();
 
-		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.ONLY_VALID_R));
+		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_R));
 
 		dataListener.getValue().fire(map);
 
-		verifyResultsShown();
-		verifyRFact(testRVal);
-		verify(view).setNFactorial(MyConstants.NOT_APPLICABLE);
-		verify(view).setPermutation(MyConstants.NOT_APPLICABLE);
-		verify(view).setCombination(MyConstants.NOT_APPLICABLE);
-		verify(view).setIndistinct(MyConstants.NOT_APPLICABLE);
+		verify(model).updateResult(MyConstants.R_FACT, "120");
+		verify(model, never()).updateResult(eq(MyConstants.N_FACT), any(String.class));
 	}
 
 	@Test
-	public void whenRAndNValueAreShownValid_ThenRelatedValuesAreDisplayed() {
-		createPresenter();
+	public void whenRAndNValuesAreShownValid_ThenRelatedValuesAreDisplayed() {
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
-		int testNVal = 6;
-		int testRVal = 5;
-		map.put(PCModel.Keys.N_VALUE, testNVal);
-		map.put(PCModel.Keys.R_VALUE, testRVal);
+		map.put(PCModel.Keys.N_VALUE, 8);
+		map.put(PCModel.Keys.R_VALUE, 4);
+		when(model.factorial(4)).thenReturn(BigInteger.valueOf(24));
+		when(model.permutation(8, 4)).thenReturn(BigInteger.valueOf(1680));
+		when(model.combination(8, 4)).thenReturn(BigInteger.valueOf(70));
+		createPresenter();
 
-		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N_AND_R));
+		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
 
+		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_R));
 		dataListener.getValue().fire(map);
 
-		verifyResultsShown();
-		verifyNFact(testNVal);
-		verifyRFact(testRVal);
-		verifyPermutation(testNVal, testRVal);
-		verifyCombination(testNVal, testRVal);
-		verify(view).setIndistinct(MyConstants.NOT_APPLICABLE);
+		verify(model).updateResult(MyConstants.N_PERM_R, "1,680");
+		verify(model).updateResult(MyConstants.N_COMB_R, "70");
 	}
 
 	@Test
 	public void whenNAndNValuesAreValid_ThenRelatedValuesAreDisplayed() {
-		createPresenter();
 		HashMap<Enum<?>, Object> map = new HashMap<Enum<?>, Object>();
 		ArrayList<Integer> testNVals = new ArrayList<Integer>();
-		int testNVal = 6;
 		testNVals.add(2);
 		testNVals.add(3);
-
-		map.put(PCModel.Keys.N_VALUE, testNVal);
+		map.put(PCModel.Keys.N_VALUE, 9);
 		map.put(PCModel.Keys.N_VALUES, testNVals);
-
-		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N_AND_NS));
-
-		dataListener.getValue().fire(map);
-
-		verifyResultsShown();
-		verifyNFact(testNVal);
-		verifyIndistinct(testNVals, testNVal);
-		verify(view).setRFactorial(MyConstants.NOT_APPLICABLE);
-		verify(view).setPermutation(MyConstants.NOT_APPLICABLE);
-		verify(view).setCombination(MyConstants.NOT_APPLICABLE);
-	}
-
-	@Test
-	public void whenAllValuesArePresent_ThenRelatedValuesAreShown() {
+		when(model.indistinctPermutation(9, testNVals)).thenReturn(BigInteger.valueOf(30240));
 		createPresenter();
-		HashMap<Enum<?>, Object> map = new HashMap<Enum<?>, Object>();
-		ArrayList<Integer> testNVals = new ArrayList<Integer>();
-		int testNVal = 6;
-		int testRVal = 5;
-		testNVals.add(7);
-		testNVals.add(8);
-		map.put(PCModel.Keys.N_VALUE, testNVal);
-		map.put(PCModel.Keys.R_VALUE, testRVal);
-		map.put(PCModel.Keys.N_VALUES, testNVals);
 
-		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.ALL_VALUES_VALID));
+		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_NS));
 
 		dataListener.getValue().fire(map);
 
-		verifyResultsShown();
-		verifyNFact(testNVal);
-		verifyRFact(testRVal);
-		verifyPermutation(testNVal, testRVal);
-		verifyCombination(testNVal, testRVal);
-		verifyIndistinct(testNVals, testNVal);
-	}
-
-	@Test
-	public void numbersOverOneThousandAreFormatted() {
-		int testNumber = 8;
-		BigInteger testResult = BigInteger.valueOf(40320);
-		String expectedResult = "40,320";
-		when(model.factorial(any(Integer.class))).thenReturn(testResult);
-		createPresenter();
-		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
-		map.put(PCModel.Keys.N_VALUE, testNumber);
-
-		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.ONLY_VALID_N));
-
-		dataListener.getValue().fire(map);
-
-		verify(view).setNFactorial(expectedResult);
+		verify(model).updateResult(MyConstants.INDISTINCT_PERM, "30,240");
 	}
 
 	@Test
 	public void numbersOverOneBillionAreFormatted() {
-		BigInteger testNumber = BigInteger.valueOf(1000000001);
-		when(model.factorial(any(Integer.class))).thenReturn(testNumber);
-		when(model.permutation(any(Integer.class), any(Integer.class))).thenReturn(testNumber);
-		when(model.combination(any(Integer.class), any(Integer.class))).thenReturn(testNumber);
-		when(model.indistinctPermutation(any(Integer.class), anyListOf(Integer.class))).thenReturn(testNumber);
+		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
+		map.put(PCModel.Keys.N_VALUE, 13);
+		BigInteger nFact = BigInteger.valueOf(6227020800L);
+		when(model.factorial(13)).thenReturn(nFact);
+		when(model.format(nFact)).thenReturn("6.2270208E9");
 		createPresenter();
-		HashMap<Enum<?>, Object> map = new HashMap<Enum<?>, Object>();
-		ArrayList<Integer> testNVals = new ArrayList<Integer>();
-		int testNVal = 6;
-		int testRVal = 5;
-		testNVals.add(7);
-		testNVals.add(8);
-		map.put(PCModel.Keys.N_VALUE, testNVal);
-		map.put(PCModel.Keys.R_VALUE, testRVal);
-		map.put(PCModel.Keys.N_VALUES, testNVals);
 
-		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.ALL_VALUES_VALID));
+		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
 
 		dataListener.getValue().fire(map);
 
-		verify(model, times(5)).format(testNumber);
-		verify(view).setNFactorial(model.format(testNumber));
-		verify(view).setRFactorial(model.format(testNumber));
-		verify(view).setPermutation(model.format(testNumber));
-		verify(view).setCombination(model.format(testNumber));
-		verify(view).setIndistinct(model.format(testNumber));
+		verify(model).updateResult(MyConstants.N_FACT, "6.2270208E9");
 	}
 
-	private void verifyResultsShown() {
-		verify(view).showResults();
-	}
+	@Test
+	public void resultsAreShown_WhenModelIsDoneValidating() {
+		HashMap<String, String> emptyResults = new HashMap<String, String>();
+		emptyResults = makeEmptyResultsMap();
+		HashMap<String, String> results = new HashMap<String, String>();
+		results.put(MyConstants.R_FACT, "720");
+		setMissingValuesToDefault(results);
+		when(model.getResults()).thenReturn(emptyResults);
+		createPresenter();
+		when(model.getResults()).thenReturn(results);
 
-	private void verifyNFact(int testNVal) {
-		verify(model).factorial(testNVal);
-		verify(view).setNFactorial(model.factorial(testNVal).toString());
-	}
+		verify(model).addListener(listener.capture(), eq(PCModel.Types.DONE_VALIDATING));
 
-	private void verifyRFact(int testRVal) {
-		verify(model).factorial(testRVal);
-		verify(view).setRFactorial(model.factorial(testRVal).toString());
-	}
+		listener.getValue().fire();
 
-	private void verifyCombination(int testNVal, int testRVal) {
-		verify(model).combination(testNVal, testRVal);
-		verify(view).setCombination(model.combination(testNVal, testRVal).toString());
-	}
-
-	private void verifyPermutation(int testNVal, int testRVal) {
-		verify(model).permutation(testNVal, testRVal);
-		verify(view).setPermutation(model.permutation(testNVal, testRVal).toString());
-	}
-
-	private void verifyIndistinct(ArrayList<Integer> testNVals, int testNVal) {
-		verify(model).indistinctPermutation(testNVal, testNVals);
-		verify(view).setIndistinct(model.indistinctPermutation(testNVal, testNVals).toString());
+		verify(view).showResults(emptyResults);
+		verify(view).showResults(results);
 	}
 
 	@Test
@@ -287,5 +201,22 @@ public class PCPresenterTest {
 		listener.getValue().fire();
 
 		verify(view).showToast(MyConstants.MESSAGE_INPUT_OVER_MAX);
+	}
+
+	private HashMap<String, String> makeEmptyResultsMap() {
+		HashMap<String, String> results = new HashMap<String, String>();
+		for (String title : MyConstants.PC_TITLES) {
+			results.put(title, MyConstants.PC_DEFAULT_RESULT_VALUE);
+		}
+
+		return results;
+	}
+
+	private void setMissingValuesToDefault(HashMap<String, String> results) {
+		for (String title : MyConstants.PC_TITLES) {
+			if (results.get(title) == null) {
+				results.put(title, MyConstants.PC_DEFAULT_RESULT_VALUE);
+			}
+		}
 	}
 }

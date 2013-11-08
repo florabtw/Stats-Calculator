@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import me.nickpierson.StatsCalculator.utils.MyConstants;
-import me.nickpierson.StatsCalculator.utils.MyConstants.Titles;
 import android.app.Activity;
 
 import com.thecellutioncenter.mvplib.DataActionHandler;
@@ -19,7 +19,6 @@ import com.thecellutioncenter.mvplib.DataActionHandler;
 public class BasicModel extends DataActionHandler {
 
 	private Activity activity;
-	private double[] results;
 
 	public enum Types {
 		VALID_INPUT, INVALID_INPUT, SAVE_SUCCESSFUL, SAVE_FAILED, LOAD_ERROR, DELETE_ERROR;
@@ -31,13 +30,12 @@ public class BasicModel extends DataActionHandler {
 
 	public BasicModel(Activity activity) {
 		this.activity = activity;
-
-		results = new double[Titles.values().length];
 	}
 
-	public double[] getEmptyResults() {
-		for (int i = 0; i < results.length; i++) {
-			results[i] = Double.NaN;
+	public HashMap<String, Double> getEmptyResults() {
+		HashMap<String, Double> results = new HashMap<String, Double>();
+		for (String title : MyConstants.BASIC_TITLES) {
+			results.put(title, Double.NaN);
 		}
 
 		return results;
@@ -51,7 +49,6 @@ public class BasicModel extends DataActionHandler {
 			return;
 		}
 
-		// Checks if input is valid
 		String[] values = input.split(",");
 		for (int i = 0; i < values.length; i++) {
 			String currVal = values[i];
@@ -148,23 +145,33 @@ public class BasicModel extends DataActionHandler {
 		return convertedList;
 	}
 
-	public double[] calculateResults(List<Double> numberList) {
+	public HashMap<String, Double> calculateResults(List<Double> numberList) {
+		HashMap<String, Double> results = new HashMap<String, Double>();
+
 		Collections.sort(numberList);
 
-		results[Titles.SIZE.ordinal()] = numberList.size();
-		results[Titles.SUM.ordinal()] = calculateSum(numberList);
-		results[Titles.ARITH_MEAN.ordinal()] = results[Titles.SUM.ordinal()] / results[Titles.SIZE.ordinal()];
-		results[Titles.GEO_MEAN.ordinal()] = calculateGeoMean(numberList);
-		results[Titles.MEDIAN.ordinal()] = calculateMedian(numberList, results[Titles.SIZE.ordinal()]);
-		results[Titles.MODE.ordinal()] = calculateMode(numberList);
-		results[Titles.RANGE.ordinal()] = calculateRange(numberList);
-		results[Titles.SAMPLE_VAR.ordinal()] = calculateSampleVariance(numberList, results[Titles.ARITH_MEAN.ordinal()], results[Titles.SIZE.ordinal()]);
-		results[Titles.POP_VAR.ordinal()] = calculatePopVariance(numberList, results[Titles.ARITH_MEAN.ordinal()], results[Titles.SIZE.ordinal()]);
-		results[Titles.SAMPLE_DEV.ordinal()] = Math.sqrt(results[Titles.SAMPLE_VAR.ordinal()]);
-		results[Titles.POP_DEV.ordinal()] = Math.sqrt(results[Titles.POP_VAR.ordinal()]);
-		results[Titles.COEFF_VAR.ordinal()] = results[Titles.SAMPLE_DEV.ordinal()] / results[Titles.ARITH_MEAN.ordinal()];
-		results[Titles.SKEWNESS.ordinal()] = calculateSkewness(numberList, results[Titles.ARITH_MEAN.ordinal()], results[Titles.POP_DEV.ordinal()]);
-		results[Titles.KURTOSIS.ordinal()] = calculateKurtosis(numberList, results[Titles.ARITH_MEAN.ordinal()], results[Titles.POP_DEV.ordinal()]);
+		Double size = (double) numberList.size();
+		Double sum = calculateSum(numberList);
+		Double arithMean = sum / size;
+		Double sampleVar = calculateSampleVariance(numberList, arithMean, size);
+		Double popVar = calculatePopVariance(numberList, arithMean, size);
+		Double sampleDev = Math.sqrt(sampleVar);
+		double popDev = Math.sqrt(popVar);
+
+		results.put(MyConstants.SIZE, size);
+		results.put(MyConstants.SUM, sum);
+		results.put(MyConstants.ARITH_MEAN, arithMean);
+		results.put(MyConstants.GEO_MEAN, calculateGeoMean(numberList));
+		results.put(MyConstants.MEDIAN, calculateMedian(numberList, size));
+		results.put(MyConstants.MODE, calculateMode(numberList));
+		results.put(MyConstants.RANGE, calculateRange(numberList));
+		results.put(MyConstants.SAMPLE_VAR, sampleVar);
+		results.put(MyConstants.POP_VAR, popVar);
+		results.put(MyConstants.SAMPLE_DEV, sampleDev);
+		results.put(MyConstants.POP_DEV, popDev);
+		results.put(MyConstants.COEFF_VAR, sampleDev / arithMean);
+		results.put(MyConstants.SKEWNESS, calculateSkewness(numberList, arithMean, popDev));
+		results.put(MyConstants.KURTOSIS, calculateKurtosis(numberList, arithMean, popDev));
 
 		return results;
 	}
@@ -283,6 +290,30 @@ public class BasicModel extends DataActionHandler {
 		return sum / denom;
 	}
 
+	public HashMap<String, String> formatResults(HashMap<String, Double> oldResults) {
+		HashMap<String, String> results = new HashMap<String, String>();
+
+		for (String key : oldResults.keySet()) {
+			results.put(key, format(oldResults.get(key)));
+		}
+
+		return results;
+	}
+
+	private String format(Double num) {
+		String result;
+		if (num >= MyConstants.MAX_PLAIN_FORMAT) {
+			DecimalFormat format = new DecimalFormat(MyConstants.DECIMAL_FORMAT_LARGE);
+			result = format.format(num);
+		} else {
+			DecimalFormat format = new DecimalFormat();
+			format.setMaximumFractionDigits(MyConstants.DECIMAL_PLACES_LARGE);
+			result = format.format(num);
+		}
+
+		return result;
+	}
+
 	public void saveList(String name, String input) {
 		File outputFile = new File(activity.getFilesDir(), name);
 		if (outputFile.exists()) {
@@ -336,13 +367,5 @@ public class BasicModel extends DataActionHandler {
 		if (!isDeleted) {
 			event(Types.DELETE_ERROR);
 		}
-	}
-
-	public double[] getResults() {
-		return results;
-	}
-
-	public void setResults(double[] results) {
-		this.results = results;
 	}
 }

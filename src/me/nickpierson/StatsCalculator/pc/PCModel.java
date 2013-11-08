@@ -13,72 +13,56 @@ import com.thecellutioncenter.mvplib.DataActionHandler;
 public class PCModel extends DataActionHandler {
 
 	public enum Types {
-		ONLY_VALID_N, ONLY_VALID_R, VALID_N_AND_R, VALID_N_AND_NS, ALL_VALUES_VALID, INPUT_OVER_MAX_VALUE;
+		VALID_N, VALID_R, VALID_NS, DONE_VALIDATING, INPUT_OVER_MAX_VALUE;
 	}
 
 	public enum Keys {
 		N_VALUE, R_VALUE, N_VALUES;
 	}
 
-	SparseArray<BigInteger> factCache = new SparseArray<BigInteger>();
+	private HashMap<String, String> results = new HashMap<String, String>();
+	private SparseArray<BigInteger> factCache = new SparseArray<BigInteger>();
 
 	public void validateInput(String nVal, String rVal, String nVals) {
 		HashMap<Enum<?>, Object> returnValues = new HashMap<Enum<?>, Object>();
 
-		if (isValid(nVal) && isValid(rVal)) {
+		if (isValid(nVal)) {
 			int n = convert(nVal);
-			int r = convert(rVal);
-
 			returnValues.put(Keys.N_VALUE, n);
-			returnValues.put(Keys.R_VALUE, r);
+			dataEvent(Types.VALID_N, returnValues);
 
 			if (isValidList(nVals, n)) {
 				addNList(nVals, returnValues);
-				dataEvent(Types.ALL_VALUES_VALID, returnValues);
-			} else {
-				dataEvent(Types.VALID_N_AND_R, returnValues);
+				dataEvent(Types.VALID_NS, returnValues);
 			}
-		} else if (isValid(nVal)) {
-			int n = convert(nVal);
+		}
 
-			returnValues.put(Keys.N_VALUE, n);
-
-			if (isValidList(nVals, n)) {
-				addNList(nVals, returnValues);
-				dataEvent(Types.VALID_N_AND_NS, returnValues);
-			} else {
-				dataEvent(Types.ONLY_VALID_N, returnValues);
-			}
-		} else if (isValid(rVal)) {
+		if (isValid(rVal)) {
 			int r = convert(rVal);
 			returnValues.put(Keys.R_VALUE, r);
-			dataEvent(Types.ONLY_VALID_R, returnValues);
+			dataEvent(Types.VALID_R, returnValues);
 		}
+
+		event(Types.DONE_VALIDATING);
 	}
 
-	private void addNList(String nVals, HashMap<Enum<?>, Object> returnValues) {
-		ArrayList<Integer> nList = new ArrayList<Integer>();
-		nList = convertList(nVals);
-		returnValues.put(Keys.N_VALUES, nList);
+	private boolean isValid(String string) {
+		return string.length() != 0 && !isTooBig(string);
 	}
 
-	private ArrayList<Integer> convertList(String string) {
-		ArrayList<Integer> result = new ArrayList<Integer>();
+	protected boolean isTooBig(String input) {
+		try {
+			int n = Integer.parseInt(input);
 
-		String[] nVals = string.split(",");
-		for (String val : nVals) {
-			if (val.length() == 0) {
-				continue;
+			if (n > MyConstants.PC_MAX_INPUT) {
+				event(Types.INPUT_OVER_MAX_VALUE);
+				return true;
+			} else {
+				return false;
 			}
-
-			result.add(convert(val));
+		} catch (NumberFormatException e) {
+			return true;
 		}
-
-		return result;
-	}
-
-	private int convert(String nVal) {
-		return Integer.valueOf(nVal);
 	}
 
 	private boolean isValidList(String list, int n) {
@@ -111,23 +95,29 @@ public class PCModel extends DataActionHandler {
 		return !isTooBig(string);
 	}
 
-	private boolean isValid(String string) {
-		return string.length() != 0 && !isTooBig(string);
+	private int convert(String nVal) {
+		return Integer.valueOf(nVal);
 	}
 
-	protected boolean isTooBig(String input) {
-		try {
-			int n = Integer.parseInt(input);
+	private ArrayList<Integer> convertList(String string) {
+		ArrayList<Integer> result = new ArrayList<Integer>();
 
-			if (n > MyConstants.PC_MAX_INPUT) {
-				event(Types.INPUT_OVER_MAX_VALUE);
-				return true;
-			} else {
-				return false;
+		String[] nVals = string.split(",");
+		for (String val : nVals) {
+			if (val.length() == 0) {
+				continue;
 			}
-		} catch (NumberFormatException e) {
-			return true;
+
+			result.add(convert(val));
 		}
+
+		return result;
+	}
+
+	private void addNList(String nVals, HashMap<Enum<?>, Object> returnValues) {
+		ArrayList<Integer> nList = new ArrayList<Integer>();
+		nList = convertList(nVals);
+		returnValues.put(Keys.N_VALUES, nList);
 	}
 
 	public BigInteger factorial(int num) {
@@ -173,6 +163,18 @@ public class PCModel extends DataActionHandler {
 		}
 
 		return factorial(n).divide(denom);
+	}
+
+	public void updateResult(String key, String result) {
+		results.put(key, result);
+	}
+
+	public void clearResults() {
+		results.clear();
+	}
+
+	public HashMap<String, String> getResults() {
+		return results;
 	}
 
 	public String format(BigInteger number) {

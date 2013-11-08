@@ -38,8 +38,8 @@ public class BasicPresenter {
 			@Override
 			public void fire(HashMap<Enum<?>, ?> data) {
 				ArrayList<Double> validList = (ArrayList<Double>) data.get(BasicModel.Keys.VALIDATED_LIST);
-				double[] calculateResults = model.calculateResults(validList);
-				view.showResults(calculateResults);
+				HashMap<String, Double> results = model.calculateResults(validList);
+				view.showResults(model.formatResults(results));
 			}
 		}, BasicModel.Types.VALID_INPUT);
 
@@ -133,7 +133,7 @@ public class BasicPresenter {
 	}
 
 	private static void showEmptyResults(final BasicModel model, final BasicView view) {
-		view.showResults(model.getEmptyResults());
+		view.showResults(model.formatResults(model.getEmptyResults()));
 	}
 
 	private static void showSavedLists(final BasicModel model, final BasicView view) {

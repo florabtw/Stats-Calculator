@@ -1,5 +1,7 @@
 package me.nickpierson.StatsCalculator.basic;
 
+import java.util.HashMap;
+
 import me.nickpierson.StatsCalculator.utils.KeypadActivity;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
 import android.os.Bundle;
@@ -18,17 +20,17 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putDoubleArray(MyConstants.RESULTS_KEY, model.getResults());
+		outState.putSerializable(MyConstants.RESULTS_KEY, view.getResults());
 		outState.putBoolean(MyConstants.KEYPAD_KEY, view.isKeyPadVisible());
 		outState.putInt(MyConstants.SCROLL_POSITION_KEY, view.getScrollPosition());
 		super.onSaveInstanceState(outState);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			double[] results = savedInstanceState.getDoubleArray(MyConstants.RESULTS_KEY);
-			model.setResults(results);
+			HashMap<String, String> results = (HashMap<String, String>) savedInstanceState.getSerializable(MyConstants.RESULTS_KEY);
 			view.showResults(results);
 
 			view.setScrollPosition(savedInstanceState.getInt(MyConstants.SCROLL_POSITION_KEY));
