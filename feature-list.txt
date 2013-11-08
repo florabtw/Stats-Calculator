@@ -1,0 +1,54 @@
+        Home:
+- Back button closes app
+- Menu option: Contact developer
+- Menu option: Rate this app
+
+        Descriptive:
+- Calculate stats on a list of numbers
+- Up navigation in action bar
+- Back button navigates to home screen
+- Saves state when navigating to reference guide and back.
+- "x" in input copies the preceding number by the following number times
+- Consecutive periods, 'x', or minuses on calculate pressed will not show
+  results, but instead highlight the offending item, and display a toast
+- Consecutive commas are treated as non-existant. Calculation performs as
+  expected.
+- Changing landscape/portrait mode keeps state of results, EditText, and
+  scroll position of results listview
+- Menu option: Save list
+    - Only saves if provided name of file doesn't already exist.
+- Menu option: Load/Delete list
+- Menu option: Reference guide
+
+        Perm & Comb:
+- Display factorial(n) if n is provided
+- Display factorial(r) if r is provided
+- Display permutation(n, r) & combination(n, r) is n and r is provided
+- Display indistinguishable-permutations(n, n1, n2...) if n and n1, n2...
+  provided
+- Input over 1000 is not allowed. If user enters number over 1000, results
+  are displayed as if the number wasn't there and a toast is shown.
+- Negative and decimal input is not allowed. The buttons are disabled.
+- Changing landscape/portrait mode keeps state of results and EditTexts
+- Up nagivation in action bar
+- Back button navigates to home screen
+
+        Reference:
+- List of equations for descriptive calculations:
+    - Arithmetic mean, geometric mean, sample variance, sample standard
+      deviation, coefficient of variation, Skewness, Kurtosis
+- Up navigation in action bar
+- Back button navigates to descriptive screen
+
+        Keypad/Input:
+- Appears when any EditText is clicked
+- Displays new results if calculate button is pressed
+- Displays old results if back button is pressed
+- Long-pressing delete button deletes all text in front of cursor
+- Supports copy and paste
+    - If a string of data with numbers & bad characters mixed, the numbers
+      will remain and the bad characters will be filtered.
+      eg: 'h3ll0\nth3r3' turns into '3033' when pasted into input
+- Input filtering:
+    - Descriptive: digits, comma, 'x', minus, period
+    - Perm & Comb: digits, comma for 'n1, n2, n3...' input only
