@@ -40,7 +40,6 @@
     <string name="backspace_Desc">Backspace</string>
     <string name="home_menu_contact">Contact developer</string>
     <string name="home_menu_rate">Rate this app</string>
-    
     <string name="arith_mean">Arithmetic Mean</string>
     <string name="geo_mean">Geometric Mean</string>
     <string name="sample_var">Sample Variance</string>
@@ -48,15 +47,5 @@
     <string name="coeff_var">Coefficient of Variation</string>
     <string name="skewness">Skewness</string>
     <string name="kurtosis">Kurtosis</string>
-
-    <!--
-    <string name="size">Size</string>
-    <string name="sum">Sum</string>
-    <string name="median">Median</string>
-    <string name="mode">Mode</string>
-    <string name="range">Range</string>
-    <string name="pop_var">Population Variance</string>
-    <string name="pop_dev">Population Std. Deviation</string>
-    -->
 
 </resources>
