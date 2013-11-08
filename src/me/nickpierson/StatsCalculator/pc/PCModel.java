@@ -20,9 +20,8 @@ public class PCModel extends DataActionHandler {
 		N_VALUE, R_VALUE, N_VALUES;
 	}
 
-	HashMap<String, String> results = new HashMap<String, String>();
-
-	SparseArray<BigInteger> factCache = new SparseArray<BigInteger>();
+	private HashMap<String, String> results = new HashMap<String, String>();
+	private SparseArray<BigInteger> factCache = new SparseArray<BigInteger>();
 
 	public void validateInput(String nVal, String rVal, String nVals) {
 		HashMap<Enum<?>, Object> returnValues = new HashMap<Enum<?>, Object>();

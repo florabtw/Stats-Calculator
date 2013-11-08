@@ -102,7 +102,7 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.PC_TITLES[0], "720");
+		verify(model).updateResult(MyConstants.N_FACT, "720");
 	}
 
 	@Test
@@ -116,8 +116,8 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.PC_TITLES[1], "120");
-		verify(model, never()).updateResult(eq(MyConstants.PC_TITLES[0]), any(String.class));
+		verify(model).updateResult(MyConstants.R_FACT, "120");
+		verify(model, never()).updateResult(eq(MyConstants.N_FACT), any(String.class));
 	}
 
 	@Test
@@ -135,8 +135,8 @@ public class PCPresenterTest {
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_R));
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.PC_TITLES[2], "1,680");
-		verify(model).updateResult(MyConstants.PC_TITLES[3], "70");
+		verify(model).updateResult(MyConstants.N_PERM_R, "1,680");
+		verify(model).updateResult(MyConstants.N_COMB_R, "70");
 	}
 
 	@Test
@@ -154,7 +154,7 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.PC_TITLES[4], "30,240");
+		verify(model).updateResult(MyConstants.INDISTINCT_PERM, "30,240");
 	}
 
 	@Test
@@ -170,7 +170,7 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.PC_TITLES[0], "6.2270208E9");
+		verify(model).updateResult(MyConstants.N_FACT, "6.2270208E9");
 	}
 
 	@Test
@@ -178,7 +178,7 @@ public class PCPresenterTest {
 		HashMap<String, String> emptyResults = new HashMap<String, String>();
 		emptyResults = makeEmptyResultsMap();
 		HashMap<String, String> results = new HashMap<String, String>();
-		results.put(MyConstants.PC_TITLES[1], "720");
+		results.put(MyConstants.R_FACT, "720");
 		setMissingValuesToDefault(results);
 		when(model.getResults()).thenReturn(emptyResults);
 		createPresenter();

@@ -2,11 +2,31 @@ package me.nickpierson.StatsCalculator.utils;
 
 public class MyConstants {
 
-	public enum Titles {
-		SIZE, SUM, ARITH_MEAN, GEO_MEAN, MEDIAN, MODE, RANGE, SAMPLE_VAR, POP_VAR, SAMPLE_DEV, POP_DEV, COEFF_VAR, SKEWNESS, KURTOSIS;
-	}
+	public static final String SIZE = "Size";
+	public static final String SUM = "Sum";
+	public static final String ARITH_MEAN = "Arithmetic Mean";
+	public static final String GEO_MEAN = "Geometric Mean";
+	public static final String MEDIAN = "Median";
+	public static final String MODE = "Mode";
+	public static final String RANGE = "Range";
+	public static final String SAMPLE_VAR = "Sample Variance";
+	public static final String POP_VAR = "Population Variance";
+	public static final String SAMPLE_DEV = "Sample Std. Deviation";
+	public static final String POP_DEV = "Population Std. Deviation";
+	public static final String COEFF_VAR = "Coefficient of Variation";
+	public static final String SKEWNESS = "Skewness";
+	public static final String KURTOSIS = "Kurtosis";
 
-	public static final String[] PC_TITLES = { "n!", "r!", "nPr", "nCr", "n! \u00F7\nn1!n2!n3!..." };
+	public static final String[] BASIC_TITLES = { SIZE, SUM, ARITH_MEAN, GEO_MEAN, MEDIAN, MODE, RANGE, SAMPLE_VAR, POP_VAR, SAMPLE_DEV, POP_DEV, COEFF_VAR,
+			SKEWNESS, KURTOSIS };
+
+	public static final String N_FACT = "n!";
+	public static final String R_FACT = "r!";
+	public static final String N_PERM_R = "nPr";
+	public static final String N_COMB_R = "nCr";
+	public static final String INDISTINCT_PERM = "n! \u00F7\nn1!n2!n3!...";
+
+	public static final String[] PC_TITLES = { N_FACT, R_FACT, N_PERM_R, N_COMB_R, INDISTINCT_PERM };
 
 	public static final String RESULTS_KEY = "RESULTS";
 	public static final String KEYPAD_KEY = "KEYPAD";

@@ -49,7 +49,7 @@ public class PCView extends ActionHandler {
 	public PCView(Activity activity) {
 		this.activity = activity;
 		view = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.perm_comb, null);
-		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.perm_comb_results, null);
+		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.results_list, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.pc_flFrame);
 		tvNsTitle = (TextView) view.findViewById(R.id.pc_ns_title);
@@ -57,9 +57,6 @@ public class PCView extends ActionHandler {
 		ImageButton btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
 		Button btnMultiply = (Button) tlKeypad.findViewById(R.id.keypad_times);
 
-		// subscriptNPermRTitle();
-		// subscriptNChooseRTitle();
-		// subscriptIndisctinctTitle();
 		subscriptNsTitle();
 
 		etNVal = (EditText) view.findViewById(R.id.pc_etNVal);

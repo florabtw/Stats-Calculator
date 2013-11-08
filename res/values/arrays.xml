@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="descriptive_titles">
-        <item>@string/size</item>
-        <item>@string/sum</item>
-        <item>@string/arith_mean</item>
-        <item>@string/geo_mean</item>
-        <item>@string/median</item>
-        <item>@string/mode</item>
-        <item>@string/range</item>
-        <item>@string/sample_var</item>
-        <item>@string/pop_var</item>
-        <item>@string/sample_dev</item>
-        <item>@string/pop_dev</item>
-        <item>@string/coeff_var</item>
-        <item>@string/skewness</item>
-        <item>@string/kurtosis</item>
-    </string-array>
     <string-array name="reference_headers">
         <item>@string/arith_mean</item>
         <item>@string/geo_mean</item>
@@ -35,15 +19,5 @@
         <item>@drawable/skewness</item>
         <item>@drawable/kurtosis</item>
     </string-array>
-
-    <!--
-    <string-array name="pc_titles">
-        <item>@string/n_fact</item>
-        <item>@string/r_fact</item>
-        <item>@string/n_perm_r</item>
-        <item>@string/n_comb_r</item>
-        <item>@string/indistinct_perm</item>
-    </string-array>
-    -->
 
 </resources>

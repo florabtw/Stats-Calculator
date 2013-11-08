@@ -46,12 +46,10 @@ public class BasicView extends DataActionHandler {
 	private BasicAdapter resultsAdapter;
 	private KeypadHelper keypadHelper;
 
-	private String[] titles;
-
 	public BasicView(Activity activity) {
 		this.activity = activity;
 		view = (RelativeLayout) LayoutInflater.from(activity).inflate(R.layout.basic, null);
-		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.basic_results, null);
+		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.results_list, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.basic_flContent);
 		etInput = (EditText) view.findViewById(R.id.basic_etInput);
@@ -66,6 +64,7 @@ public class BasicView extends DataActionHandler {
 		keypadHelper.disableSoftInputFromAppearing(etInput);
 		keypadHelper.watchEditText(etInput);
 
+		resultsAdapter.addAll(MyConstants.BASIC_TITLES);
 		lvResults.setAdapter(resultsAdapter);
 		flFrame.addView(lvResults);
 
@@ -86,17 +85,11 @@ public class BasicView extends DataActionHandler {
 				return true;
 			}
 		});
-
-		titles = activity.getResources().getStringArray(R.array.descriptive_titles);
 	}
 
-	public void showResults(double[] results) {
-		resultsAdapter.clear();
-
-		for (int i = 0; i < results.length; i++) {
-			resultsAdapter.add(new BasicListItem(titles[i], results[i]));
-		}
-
+	public void showResults(HashMap<String, String> results) {
+		resultsAdapter.setResults(results);
+		resultsAdapter.notifyDataSetChanged();
 		showResults();
 	}
 
@@ -232,5 +225,9 @@ public class BasicView extends DataActionHandler {
 
 	public void setInputText(String list) {
 		etInput.setText(list);
+	}
+
+	public HashMap<String, String> getResults() {
+		return resultsAdapter.getResults();
 	}
 }

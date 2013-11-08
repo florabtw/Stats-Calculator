@@ -19,7 +19,7 @@ import com.nickpierson.me.StatsCalculator.R;
 public class PCAdapter extends ArrayAdapter<String> {
 
 	private int resource;
-	private HashMap<String, String> results = new HashMap<String, String>();
+	private HashMap<String, String> results;
 
 	public PCAdapter(Context context, int resource) {
 		super(context, resource);

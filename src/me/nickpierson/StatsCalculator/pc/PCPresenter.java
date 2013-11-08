@@ -41,7 +41,7 @@ public class PCPresenter {
 				int n = (Integer) data.get(PCModel.Keys.N_VALUE);
 				String nFact = format(model.factorial(n), model);
 
-				model.updateResult(MyConstants.PC_TITLES[0], nFact);
+				model.updateResult(MyConstants.N_FACT, nFact);
 			}
 		}, PCModel.Types.VALID_N);
 
@@ -52,15 +52,15 @@ public class PCPresenter {
 				int r = (Integer) data.get(PCModel.Keys.R_VALUE);
 				String rFact = format(model.factorial(r), model);
 
-				model.updateResult(MyConstants.PC_TITLES[1], rFact);
+				model.updateResult(MyConstants.R_FACT, rFact);
 
 				Integer n = (Integer) data.get(PCModel.Keys.N_VALUE);
 				if (n != null) {
 					String nPermR = format(model.permutation(n, r), model);
 					String nCombR = format(model.combination(n, r), model);
 
-					model.updateResult(MyConstants.PC_TITLES[2], nPermR);
-					model.updateResult(MyConstants.PC_TITLES[3], nCombR);
+					model.updateResult(MyConstants.N_PERM_R, nPermR);
+					model.updateResult(MyConstants.N_COMB_R, nCombR);
 				}
 			}
 		}, PCModel.Types.VALID_R);
@@ -74,7 +74,7 @@ public class PCPresenter {
 				ArrayList<Integer> nVals = (ArrayList<Integer>) data.get(PCModel.Keys.N_VALUES);
 				String indistinctPerm = format(model.indistinctPermutation(n, nVals), model);
 
-				model.updateResult(MyConstants.PC_TITLES[4], indistinctPerm);
+				model.updateResult(MyConstants.INDISTINCT_PERM, indistinctPerm);
 			}
 		}, PCModel.Types.VALID_NS);
 
