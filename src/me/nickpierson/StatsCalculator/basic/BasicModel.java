@@ -303,7 +303,7 @@ public class BasicModel extends DataActionHandler {
 
 	private String format(Double num) {
 		String result;
-		if (num > MyConstants.MAX_PLAIN_FORMAT) {
+		if (num >= MyConstants.MAX_PLAIN_FORMAT) {
 			DecimalFormat format = new DecimalFormat(MyConstants.DECIMAL_FORMAT_LARGE);
 			result = format.format(num);
 		} else {

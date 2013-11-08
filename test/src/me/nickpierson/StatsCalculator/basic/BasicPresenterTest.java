@@ -3,6 +3,7 @@ package me.nickpierson.StatsCalculator.basic;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,7 +44,7 @@ public class BasicPresenterTest {
 		listener = ArgumentCaptor.forClass(ActionListener.class);
 		dataListener = ArgumentCaptor.forClass(DataActionListener.class);
 
-		when(model.getEmptyResults()).thenReturn(new double[14]);
+		when(model.getEmptyResults()).thenReturn(makeEmptyResults());
 	}
 
 	public void createPresenter() {
@@ -55,7 +56,7 @@ public class BasicPresenterTest {
 		createPresenter();
 
 		verify(model).getEmptyResults();
-		verify(view).showResults(model.getEmptyResults());
+		verify(view).showResults(model.formatResults(model.getEmptyResults()));
 	}
 
 	@Test
@@ -92,7 +93,7 @@ public class BasicPresenterTest {
 
 		dataListener.getValue().fire(testMap);
 
-		verify(view).showResults(model.calculateResults(testResults));
+		verify(view, times(2)).showResults(model.formatResults(model.calculateResults(testResults)));
 	}
 
 	@Test
@@ -237,5 +238,14 @@ public class BasicPresenterTest {
 		listener.getValue().fire();
 
 		verify(view).showToast(MyConstants.LIST_DELETE_ERROR);
+	}
+
+	private HashMap<String, Double> makeEmptyResults() {
+		HashMap<String, Double> results = new HashMap<String, Double>();
+		for (String key : MyConstants.BASIC_TITLES) {
+			results.put(key, Double.NaN);
+		}
+
+		return results;
 	}
 }
