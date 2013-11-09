@@ -1,4 +1,4 @@
-package me.nickpierson.StatsCalculator.basic.reference;
+package me.nickpierson.StatsCalculator.reference;
 
 import android.content.Context;
 import android.graphics.Paint;

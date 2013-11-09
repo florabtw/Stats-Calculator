@@ -1,4 +1,4 @@
-package me.nickpierson.StatsCalculator;
+package me.nickpierson.StatsCalculator.home;
 
 import me.nickpierson.StatsCalculator.utils.MyConstants;
 import android.app.Activity;

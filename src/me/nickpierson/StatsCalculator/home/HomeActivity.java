@@ -1,4 +1,4 @@
-package me.nickpierson.StatsCalculator;
+package me.nickpierson.StatsCalculator.home;
 
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -27,7 +27,7 @@ public class HomeActivity extends ActionBarActivity {
 			view.menuRate();
 			return true;
 		} else {
-			return false;
+			return super.onOptionsItemSelected(item);
 		}
 	}
 }

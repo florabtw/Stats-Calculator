@@ -51,13 +51,13 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
-		if (itemId == R.id.settings_save_list) {
+		if (itemId == R.id.menu_save_list) {
 			view.menuSaveList();
 			return true;
-		} else if (itemId == R.id.settings_load_list) {
+		} else if (itemId == R.id.menu_load_list) {
 			view.menuLoadList();
 			return true;
-		} else if (itemId == R.id.settings_reference) {
+		} else if (itemId == R.id.menu_reference) {
 			view.menuReference();
 			return true;
 		} else {
