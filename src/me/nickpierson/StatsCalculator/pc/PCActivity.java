@@ -7,9 +7,8 @@ import me.nickpierson.StatsCalculator.utils.MyConstants;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.Button;
 
-public class PCActivity extends ActionBarActivity implements KeypadActivity {
+public abstract class PCActivity extends ActionBarActivity implements KeypadActivity {
 
 	protected PCModel model;
 	protected PCView view;
@@ -35,16 +34,6 @@ public class PCActivity extends ActionBarActivity implements KeypadActivity {
 	}
 
 	@Override
-	public void keypadPress(View button) {
-		view.keypadPress((Button) button);
-	}
-
-	@Override
-	public void backSpace(View button) {
-		view.backSpace();
-	}
-
-	@Override
 	public void donePress(View button) {
 		view.donePress();
 	}
@@ -57,5 +46,4 @@ public class PCActivity extends ActionBarActivity implements KeypadActivity {
 			super.onBackPressed();
 		}
 	}
-
 }

@@ -2,7 +2,6 @@ package me.nickpierson.StatsCalculator.pc;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.KeypadHelper;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
 import android.app.Activity;
 import android.text.Spannable;
@@ -12,7 +11,6 @@ import android.text.style.SubscriptSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,13 +31,13 @@ public class PCView extends ActionHandler {
 		DONE_PRESSED, EDITTEXT_CLICKED
 	}
 
-	private LinearLayout view;
-	private EditText etNVal;
-	private EditText etRVal;
-	private EditText etNVals;
+	protected LinearLayout view;
+	protected EditText etNVal;
+	protected EditText etRVal;
+	protected EditText etNVals;
+	protected ImageButton btnBackspace;
 	private Activity activity;
 	private Toast toast;
-	private KeypadHelper keypadHelper;
 	private ListView lvResults;
 	private TableLayout tlKeypad;
 	private FrameLayout flFrame;
@@ -54,7 +52,7 @@ public class PCView extends ActionHandler {
 		flFrame = (FrameLayout) view.findViewById(R.id.pc_flFrame);
 		tvNsTitle = (TextView) view.findViewById(R.id.pc_ns_title);
 		resultsAdapter = new PCAdapter(activity, R.layout.perm_comb_results_item);
-		ImageButton btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
+		btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
 		Button btnMultiply = (Button) tlKeypad.findViewById(R.id.keypad_times);
 
 		subscriptNsTitle();
@@ -67,28 +65,11 @@ public class PCView extends ActionHandler {
 		setEditTextClickListener(etRVal);
 		setEditTextClickListener(etNVals);
 
-		keypadHelper = new KeypadHelper();
-
-		keypadHelper.disableSoftInputFromAppearing(etNVal);
-		keypadHelper.disableSoftInputFromAppearing(etRVal);
-		keypadHelper.disableSoftInputFromAppearing(etNVals);
-
 		resultsAdapter.addAll(MyConstants.PC_TITLES);
 		lvResults.setAdapter(resultsAdapter);
 		flFrame.addView(lvResults);
 
 		btnMultiply.setEnabled(false);
-		btnBackspace.setOnLongClickListener(new OnLongClickListener() {
-
-			@Override
-			public boolean onLongClick(View v) {
-				EditText etSelected = getSelectedEditText();
-				if (etSelected != null) {
-					keypadHelper.longPressBackspace(etSelected);
-				}
-				return true;
-			}
-		});
 	}
 
 	private void subscriptNsTitle() {
@@ -141,40 +122,8 @@ public class PCView extends ActionHandler {
 		toast.show();
 	}
 
-	public void keypadPress(Button button) {
-		/* Skips MVP */
-		EditText etSelected = getSelectedEditText();
-
-		if (etSelected != null) {
-			keypadHelper.keypadPress(etSelected, button.getText().charAt(0));
-		}
-	}
-
-	public void backSpace() {
-		/* Skips MVP */
-		EditText etSelected = getSelectedEditText();
-
-		if (etSelected != null) {
-			keypadHelper.backspace(etSelected);
-		}
-	}
-
 	public void donePress() {
 		event(Types.DONE_PRESSED);
-	}
-
-	private EditText getSelectedEditText() {
-		EditText etSelected = null;
-
-		if (etNVal.isFocused()) {
-			etSelected = etNVal;
-		} else if (etRVal.isFocused()) {
-			etSelected = etRVal;
-		} else if (etNVals.isFocused()) {
-			etSelected = etNVals;
-		}
-
-		return etSelected;
 	}
 
 	public boolean isKeypadVisible() {

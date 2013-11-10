@@ -1,10 +1,13 @@
-package me.nickpierson.StatsCalculator;
+package me.nickpierson.StatsCalculator.home;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import me.nickpierson.StatsCalculator.home.HomeModel;
+import me.nickpierson.StatsCalculator.home.HomePresenter;
+import me.nickpierson.StatsCalculator.home.HomeView;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
 
 import org.junit.Before;

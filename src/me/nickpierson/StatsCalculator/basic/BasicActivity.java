@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.nickpierson.me.StatsCalculator.R;
 
@@ -51,28 +50,18 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
-		if (itemId == R.id.settings_save_list) {
+		if (itemId == R.id.menu_save_list) {
 			view.menuSaveList();
 			return true;
-		} else if (itemId == R.id.settings_load_list) {
+		} else if (itemId == R.id.menu_load_list) {
 			view.menuLoadList();
 			return true;
-		} else if (itemId == R.id.settings_reference) {
+		} else if (itemId == R.id.menu_reference) {
 			view.menuReference();
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	@Override
-	public void keypadPress(View button) {
-		view.keypadPress((Button) button);
-	}
-
-	@Override
-	public void backSpace(View button) {
-		view.backspace();
 	}
 
 	@Override
@@ -88,5 +77,4 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 			super.onBackPressed();
 		}
 	}
-
 }

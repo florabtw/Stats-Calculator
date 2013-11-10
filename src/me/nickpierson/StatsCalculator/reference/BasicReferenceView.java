@@ -1,4 +1,4 @@
-package me.nickpierson.StatsCalculator.basic.reference;
+package me.nickpierson.StatsCalculator.reference;
 
 import android.app.Activity;
 import android.content.res.TypedArray;

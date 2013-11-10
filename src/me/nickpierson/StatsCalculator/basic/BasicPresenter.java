@@ -3,8 +3,10 @@ package me.nickpierson.StatsCalculator.basic;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.nickpierson.StatsCalculator.reference.BasicReferenceActivity;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
 import android.app.Activity;
+import android.content.Intent;
 
 import com.thecellutioncenter.mvplib.ActionListener;
 import com.thecellutioncenter.mvplib.DataActionListener;
@@ -130,6 +132,13 @@ public class BasicPresenter {
 			}
 		}, BasicModel.Types.DELETE_ERROR);
 
+		view.addListener(new ActionListener() {
+
+			@Override
+			public void fire() {
+				activity.startActivity(new Intent(activity, BasicReferenceActivity.class));
+			}
+		}, BasicView.Types.MENU_REFERENCE);
 	}
 
 	private static void showEmptyResults(final BasicModel model, final BasicView view) {

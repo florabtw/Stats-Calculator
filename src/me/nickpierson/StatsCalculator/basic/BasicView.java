@@ -2,7 +2,6 @@ package me.nickpierson.StatsCalculator.basic;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.KeypadHelper;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,12 +12,9 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -27,7 +23,7 @@ import android.widget.Toast;
 import com.nickpierson.me.StatsCalculator.R;
 import com.thecellutioncenter.mvplib.DataActionHandler;
 
-public class BasicView extends DataActionHandler {
+public abstract class BasicView extends DataActionHandler {
 
 	public enum Types {
 		DONE_PRESSED, EDITTEXT_CLICKED, MENU_SAVE, SAVE_LIST, LOAD_LIST, MENU_LOAD_OR_DELETE, DELETE_LIST, MENU_REFERENCE;
@@ -37,14 +33,13 @@ public class BasicView extends DataActionHandler {
 		LIST_NAME;
 	}
 
-	private RelativeLayout view;
+	protected RelativeLayout view;
 	private FrameLayout flFrame;
 	private ListView lvResults;
-	private TableLayout tlKeypad;
-	private EditText etInput;
+	protected TableLayout tlKeypad;
+	protected EditText etInput;
 	private Activity activity;
 	private BasicAdapter resultsAdapter;
-	private KeypadHelper keypadHelper;
 
 	public BasicView(Activity activity) {
 		this.activity = activity;
@@ -54,15 +49,10 @@ public class BasicView extends DataActionHandler {
 		flFrame = (FrameLayout) view.findViewById(R.id.basic_flContent);
 		etInput = (EditText) view.findViewById(R.id.basic_etInput);
 		resultsAdapter = new BasicAdapter(activity, R.layout.basic_result_item);
-		keypadHelper = new KeypadHelper();
-		ImageButton btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
 
 		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			etInput.setMaxLines(2);
 		}
-
-		keypadHelper.disableSoftInputFromAppearing(etInput);
-		keypadHelper.watchEditText(etInput);
 
 		resultsAdapter.addAll(MyConstants.BASIC_TITLES);
 		lvResults.setAdapter(resultsAdapter);
@@ -74,15 +64,6 @@ public class BasicView extends DataActionHandler {
 			public boolean onTouch(View v, MotionEvent event) {
 				event(Types.EDITTEXT_CLICKED);
 				return false;
-			}
-		});
-
-		btnBackspace.setOnLongClickListener(new OnLongClickListener() {
-
-			@Override
-			public boolean onLongClick(View v) {
-				keypadHelper.longPressBackspace(etInput);
-				return true;
 			}
 		});
 	}
@@ -187,16 +168,6 @@ public class BasicView extends DataActionHandler {
 
 	public void menuReference() {
 		event(Types.MENU_REFERENCE);
-	}
-
-	public void keypadPress(Button button) {
-		/* Skips MVP */
-		keypadHelper.keypadPress(etInput, button.getText().charAt(0));
-	}
-
-	public void backspace() {
-		/* Skips MVP */
-		keypadHelper.backspace(etInput);
 	}
 
 	public void donePress() {

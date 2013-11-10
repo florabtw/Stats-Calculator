@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.nickpierson.StatsCalculator.reference.BasicReferenceActivity;
 import me.nickpierson.StatsCalculator.utils.MyConstants;
 
 import org.junit.Before;
@@ -20,6 +21,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.thecellutioncenter.mvplib.ActionListener;
 import com.thecellutioncenter.mvplib.DataActionListener;
@@ -47,13 +49,13 @@ public class BasicPresenterTest {
 		when(model.getEmptyResults()).thenReturn(makeEmptyResults());
 	}
 
-	public void createPresenter() {
+	public void setupPresenter() {
 		BasicPresenter.setup(activity, model, view);
 	}
 
 	@Test
 	public void viewIsInitializedByPresenter() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).getEmptyResults();
 		verify(view).showResults(model.formatResults(model.getEmptyResults()));
@@ -61,7 +63,7 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenEditTextIsClicked_ThenKeypadIsShown() {
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.EDITTEXT_CLICKED));
 
@@ -73,7 +75,7 @@ public class BasicPresenterTest {
 	@Test
 	public void whenDoneIsClicked_ThenInputIsValidated() {
 		when(view.getInput()).thenReturn("15,32x4,17.9");
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.DONE_PRESSED));
 
@@ -87,7 +89,7 @@ public class BasicPresenterTest {
 		ArrayList<Double> testResults = new ArrayList<Double>();
 		HashMap<Enum<?>, ArrayList<Double>> testMap = new HashMap<Enum<?>, ArrayList<Double>>();
 		testMap.put(BasicModel.Keys.VALIDATED_LIST, testResults);
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(BasicModel.Types.VALID_INPUT));
 
@@ -103,7 +105,7 @@ public class BasicPresenterTest {
 		String errorText = "errrrerr";
 		testMap.put(BasicModel.Keys.INVALID_POSITION, errorPosition);
 		testMap.put(BasicModel.Keys.INVALID_TEXT, errorText);
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(BasicModel.Types.INVALID_INPUT));
 
@@ -115,7 +117,7 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenSaveListMenuIsClicked_ThenPopupIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_SAVE));
 
@@ -129,7 +131,7 @@ public class BasicPresenterTest {
 		String name = "test name";
 		HashMap<Enum<?>, String> testMap = new HashMap<Enum<?>, String>();
 		testMap.put(BasicView.Keys.LIST_NAME, name);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(dataListener.capture(), eq(BasicView.Types.SAVE_LIST));
 
@@ -140,7 +142,7 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenSaveIsSuccessful_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.SAVE_SUCCESSFUL));
 
@@ -151,7 +153,7 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenSaveIsNotSuccessful_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.SAVE_FAILED));
 
@@ -163,7 +165,7 @@ public class BasicPresenterTest {
 	@Test
 	public void whenLoadOrDeleteListMenuClicked_ThenPopupIsDisplayed() {
 		when(model.getSavedLists()).thenReturn(new String[] { "what's up?", "not much" });
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_LOAD_OR_DELETE));
 
@@ -175,7 +177,7 @@ public class BasicPresenterTest {
 	@Test
 	public void whenLoadOrDeleteListMenuClickedAndNoListsAvailable_ThenNothingHappens() {
 		when(model.getSavedLists()).thenReturn(null);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_LOAD_OR_DELETE));
 
@@ -192,7 +194,7 @@ public class BasicPresenterTest {
 		when(model.loadList(listName)).thenReturn("1,2,3,4,5");
 		HashMap<Enum<?>, String> testMap = new HashMap<Enum<?>, String>();
 		testMap.put(BasicView.Keys.LIST_NAME, listName);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(dataListener.capture(), eq(BasicView.Types.LOAD_LIST));
 
@@ -208,7 +210,7 @@ public class BasicPresenterTest {
 		String listName = "CatDog";
 		HashMap<Enum<?>, String> testMap = new HashMap<Enum<?>, String>();
 		testMap.put(BasicView.Keys.LIST_NAME, listName);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(dataListener.capture(), eq(BasicView.Types.DELETE_LIST));
 
@@ -220,7 +222,7 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenErrorLoadingList_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.LOAD_ERROR));
 
@@ -231,13 +233,24 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenErrorDeletingList_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.DELETE_ERROR));
 
 		listener.getValue().fire();
 
 		verify(view).showToast(MyConstants.LIST_DELETE_ERROR);
+	}
+
+	@Test
+	public void whenMenuReferenceGuideIsClicked_ThenReferenceGuideIsShown() {
+		setupPresenter();
+
+		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_REFERENCE));
+
+		listener.getValue().fire();
+
+		verify(activity, times(2)).startActivity(new Intent(activity, BasicReferenceActivity.class));
 	}
 
 	private HashMap<String, Double> makeEmptyResults() {
