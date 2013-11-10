@@ -61,4 +61,11 @@ public class BasicAdapter extends ArrayAdapter<String> {
 	public void setResults(HashMap<String, String> results) {
 		this.results = results;
 	}
+
+	@Override
+	public void addAll(String... items) {
+		for (String item : items) {
+			add(item);
+		}
+	}
 }
