@@ -46,13 +46,13 @@ public class PCPresenterTest {
 		when(view.getNVals()).thenReturn("nval,nval");
 	}
 
-	public void createPresenter() {
+	public void setupPresenter() {
 		PCPresenter.setup(model, view);
 	}
 
 	@Test
 	public void viewIsInitializedWithDefaultValues() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).clearResults();
 		verify(view).showResults(makeEmptyResultsMap());
@@ -60,7 +60,7 @@ public class PCPresenterTest {
 
 	@Test
 	public void whenAnyEditTextIsClicked_ThenKeypadIsShown() {
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(PCView.Types.EDITTEXT_CLICKED));
 
@@ -71,7 +71,7 @@ public class PCPresenterTest {
 
 	@Test
 	public void whenCalculateButtonIsPressed_ThenPreviousResultsAreCleared() {
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(PCView.Types.DONE_PRESSED));
 
@@ -82,7 +82,7 @@ public class PCPresenterTest {
 
 	@Test
 	public void whenCalculateButtonIsPressed_ThenModelValidatesInput() {
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(PCView.Types.DONE_PRESSED));
 
@@ -96,7 +96,7 @@ public class PCPresenterTest {
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
 		map.put(PCModel.Keys.N_VALUE, 6);
 		when(model.factorial(6)).thenReturn(BigInteger.valueOf(720));
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
 
@@ -110,7 +110,7 @@ public class PCPresenterTest {
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
 		map.put(PCModel.Keys.R_VALUE, 5);
 		when(model.factorial(5)).thenReturn(BigInteger.valueOf(120));
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_R));
 
@@ -128,7 +128,7 @@ public class PCPresenterTest {
 		when(model.factorial(4)).thenReturn(BigInteger.valueOf(24));
 		when(model.permutation(8, 4)).thenReturn(BigInteger.valueOf(1680));
 		when(model.combination(8, 4)).thenReturn(BigInteger.valueOf(70));
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
 
@@ -148,7 +148,7 @@ public class PCPresenterTest {
 		map.put(PCModel.Keys.N_VALUE, 9);
 		map.put(PCModel.Keys.N_VALUES, testNVals);
 		when(model.indistinctPermutation(9, testNVals)).thenReturn(BigInteger.valueOf(30240));
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_NS));
 
@@ -164,7 +164,7 @@ public class PCPresenterTest {
 		BigInteger nFact = BigInteger.valueOf(6227020800L);
 		when(model.factorial(13)).thenReturn(nFact);
 		when(model.format(nFact)).thenReturn("6.2270208E9");
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
 
@@ -181,7 +181,7 @@ public class PCPresenterTest {
 		results.put(MyConstants.R_FACT, "720");
 		setMissingValuesToDefault(results);
 		when(model.getResults()).thenReturn(emptyResults);
-		createPresenter();
+		setupPresenter();
 		when(model.getResults()).thenReturn(results);
 
 		verify(model).addListener(listener.capture(), eq(PCModel.Types.DONE_VALIDATING));
@@ -194,7 +194,7 @@ public class PCPresenterTest {
 
 	@Test
 	public void PCPresenterHandlesInvalidInputCorrectly() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(PCModel.Types.INPUT_OVER_MAX_VALUE));
 
