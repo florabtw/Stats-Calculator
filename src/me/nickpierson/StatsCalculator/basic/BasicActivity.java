@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.nickpierson.me.StatsCalculator.R;
 
@@ -66,16 +65,6 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 	}
 
 	@Override
-	public void keypadPress(View button) {
-		view.keypadPress((Button) button);
-	}
-
-	@Override
-	public void backSpace(View button) {
-		view.backspace();
-	}
-
-	@Override
 	public void donePress(View button) {
 		view.donePress();
 	}
@@ -88,5 +77,4 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 			super.onBackPressed();
 		}
 	}
-
 }
