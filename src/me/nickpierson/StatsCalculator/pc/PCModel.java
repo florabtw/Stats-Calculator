@@ -1,11 +1,12 @@
 package me.nickpierson.StatsCalculator.pc;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.util.SparseArray;
 
 import com.thecellutioncenter.mvplib.DataActionHandler;
@@ -54,7 +55,7 @@ public class PCModel extends DataActionHandler {
 		try {
 			int n = Integer.parseInt(input);
 
-			if (n > MyConstants.PC_MAX_INPUT) {
+			if (n > Constants.PC_MAX_INPUT) {
 				event(Types.INPUT_OVER_MAX_VALUE);
 				return true;
 			} else {
@@ -148,12 +149,28 @@ public class PCModel extends DataActionHandler {
 		return factorial(n).divide(factorial(n - r));
 	}
 
+	public BigInteger repetitivePermutation(int n, int r) {
+		return BigInteger.valueOf(n).pow(r);
+	}
+
 	public BigInteger combination(int n, int r) {
 		if (n < r) {
 			return BigInteger.ZERO;
 		}
 
 		return factorial(n).divide(factorial(r).multiply(factorial(n - r)));
+	}
+
+	public BigInteger repetitiveCombination(int n, int r) {
+		return combination(n + r - 1, r);
+	}
+
+	public BigInteger pigeonhole(int n, int r) {
+		if (r == 0) {
+			return BigInteger.ZERO;
+		}
+
+		return BigDecimal.valueOf(Math.ceil((double) n / r)).toBigInteger();
 	}
 
 	public BigInteger indistinctPermutation(int n, List<Integer> nVals) {

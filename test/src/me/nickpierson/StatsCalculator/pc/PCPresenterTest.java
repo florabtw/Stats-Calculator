@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -102,7 +102,7 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.N_FACT, "720");
+		verify(model).updateResult(Constants.N_FACT, "720");
 	}
 
 	@Test
@@ -116,8 +116,8 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.R_FACT, "120");
-		verify(model, never()).updateResult(eq(MyConstants.N_FACT), any(String.class));
+		verify(model).updateResult(Constants.R_FACT, "120");
+		verify(model, never()).updateResult(eq(Constants.N_FACT), any(String.class));
 	}
 
 	@Test
@@ -128,6 +128,9 @@ public class PCPresenterTest {
 		when(model.factorial(4)).thenReturn(BigInteger.valueOf(24));
 		when(model.permutation(8, 4)).thenReturn(BigInteger.valueOf(1680));
 		when(model.combination(8, 4)).thenReturn(BigInteger.valueOf(70));
+		when(model.repetitivePermutation(8, 4)).thenReturn(BigInteger.valueOf(4096));
+		when(model.repetitiveCombination(8, 4)).thenReturn(BigInteger.valueOf(330));
+		when(model.pigeonhole(8, 4)).thenReturn(BigInteger.valueOf(2));
 		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
@@ -135,8 +138,11 @@ public class PCPresenterTest {
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_R));
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.N_PERM_R, "1,680");
-		verify(model).updateResult(MyConstants.N_COMB_R, "70");
+		verify(model).updateResult(Constants.PERM, "1,680");
+		verify(model).updateResult(Constants.COMB, "70");
+		verify(model).updateResult(Constants.REP_PERM, "4,096");
+		verify(model).updateResult(Constants.REP_COMB, "330");
+		verify(model).updateResult(Constants.PIGEONHOLE, "2");
 	}
 
 	@Test
@@ -154,7 +160,7 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.INDISTINCT_PERM, "30,240");
+		verify(model).updateResult(Constants.INDISTINCT_PERM, "30,240");
 	}
 
 	@Test
@@ -170,7 +176,7 @@ public class PCPresenterTest {
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(MyConstants.N_FACT, "6.2270208E9");
+		verify(model).updateResult(Constants.N_FACT, "6.2270208E9");
 	}
 
 	@Test
@@ -178,7 +184,7 @@ public class PCPresenterTest {
 		HashMap<String, String> emptyResults = new HashMap<String, String>();
 		emptyResults = makeEmptyResultsMap();
 		HashMap<String, String> results = new HashMap<String, String>();
-		results.put(MyConstants.R_FACT, "720");
+		results.put(Constants.R_FACT, "720");
 		setMissingValuesToDefault(results);
 		when(model.getResults()).thenReturn(emptyResults);
 		setupPresenter();
@@ -200,22 +206,22 @@ public class PCPresenterTest {
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.MESSAGE_INPUT_OVER_MAX);
+		verify(view).showToast(Constants.MESSAGE_INPUT_OVER_MAX);
 	}
 
 	private HashMap<String, String> makeEmptyResultsMap() {
 		HashMap<String, String> results = new HashMap<String, String>();
-		for (String title : MyConstants.PC_TITLES) {
-			results.put(title, MyConstants.PC_DEFAULT_RESULT_VALUE);
+		for (String title : Constants.PC_TITLES) {
+			results.put(title, Constants.PC_DEFAULT_RESULT_VALUE);
 		}
 
 		return results;
 	}
 
 	private void setMissingValuesToDefault(HashMap<String, String> results) {
-		for (String title : MyConstants.PC_TITLES) {
+		for (String title : Constants.PC_TITLES) {
 			if (results.get(title) == null) {
-				results.put(title, MyConstants.PC_DEFAULT_RESULT_VALUE);
+				results.put(title, Constants.PC_DEFAULT_RESULT_VALUE);
 			}
 		}
 	}

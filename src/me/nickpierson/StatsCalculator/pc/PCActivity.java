@@ -3,7 +3,7 @@ package me.nickpierson.StatsCalculator.pc;
 import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.KeypadActivity;
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -15,8 +15,8 @@ public abstract class PCActivity extends ActionBarActivity implements KeypadActi
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(MyConstants.RESULTS_KEY, view.getResults());
-		outState.putBoolean(MyConstants.KEYPAD_KEY, view.isKeypadVisible());
+		outState.putSerializable(Constants.RESULTS_KEY, view.getResults());
+		outState.putBoolean(Constants.KEYPAD_KEY, view.isKeypadVisible());
 		super.onSaveInstanceState(outState);
 	}
 
@@ -24,9 +24,9 @@ public abstract class PCActivity extends ActionBarActivity implements KeypadActi
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			view.showResults((HashMap<String, String>) savedInstanceState.getSerializable(MyConstants.RESULTS_KEY));
+			view.showResults((HashMap<String, String>) savedInstanceState.getSerializable(Constants.RESULTS_KEY));
 
-			if (savedInstanceState.getBoolean(MyConstants.KEYPAD_KEY)) {
+			if (savedInstanceState.getBoolean(Constants.KEYPAD_KEY)) {
 				view.showKeypad();
 			}
 		}

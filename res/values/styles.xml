@@ -75,14 +75,10 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="basic_textview">
+    <style name="pc_results_textview">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="pc_results_textview" parent="basic_textview">
-        <item name="android:lineSpacingExtra">5dp</item>
     </style>
 
     <style name="default_style">

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.reference.BasicReferenceActivity;
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.app.Activity;
 import android.content.Intent;
 
@@ -74,7 +74,7 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.SAVE_SUCCESSFUL);
+				view.showToast(Constants.SAVE_SUCCESSFUL);
 			}
 		}, BasicModel.Types.SAVE_SUCCESSFUL);
 
@@ -82,7 +82,7 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.SAVE_FAILED);
+				view.showToast(Constants.SAVE_FAILED);
 			}
 		}, BasicModel.Types.SAVE_FAILED);
 
@@ -110,7 +110,7 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.LIST_LOAD_ERROR);
+				view.showToast(Constants.LIST_LOAD_ERROR);
 			}
 		}, BasicModel.Types.LOAD_ERROR);
 
@@ -128,7 +128,7 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.LIST_DELETE_ERROR);
+				view.showToast(Constants.LIST_DELETE_ERROR);
 			}
 		}, BasicModel.Types.DELETE_ERROR);
 

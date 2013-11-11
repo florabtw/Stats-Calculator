@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -134,29 +134,29 @@ public class BasicModelTest {
 
 		HashMap<String, Double> actualResults = model.calculateResults(sampleInput);
 
-		assertEquals(6.0, actualResults.get(MyConstants.SIZE), DELTA);
-		assertEquals(91.3101, actualResults.get(MyConstants.SUM), DELTA);
-		assertEquals(15.21835, actualResults.get(MyConstants.ARITH_MEAN), DELTA);
-		assertEquals(Double.NaN, actualResults.get(MyConstants.GEO_MEAN), DELTA);
-		assertEquals(16.20005, actualResults.get(MyConstants.MEDIAN), DELTA);
-		assertEquals(Double.NaN, actualResults.get(MyConstants.MODE), DELTA);
-		assertEquals(122.1, actualResults.get(MyConstants.RANGE), DELTA);
-		assertEquals(1812.483527, actualResults.get(MyConstants.SAMPLE_VAR), DELTA);
-		assertEquals(1510.402939, actualResults.get(MyConstants.POP_VAR), DELTA);
-		assertEquals(42.573272, actualResults.get(MyConstants.SAMPLE_DEV), DELTA);
-		assertEquals(38.863902, actualResults.get(MyConstants.POP_DEV), DELTA);
-		assertEquals(2.797495, actualResults.get(MyConstants.COEFF_VAR), DELTA);
-		assertEquals(-.4542037, actualResults.get(MyConstants.SKEWNESS), DELTA);
-		assertEquals(2.314556, actualResults.get(MyConstants.KURTOSIS), DELTA);
+		assertEquals(6.0, actualResults.get(Constants.SIZE), DELTA);
+		assertEquals(91.3101, actualResults.get(Constants.SUM), DELTA);
+		assertEquals(15.21835, actualResults.get(Constants.ARITH_MEAN), DELTA);
+		assertEquals(Double.NaN, actualResults.get(Constants.GEO_MEAN), DELTA);
+		assertEquals(16.20005, actualResults.get(Constants.MEDIAN), DELTA);
+		assertEquals(Double.NaN, actualResults.get(Constants.MODE), DELTA);
+		assertEquals(122.1, actualResults.get(Constants.RANGE), DELTA);
+		assertEquals(1812.483527, actualResults.get(Constants.SAMPLE_VAR), DELTA);
+		assertEquals(1510.402939, actualResults.get(Constants.POP_VAR), DELTA);
+		assertEquals(42.573272, actualResults.get(Constants.SAMPLE_DEV), DELTA);
+		assertEquals(38.863902, actualResults.get(Constants.POP_DEV), DELTA);
+		assertEquals(2.797495, actualResults.get(Constants.COEFF_VAR), DELTA);
+		assertEquals(-.4542037, actualResults.get(Constants.SKEWNESS), DELTA);
+		assertEquals(2.314556, actualResults.get(Constants.KURTOSIS), DELTA);
 
 		ArrayList<Double> sampleInput1 = makeValidList(45, 68.1, 29.4, 54, 5.3, 5.3);
 		HashMap<String, Double> actualResult1 = model.calculateResults(sampleInput1);
-		assertEquals(22.695621, actualResult1.get(MyConstants.GEO_MEAN), DELTA);
-		assertEquals(5.3, actualResult1.get(MyConstants.MODE), DELTA);
+		assertEquals(22.695621, actualResult1.get(Constants.GEO_MEAN), DELTA);
+		assertEquals(5.3, actualResult1.get(Constants.MODE), DELTA);
 
 		ArrayList<Double> sampleInput2 = makeValidList(-99.5, -55, -32.2);
 		HashMap<String, Double> actualResult2 = model.calculateResults(sampleInput2);
-		assertEquals(67.3, actualResult2.get(MyConstants.RANGE), DELTA);
+		assertEquals(67.3, actualResult2.get(Constants.RANGE), DELTA);
 	}
 
 	@Test

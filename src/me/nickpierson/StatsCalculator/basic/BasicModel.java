@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.app.Activity;
 
 import com.thecellutioncenter.mvplib.DataActionHandler;
@@ -34,7 +34,7 @@ public class BasicModel extends DataActionHandler {
 
 	public HashMap<String, Double> getEmptyResults() {
 		HashMap<String, Double> results = new HashMap<String, Double>();
-		for (String title : MyConstants.BASIC_TITLES) {
+		for (String title : Constants.BASIC_TITLES) {
 			results.put(title, Double.NaN);
 		}
 
@@ -102,7 +102,7 @@ public class BasicModel extends DataActionHandler {
 		}
 
 		int value = Integer.valueOf(string);
-		if (value > MyConstants.MAX_FREQUENCY) {
+		if (value > Constants.MAX_FREQUENCY) {
 			return false;
 		}
 
@@ -158,20 +158,20 @@ public class BasicModel extends DataActionHandler {
 		Double sampleDev = Math.sqrt(sampleVar);
 		double popDev = Math.sqrt(popVar);
 
-		results.put(MyConstants.SIZE, size);
-		results.put(MyConstants.SUM, sum);
-		results.put(MyConstants.ARITH_MEAN, arithMean);
-		results.put(MyConstants.GEO_MEAN, calculateGeoMean(numberList));
-		results.put(MyConstants.MEDIAN, calculateMedian(numberList, size));
-		results.put(MyConstants.MODE, calculateMode(numberList));
-		results.put(MyConstants.RANGE, calculateRange(numberList));
-		results.put(MyConstants.SAMPLE_VAR, sampleVar);
-		results.put(MyConstants.POP_VAR, popVar);
-		results.put(MyConstants.SAMPLE_DEV, sampleDev);
-		results.put(MyConstants.POP_DEV, popDev);
-		results.put(MyConstants.COEFF_VAR, sampleDev / arithMean);
-		results.put(MyConstants.SKEWNESS, calculateSkewness(numberList, arithMean, popDev));
-		results.put(MyConstants.KURTOSIS, calculateKurtosis(numberList, arithMean, popDev));
+		results.put(Constants.SIZE, size);
+		results.put(Constants.SUM, sum);
+		results.put(Constants.ARITH_MEAN, arithMean);
+		results.put(Constants.GEO_MEAN, calculateGeoMean(numberList));
+		results.put(Constants.MEDIAN, calculateMedian(numberList, size));
+		results.put(Constants.MODE, calculateMode(numberList));
+		results.put(Constants.RANGE, calculateRange(numberList));
+		results.put(Constants.SAMPLE_VAR, sampleVar);
+		results.put(Constants.POP_VAR, popVar);
+		results.put(Constants.SAMPLE_DEV, sampleDev);
+		results.put(Constants.POP_DEV, popDev);
+		results.put(Constants.COEFF_VAR, sampleDev / arithMean);
+		results.put(Constants.SKEWNESS, calculateSkewness(numberList, arithMean, popDev));
+		results.put(Constants.KURTOSIS, calculateKurtosis(numberList, arithMean, popDev));
 
 		return results;
 	}
@@ -302,12 +302,12 @@ public class BasicModel extends DataActionHandler {
 
 	private String format(Double num) {
 		String result;
-		if (num >= MyConstants.MAX_PLAIN_FORMAT) {
-			DecimalFormat format = new DecimalFormat(MyConstants.DECIMAL_FORMAT_LARGE);
+		if (num >= Constants.MAX_PLAIN_FORMAT) {
+			DecimalFormat format = new DecimalFormat(Constants.DECIMAL_FORMAT_LARGE);
 			result = format.format(num);
 		} else {
 			DecimalFormat format = new DecimalFormat();
-			format.setMaximumFractionDigits(MyConstants.DECIMAL_PLACES_LARGE);
+			format.setMaximumFractionDigits(Constants.DECIMAL_PLACES_LARGE);
 			result = format.format(num);
 		}
 

@@ -1,6 +1,6 @@
 package me.nickpierson.StatsCalculator.utils;
 
-public class MyConstants {
+public class Constants {
 
 	public static final String SIZE = "Size";
 	public static final String SUM = "Sum";
@@ -20,13 +20,16 @@ public class MyConstants {
 	public static final String[] BASIC_TITLES = { SIZE, SUM, ARITH_MEAN, GEO_MEAN, MEDIAN, MODE, RANGE, SAMPLE_VAR, POP_VAR, SAMPLE_DEV, POP_DEV, COEFF_VAR,
 			SKEWNESS, KURTOSIS };
 
-	public static final String N_FACT = "n!";
-	public static final String R_FACT = "r!";
-	public static final String N_PERM_R = "nPr";
-	public static final String N_COMB_R = "nCr";
-	public static final String INDISTINCT_PERM = "n! \u00F7\nn1!n2!n3!...";
+	public static final String N_FACT = "n factorial";
+	public static final String R_FACT = "r factorial";
+	public static final String PERM = "Permutation";
+	public static final String REP_PERM = "Repetitive Permutation";
+	public static final String COMB = "Combination";
+	public static final String REP_COMB = "Repetitive Combination";
+	public static final String INDISTINCT_PERM = "Indistinct Permutation";
+	public static final String PIGEONHOLE = "Pigeonhole";
 
-	public static final String[] PC_TITLES = { N_FACT, R_FACT, N_PERM_R, N_COMB_R, INDISTINCT_PERM };
+	public static final String[] PC_TITLES = { N_FACT, R_FACT, PERM, REP_PERM, COMB, REP_COMB, INDISTINCT_PERM, PIGEONHOLE };
 
 	public static final String RESULTS_KEY = "RESULTS";
 	public static final String KEYPAD_KEY = "KEYPAD";

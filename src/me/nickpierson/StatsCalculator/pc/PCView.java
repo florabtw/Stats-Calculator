@@ -2,7 +2,7 @@ package me.nickpierson.StatsCalculator.pc;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.app.Activity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -65,7 +65,7 @@ public class PCView extends ActionHandler {
 		setEditTextClickListener(etRVal);
 		setEditTextClickListener(etNVals);
 
-		resultsAdapter.addAll(MyConstants.PC_TITLES);
+		resultsAdapter.addAll(Constants.PC_TITLES);
 		lvResults.setAdapter(resultsAdapter);
 		flFrame.addView(lvResults);
 
