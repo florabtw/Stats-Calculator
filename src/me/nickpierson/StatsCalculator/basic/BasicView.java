@@ -39,7 +39,7 @@ public abstract class BasicView extends DataActionHandler {
 	protected TableLayout tlKeypad;
 	protected EditText etInput;
 	private Activity activity;
-	private BasicAdapter resultsAdapter;
+	protected BasicAdapter resultsAdapter;
 
 	public BasicView(Activity activity) {
 		this.activity = activity;
