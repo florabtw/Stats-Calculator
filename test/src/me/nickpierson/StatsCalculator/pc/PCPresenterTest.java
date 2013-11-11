@@ -135,8 +135,8 @@ public class PCPresenterTest {
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_R));
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(Constants.N_PERM_R, "1,680");
-		verify(model).updateResult(Constants.N_COMB_R, "70");
+		verify(model).updateResult(Constants.PERM, "1,680");
+		verify(model).updateResult(Constants.COMB, "70");
 	}
 
 	@Test

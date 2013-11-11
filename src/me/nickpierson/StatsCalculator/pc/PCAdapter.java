@@ -45,15 +45,15 @@ public class PCAdapter extends ArrayAdapter<String> {
 		String title = getItem(position);
 		String result = results.get(title);
 
-		if (title.equals(Constants.PC_TITLES[2])) {
-			view.tvTitle.setText(subscriptChars(title, 0, 2));
-		} else if (title.equals(Constants.PC_TITLES[3])) {
-			view.tvTitle.setText(subscriptChars(title, 0, 2));
-		} else if (title.equals(Constants.PC_TITLES[4])) {
-			view.tvTitle.setText(subscriptChars(title, 6, 9, 12));
-		} else {
-			view.tvTitle.setText(title);
-		}
+		// if (title.equals(Constants.PC_TITLES[2])) {
+		// view.tvTitle.setText(subscriptChars(title, 0, 2));
+		// } else if (title.equals(Constants.PC_TITLES[3])) {
+		// view.tvTitle.setText(subscriptChars(title, 0, 2));
+		// } else if (title.equals(Constants.PC_TITLES[4])) {
+		// view.tvTitle.setText(subscriptChars(title, 6, 9, 12));
+		// } else {
+		view.tvTitle.setText(title);
+		// }
 
 		view.tvResult.setText(result);
 

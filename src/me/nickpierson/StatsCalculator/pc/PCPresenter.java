@@ -59,8 +59,8 @@ public class PCPresenter {
 					String nPermR = format(model.permutation(n, r), model);
 					String nCombR = format(model.combination(n, r), model);
 
-					model.updateResult(Constants.N_PERM_R, nPermR);
-					model.updateResult(Constants.N_COMB_R, nCombR);
+					model.updateResult(Constants.PERM, nPermR);
+					model.updateResult(Constants.COMB, nCombR);
 				}
 			}
 		}, PCModel.Types.VALID_R);
