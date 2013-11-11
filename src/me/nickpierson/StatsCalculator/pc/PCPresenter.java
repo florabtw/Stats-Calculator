@@ -56,11 +56,17 @@ public class PCPresenter {
 
 				Integer n = (Integer) data.get(PCModel.Keys.N_VALUE);
 				if (n != null) {
-					String nPermR = format(model.permutation(n, r), model);
-					String nCombR = format(model.combination(n, r), model);
+					String perm = format(model.permutation(n, r), model);
+					String comb = format(model.combination(n, r), model);
+					String repPerm = format(model.repetitivePermutation(n, r), model);
+					String repComb = format(model.repetitiveCombination(n, r), model);
+					String pigeon = format(model.pigeonhole(n, r), model);
 
-					model.updateResult(Constants.PERM, nPermR);
-					model.updateResult(Constants.COMB, nCombR);
+					model.updateResult(Constants.PERM, perm);
+					model.updateResult(Constants.COMB, comb);
+					model.updateResult(Constants.REP_PERM, repPerm);
+					model.updateResult(Constants.REP_COMB, repComb);
+					model.updateResult(Constants.PIGEONHOLE, pigeon);
 				}
 			}
 		}, PCModel.Types.VALID_R);

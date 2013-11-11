@@ -128,6 +128,9 @@ public class PCPresenterTest {
 		when(model.factorial(4)).thenReturn(BigInteger.valueOf(24));
 		when(model.permutation(8, 4)).thenReturn(BigInteger.valueOf(1680));
 		when(model.combination(8, 4)).thenReturn(BigInteger.valueOf(70));
+		when(model.repetitivePermutation(8, 4)).thenReturn(BigInteger.valueOf(4096));
+		when(model.repetitiveCombination(8, 4)).thenReturn(BigInteger.valueOf(330));
+		when(model.pigeonhole(8, 4)).thenReturn(BigInteger.valueOf(2));
 		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
@@ -137,6 +140,9 @@ public class PCPresenterTest {
 
 		verify(model).updateResult(Constants.PERM, "1,680");
 		verify(model).updateResult(Constants.COMB, "70");
+		verify(model).updateResult(Constants.REP_PERM, "4,096");
+		verify(model).updateResult(Constants.REP_COMB, "330");
+		verify(model).updateResult(Constants.PIGEONHOLE, "2");
 	}
 
 	@Test
