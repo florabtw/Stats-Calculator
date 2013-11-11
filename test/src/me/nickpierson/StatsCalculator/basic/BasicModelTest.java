@@ -35,13 +35,13 @@ import com.thecellutioncenter.mvplib.DataActionListener;
 public class BasicModelTest {
 
 	public BasicModel model;
-	private double DELTA = .000001;
+	protected double DELTA = .000001;
 
 	private DataActionListener validDataListener;
 	private DataActionListener invalidDataListener;
 	private ActionListener validListener;
 	private ActionListener invalidListener;
-	private Activity activity;
+	protected Activity activity;
 
 	@Before
 	public void setup() {
@@ -289,7 +289,7 @@ public class BasicModelTest {
 		}
 	}
 
-	private ArrayList<Double> makeValidList(double... args) {
+	protected ArrayList<Double> makeValidList(double... args) {
 		ArrayList<Double> validList = new ArrayList<Double>();
 		for (double val : args) {
 			validList.add(val);
