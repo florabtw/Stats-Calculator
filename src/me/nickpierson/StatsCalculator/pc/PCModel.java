@@ -1,5 +1,6 @@
 package me.nickpierson.StatsCalculator.pc;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -148,12 +149,28 @@ public class PCModel extends DataActionHandler {
 		return factorial(n).divide(factorial(n - r));
 	}
 
+	public BigInteger repetitivePermutation(int n, int r) {
+		return BigInteger.valueOf(n).pow(r);
+	}
+
 	public BigInteger combination(int n, int r) {
 		if (n < r) {
 			return BigInteger.ZERO;
 		}
 
 		return factorial(n).divide(factorial(r).multiply(factorial(n - r)));
+	}
+
+	public BigInteger repetitiveCombination(int n, int r) {
+		return combination(n + r - 1, r);
+	}
+
+	public BigInteger pigeonhole(int n, int r) {
+		if (r == 0) {
+			return BigInteger.ZERO;
+		}
+
+		return BigDecimal.valueOf(Math.ceil((double) n / r)).toBigInteger();
 	}
 
 	public BigInteger indistinctPermutation(int n, List<Integer> nVals) {

@@ -199,6 +199,14 @@ public class PCModelTest {
 	}
 
 	@Test
+	public void repetitivePermutationReturnsCorrectValue() {
+		assertEquals(BigInteger.ONE, model.repetitivePermutation(5, 0));
+		assertEquals(BigInteger.ZERO, model.repetitivePermutation(0, 5));
+		assertEquals(BigInteger.valueOf(78125), model.repetitivePermutation(5, 7));
+		assertEquals(BigInteger.valueOf(9), model.repetitivePermutation(3, 2));
+	}
+
+	@Test
 	public void combinationReturnsCorrectValue() {
 		assertEquals(BigInteger.valueOf(10), model.combination(5, 3));
 		assertEquals(BigInteger.valueOf(210), model.combination(10, 6));
@@ -206,6 +214,25 @@ public class PCModelTest {
 		assertEquals(BigInteger.valueOf(5), model.combination(5, 1));
 		assertEquals(BigInteger.ONE, model.combination(6, 0));
 		assertEquals(BigInteger.ZERO, model.combination(3, 4));
+	}
+
+	@Test
+	public void repetitiveCombinationReturnsCorrectValue() {
+		assertEquals(BigInteger.ZERO, model.repetitiveCombination(0, 5));
+		assertEquals(BigInteger.ZERO, model.repetitiveCombination(0, 0));
+		assertEquals(BigInteger.ONE, model.repetitiveCombination(5, 0));
+		assertEquals(BigInteger.valueOf(6), model.repetitiveCombination(2, 5));
+		assertEquals(BigInteger.valueOf(120), model.repetitiveCombination(8, 3));
+	}
+
+	@Test
+	public void pigeonholeReturnsCorrectValue() {
+		assertEquals(BigInteger.ZERO, model.pigeonhole(0, 0));
+		assertEquals(BigInteger.ZERO, model.pigeonhole(0, 5));
+		assertEquals(BigInteger.ZERO, model.pigeonhole(5, 0));
+		assertEquals(BigInteger.ZERO, model.pigeonhole(0, 0));
+		assertEquals(BigInteger.ONE, model.pigeonhole(3, 6));
+		assertEquals(BigInteger.valueOf(6), model.pigeonhole(21, 4));
 	}
 
 	@Test

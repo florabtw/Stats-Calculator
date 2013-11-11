@@ -5,12 +5,12 @@
 
     <TextView
         android:id="@+id/basic_tvResultTitle"
-        style="@style/basic_textview"
+        style="@style/pc_results_textview"
         android:layout_weight="4" />
 
     <TextView
         android:id="@+id/basic_tvResultAnswer"
-        style="@style/basic_textview"
+        style="@style/pc_results_textview"
         android:layout_weight="7"
         android:gravity="right" />
 
