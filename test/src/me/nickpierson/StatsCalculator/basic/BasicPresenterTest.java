@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.reference.BasicReferenceActivity;
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -148,7 +148,7 @@ public class BasicPresenterTest {
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.SAVE_SUCCESSFUL);
+		verify(view).showToast(Constants.SAVE_SUCCESSFUL);
 	}
 
 	@Test
@@ -159,7 +159,7 @@ public class BasicPresenterTest {
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.SAVE_FAILED);
+		verify(view).showToast(Constants.SAVE_FAILED);
 	}
 
 	@Test
@@ -228,7 +228,7 @@ public class BasicPresenterTest {
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.LIST_LOAD_ERROR);
+		verify(view).showToast(Constants.LIST_LOAD_ERROR);
 	}
 
 	@Test
@@ -239,7 +239,7 @@ public class BasicPresenterTest {
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.LIST_DELETE_ERROR);
+		verify(view).showToast(Constants.LIST_DELETE_ERROR);
 	}
 
 	@Test
@@ -255,7 +255,7 @@ public class BasicPresenterTest {
 
 	private HashMap<String, Double> makeEmptyResults() {
 		HashMap<String, Double> results = new HashMap<String, Double>();
-		for (String key : MyConstants.BASIC_TITLES) {
+		for (String key : Constants.BASIC_TITLES) {
 			results.put(key, Double.NaN);
 		}
 

@@ -2,7 +2,7 @@ package me.nickpierson.StatsCalculator.pc;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -45,11 +45,11 @@ public class PCAdapter extends ArrayAdapter<String> {
 		String title = getItem(position);
 		String result = results.get(title);
 
-		if (title.equals(MyConstants.PC_TITLES[2])) {
+		if (title.equals(Constants.PC_TITLES[2])) {
 			view.tvTitle.setText(subscriptChars(title, 0, 2));
-		} else if (title.equals(MyConstants.PC_TITLES[3])) {
+		} else if (title.equals(Constants.PC_TITLES[3])) {
 			view.tvTitle.setText(subscriptChars(title, 0, 2));
-		} else if (title.equals(MyConstants.PC_TITLES[4])) {
+		} else if (title.equals(Constants.PC_TITLES[4])) {
 			view.tvTitle.setText(subscriptChars(title, 6, 9, 12));
 		} else {
 			view.tvTitle.setText(title);

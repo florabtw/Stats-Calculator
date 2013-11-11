@@ -3,7 +3,7 @@ package me.nickpierson.StatsCalculator.basic;
 import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.KeypadActivity;
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -19,9 +19,9 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(MyConstants.RESULTS_KEY, view.getResults());
-		outState.putBoolean(MyConstants.KEYPAD_KEY, view.isKeyPadVisible());
-		outState.putInt(MyConstants.SCROLL_POSITION_KEY, view.getScrollPosition());
+		outState.putSerializable(Constants.RESULTS_KEY, view.getResults());
+		outState.putBoolean(Constants.KEYPAD_KEY, view.isKeyPadVisible());
+		outState.putInt(Constants.SCROLL_POSITION_KEY, view.getScrollPosition());
 		super.onSaveInstanceState(outState);
 	}
 
@@ -29,12 +29,12 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			HashMap<String, String> results = (HashMap<String, String>) savedInstanceState.getSerializable(MyConstants.RESULTS_KEY);
+			HashMap<String, String> results = (HashMap<String, String>) savedInstanceState.getSerializable(Constants.RESULTS_KEY);
 			view.showResults(results);
 
-			view.setScrollPosition(savedInstanceState.getInt(MyConstants.SCROLL_POSITION_KEY));
+			view.setScrollPosition(savedInstanceState.getInt(Constants.SCROLL_POSITION_KEY));
 
-			if (savedInstanceState.getBoolean(MyConstants.KEYPAD_KEY)) {
+			if (savedInstanceState.getBoolean(Constants.KEYPAD_KEY)) {
 				view.showKeypad();
 			}
 		}

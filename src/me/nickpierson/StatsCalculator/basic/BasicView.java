@@ -2,7 +2,7 @@ package me.nickpierson.StatsCalculator.basic;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -54,7 +54,7 @@ public abstract class BasicView extends DataActionHandler {
 			etInput.setMaxLines(2);
 		}
 
-		resultsAdapter.addAll(MyConstants.BASIC_TITLES);
+		resultsAdapter.addAll(Constants.BASIC_TITLES);
 		lvResults.setAdapter(resultsAdapter);
 		flFrame.addView(lvResults);
 
@@ -89,7 +89,7 @@ public abstract class BasicView extends DataActionHandler {
 	}
 
 	public void showErrorToast(int errorItem) {
-		Toast.makeText(activity, String.format(MyConstants.DESCRIPTIVE_NUMBER_ERROR, errorItem), Toast.LENGTH_SHORT).show();
+		Toast.makeText(activity, String.format(Constants.DESCRIPTIVE_NUMBER_ERROR, errorItem), Toast.LENGTH_SHORT).show();
 	}
 
 	public void selectInput(String string) {

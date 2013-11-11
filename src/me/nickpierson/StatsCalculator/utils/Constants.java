@@ -1,6 +1,6 @@
 package me.nickpierson.StatsCalculator.utils;
 
-public class MyConstants {
+public class Constants {
 
 	public static final String SIZE = "Size";
 	public static final String SUM = "Sum";

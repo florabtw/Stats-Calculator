@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.util.SparseArray;
 
 import com.thecellutioncenter.mvplib.DataActionHandler;
@@ -54,7 +54,7 @@ public class PCModel extends DataActionHandler {
 		try {
 			int n = Integer.parseInt(input);
 
-			if (n > MyConstants.PC_MAX_INPUT) {
+			if (n > Constants.PC_MAX_INPUT) {
 				event(Types.INPUT_OVER_MAX_VALUE);
 				return true;
 			} else {
