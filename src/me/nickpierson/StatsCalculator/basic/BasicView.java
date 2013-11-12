@@ -56,7 +56,6 @@ public abstract class BasicView extends DataActionHandler {
 
 		resultsAdapter.addAll(Constants.BASIC_TITLES);
 		lvResults.setAdapter(resultsAdapter);
-		flFrame.addView(lvResults);
 
 		etInput.setOnTouchListener(new OnTouchListener() {
 
@@ -72,11 +71,6 @@ public abstract class BasicView extends DataActionHandler {
 		resultsAdapter.setResults(results);
 		resultsAdapter.notifyDataSetChanged();
 		showResults();
-	}
-
-	public void showResults() {
-		flFrame.removeAllViews();
-		flFrame.addView(lvResults);
 	}
 
 	public void showKeypad() {
@@ -201,4 +195,6 @@ public abstract class BasicView extends DataActionHandler {
 	public HashMap<String, String> getResults() {
 		return resultsAdapter.getResults();
 	}
+
+	public abstract void showResults();
 }
