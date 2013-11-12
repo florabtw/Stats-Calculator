@@ -34,11 +34,11 @@ public abstract class BasicView extends DataActionHandler {
 	}
 
 	protected RelativeLayout view;
-	private FrameLayout flFrame;
-	private ListView lvResults;
+	protected FrameLayout flFrame;
+	protected ListView lvResults;
 	protected TableLayout tlKeypad;
 	protected EditText etInput;
-	private Activity activity;
+	protected Activity activity;
 	protected BasicAdapter resultsAdapter;
 
 	public BasicView(Activity activity) {
@@ -178,7 +178,7 @@ public abstract class BasicView extends DataActionHandler {
 		return tlKeypad.isShown();
 	}
 
-	public RelativeLayout getView() {
+	public View getView() {
 		return view;
 	}
 
