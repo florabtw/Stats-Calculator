@@ -63,6 +63,8 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
     </style>
 
     <style name="basic_centered">
@@ -115,11 +117,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:background">@drawable/black_border</item>
-        <item name="android:paddingTop">1dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingBottom">1dp</item>
-        <item name="android:scrollbarStyle">outsideInset</item>
+        <item name="android:padding">1dp</item>
         <item name="android:overScrollMode" tools:ignore="NewApi">never</item>
     </style>
 
