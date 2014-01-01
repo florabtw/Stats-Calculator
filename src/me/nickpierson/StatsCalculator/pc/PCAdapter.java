@@ -52,8 +52,7 @@ public class PCAdapter extends ArrayAdapter<String> {
 		TextView tvResult;
 	}
 
-	@Override
-	public void addAll(String... items) {
+	public void addMultiple(String... items) {
 		for (String item : items) {
 			add(item);
 		}

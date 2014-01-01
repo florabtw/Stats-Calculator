@@ -1,5 +1,6 @@
 package me.nickpierson.StatsCalculator.basic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
@@ -57,8 +58,13 @@ public class BasicAdapter extends ArrayAdapter<String> {
 		this.results = results;
 	}
 
-	@Override
-	public void addAll(String... items) {
+	public void addMultiple(String... items) {
+		for (String item : items) {
+			add(item);
+		}
+	}
+
+	public void addMultiple(ArrayList<String> items) {
 		for (String item : items) {
 			add(item);
 		}

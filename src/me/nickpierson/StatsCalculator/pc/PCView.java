@@ -65,7 +65,7 @@ public class PCView extends ActionHandler {
 		setEditTextClickListener(etRVal);
 		setEditTextClickListener(etNVals);
 
-		resultsAdapter.addAll(Constants.PC_TITLES);
+		resultsAdapter.addMultiple(Constants.PC_TITLES);
 		lvResults.setAdapter(resultsAdapter);
 		flFrame.addView(lvResults);
 
