@@ -156,10 +156,6 @@ public abstract class BasicView extends DataActionHandler {
 		event(Types.MENU_LOAD_OR_DELETE);
 	}
 
-	public void menuReference() {
-		event(Types.MENU_REFERENCE);
-	}
-
 	public void donePress() {
 		event(Types.DONE_PRESSED);
 	}

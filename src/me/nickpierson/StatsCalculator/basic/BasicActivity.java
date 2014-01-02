@@ -56,9 +56,6 @@ public abstract class BasicActivity extends ActionBarActivity implements KeypadA
 		} else if (itemId == R.id.menu_load_list) {
 			view.menuLoadList();
 			return true;
-		} else if (itemId == R.id.menu_reference) {
-			view.menuReference();
-			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
