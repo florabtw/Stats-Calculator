@@ -42,12 +42,12 @@ public abstract class BasicView extends DataActionHandler {
 	protected Activity activity;
 	protected DefaultAdapter resultsAdapter;
 
-	public BasicView(Activity activity) {
+	public BasicView(Activity activity, DefaultAdapter adapter) {
 		this.activity = activity;
 		view = (RelativeLayout) LayoutInflater.from(activity).inflate(R.layout.basic, null);
-		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.results_list, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.basic_flContent);
+		resultsAdapter = adapter;
 		etInput = (EditText) view.findViewById(R.id.basic_etInput);
 
 		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
