@@ -3,6 +3,7 @@ package me.nickpierson.StatsCalculator.pc;
 import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.Constants;
+import me.nickpierson.StatsCalculator.utils.DefaultAdapter;
 import android.app.Activity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -40,9 +41,9 @@ public abstract class PCView extends DataActionHandler {
 	private TableLayout tlKeypad;
 	protected FrameLayout flFrame;
 	private TextView tvNsTitle;
-	protected PCAdapter resultsAdapter;
+	protected DefaultAdapter resultsAdapter;
 
-	public PCView(Activity activity, PCAdapter adapter) {
+	public PCView(Activity activity, DefaultAdapter adapter) {
 		this.activity = activity;
 		view = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.perm_comb, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);

@@ -3,6 +3,7 @@ package me.nickpierson.StatsCalculator.basic;
 import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.Constants;
+import me.nickpierson.StatsCalculator.utils.DefaultAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -39,7 +40,7 @@ public abstract class BasicView extends DataActionHandler {
 	protected TableLayout tlKeypad;
 	protected EditText etInput;
 	protected Activity activity;
-	protected BasicAdapter resultsAdapter;
+	protected DefaultAdapter resultsAdapter;
 
 	public BasicView(Activity activity) {
 		this.activity = activity;
