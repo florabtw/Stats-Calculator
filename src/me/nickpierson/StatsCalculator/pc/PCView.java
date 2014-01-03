@@ -17,15 +17,14 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nickpierson.me.StatsCalculator.R;
-import com.thecellutioncenter.mvplib.ActionHandler;
+import com.thecellutioncenter.mvplib.DataActionHandler;
 
-public class PCView extends ActionHandler {
+public abstract class PCView extends DataActionHandler {
 
 	public enum Types {
 		DONE_PRESSED, EDITTEXT_CLICKED
@@ -38,20 +37,18 @@ public class PCView extends ActionHandler {
 	protected ImageButton btnBackspace;
 	private Activity activity;
 	private Toast toast;
-	private ListView lvResults;
 	private TableLayout tlKeypad;
-	private FrameLayout flFrame;
+	protected FrameLayout flFrame;
 	private TextView tvNsTitle;
-	private PCAdapter resultsAdapter;
+	protected PCAdapter resultsAdapter;
 
-	public PCView(Activity activity) {
+	public PCView(Activity activity, PCAdapter adapter) {
 		this.activity = activity;
 		view = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.perm_comb, null);
-		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.results_list, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.pc_flFrame);
 		tvNsTitle = (TextView) view.findViewById(R.id.pc_ns_title);
-		resultsAdapter = new PCAdapter(activity, R.layout.perm_comb_results_item);
+		resultsAdapter = adapter;
 		btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
 		Button btnMultiply = (Button) tlKeypad.findViewById(R.id.keypad_times);
 
@@ -66,8 +63,6 @@ public class PCView extends ActionHandler {
 		setEditTextClickListener(etNVals);
 
 		resultsAdapter.addMultiple(Constants.PC_TITLES);
-		lvResults.setAdapter(resultsAdapter);
-		flFrame.addView(lvResults);
 
 		btnMultiply.setEnabled(false);
 	}
@@ -100,11 +95,6 @@ public class PCView extends ActionHandler {
 		resultsAdapter.setResults(results);
 		resultsAdapter.notifyDataSetChanged();
 		showResults();
-	}
-
-	public void showResults() {
-		flFrame.removeAllViews();
-		flFrame.addView(lvResults);
 	}
 
 	public void showKeypad() {
@@ -149,4 +139,6 @@ public class PCView extends ActionHandler {
 	public View getView() {
 		return view;
 	}
+
+	public abstract void showResults();
 }

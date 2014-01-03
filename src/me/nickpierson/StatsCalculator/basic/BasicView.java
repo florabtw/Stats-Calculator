@@ -48,7 +48,7 @@ public abstract class BasicView extends DataActionHandler {
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.basic_flContent);
 		etInput = (EditText) view.findViewById(R.id.basic_etInput);
-		
+
 		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			etInput.setMaxLines(2);
 		}

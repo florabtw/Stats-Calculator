@@ -58,11 +58,6 @@ public class PCAdapter extends ArrayAdapter<String> {
 		}
 	}
 
-	@Override
-	public boolean isEnabled(int position) {
-		return false;
-	}
-
 	public HashMap<String, String> getResults() {
 		return results;
 	}

@@ -114,8 +114,6 @@
     </style>
 
     <style name="listview">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
         <item name="android:background">@drawable/black_border</item>
         <item name="android:padding">1dp</item>
         <item name="android:overScrollMode" tools:ignore="NewApi">never</item>
