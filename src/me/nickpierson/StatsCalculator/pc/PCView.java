@@ -2,7 +2,6 @@ package me.nickpierson.StatsCalculator.pc;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.Constants;
 import me.nickpierson.StatsCalculator.utils.DefaultAdapter;
 import android.app.Activity;
 import android.text.Spannable;
@@ -62,8 +61,6 @@ public abstract class PCView extends DataActionHandler {
 		setEditTextClickListener(etNVal);
 		setEditTextClickListener(etRVal);
 		setEditTextClickListener(etNVals);
-
-		resultsAdapter.addMultiple(Constants.PC_TITLES);
 
 		btnMultiply.setEnabled(false);
 	}
