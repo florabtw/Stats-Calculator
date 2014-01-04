@@ -3,6 +3,7 @@ package me.nickpierson.StatsCalculator.basic;
 import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.Constants;
+import me.nickpierson.StatsCalculator.utils.DefaultAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -39,23 +40,19 @@ public abstract class BasicView extends DataActionHandler {
 	protected TableLayout tlKeypad;
 	protected EditText etInput;
 	protected Activity activity;
-	protected BasicAdapter resultsAdapter;
+	protected DefaultAdapter resultsAdapter;
 
-	public BasicView(Activity activity) {
+	public BasicView(Activity activity, DefaultAdapter adapter) {
 		this.activity = activity;
 		view = (RelativeLayout) LayoutInflater.from(activity).inflate(R.layout.basic, null);
-		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.results_list, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.basic_flContent);
+		resultsAdapter = adapter;
 		etInput = (EditText) view.findViewById(R.id.basic_etInput);
-		resultsAdapter = new BasicAdapter(activity, R.layout.basic_result_item);
 
 		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			etInput.setMaxLines(2);
 		}
-
-		resultsAdapter.addAll(Constants.BASIC_TITLES);
-		lvResults.setAdapter(resultsAdapter);
 
 		etInput.setOnTouchListener(new OnTouchListener() {
 
@@ -158,10 +155,6 @@ public abstract class BasicView extends DataActionHandler {
 
 	public void menuLoadList() {
 		event(Types.MENU_LOAD_OR_DELETE);
-	}
-
-	public void menuReference() {
-		event(Types.MENU_REFERENCE);
 	}
 
 	public void donePress() {

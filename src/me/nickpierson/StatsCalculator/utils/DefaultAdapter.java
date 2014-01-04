@@ -1,5 +1,6 @@
-package me.nickpierson.StatsCalculator.basic;
+package me.nickpierson.StatsCalculator.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
@@ -9,16 +10,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.nickpierson.me.StatsCalculator.R;
-
-public class BasicAdapter extends ArrayAdapter<String> {
+public class DefaultAdapter extends ArrayAdapter<String> {
 
 	private int resource;
 	private HashMap<String, String> results;
+	private int titleId;
+	private int resultId;
 
-	public BasicAdapter(Context context, int resource) {
+	public DefaultAdapter(Context context, int resource, int titleId, int resultId) {
 		super(context, resource);
 		this.resource = resource;
+		this.titleId = titleId;
+		this.resultId = resultId;
 	}
 
 	@Override
@@ -29,8 +32,8 @@ public class BasicAdapter extends ArrayAdapter<String> {
 			convertView = LayoutInflater.from(getContext()).inflate(resource, null);
 
 			view = new ViewHolder();
-			view.tvTitle = (TextView) convertView.findViewById(R.id.basic_tvResultTitle);
-			view.tvAnswer = (TextView) convertView.findViewById(R.id.basic_tvResultAnswer);
+			view.tvTitle = (TextView) convertView.findViewById(titleId);
+			view.tvResult = (TextView) convertView.findViewById(resultId);
 
 			convertView.setTag(view);
 		} else {
@@ -39,19 +42,14 @@ public class BasicAdapter extends ArrayAdapter<String> {
 
 		String title = getItem(position);
 		view.tvTitle.setText(title);
-		view.tvAnswer.setText(results.get(title));
+		view.tvResult.setText(results.get(title));
 
 		return convertView;
 	}
 
 	static class ViewHolder {
 		TextView tvTitle;
-		TextView tvAnswer;
-	}
-
-	@Override
-	public boolean isEnabled(int position) {
-		return false;
+		TextView tvResult;
 	}
 
 	public HashMap<String, String> getResults() {
@@ -62,8 +60,13 @@ public class BasicAdapter extends ArrayAdapter<String> {
 		this.results = results;
 	}
 
-	@Override
-	public void addAll(String... items) {
+	public void addMultiple(String... items) {
+		for (String item : items) {
+			add(item);
+		}
+	}
+
+	public void addMultiple(ArrayList<String> items) {
 		for (String item : items) {
 			add(item);
 		}

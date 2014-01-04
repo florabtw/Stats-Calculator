@@ -234,9 +234,8 @@ public class BasicModelTest {
 
 		assertTrue(lists.length == 2);
 
-		/* file.list() lists in reverse order */
-		assertEquals(lists[1], listOne);
-		assertEquals(lists[0], listTwo);
+		assertEquals(lists[0], listOne);
+		assertEquals(lists[1], listTwo);
 
 		file1.delete();
 		file2.delete();

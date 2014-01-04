@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.reference.BasicReferenceActivity;
 import me.nickpierson.StatsCalculator.utils.Constants;
 
 import org.junit.Before;
@@ -21,7 +20,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.app.Activity;
-import android.content.Intent;
 
 import com.thecellutioncenter.mvplib.ActionListener;
 import com.thecellutioncenter.mvplib.DataActionListener;
@@ -240,17 +238,6 @@ public class BasicPresenterTest {
 		listener.getValue().fire();
 
 		verify(view).showToast(Constants.LIST_DELETE_ERROR);
-	}
-
-	@Test
-	public void whenMenuReferenceGuideIsClicked_ThenReferenceGuideIsShown() {
-		setupPresenter();
-
-		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_REFERENCE));
-
-		listener.getValue().fire();
-
-		verify(activity, times(2)).startActivity(new Intent(activity, BasicReferenceActivity.class));
 	}
 
 	private HashMap<String, Double> makeEmptyResults() {

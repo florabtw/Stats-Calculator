@@ -58,10 +58,6 @@ public class KeypadHelper {
 		return false;
 	}
 
-	/*
-	 * TODO: Figure out why this is necessary. I just ran this on API 8 phone
-	 * and it worked just fine.
-	 */
 	@SuppressLint("NewApi")
 	public void disableSoftInputFromAppearing(EditText etInput) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
