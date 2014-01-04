@@ -2,8 +2,8 @@ package me.nickpierson.StatsCalculator.basic;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.KeypadHelper;
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
+import me.nickpierson.StatsCalculator.utils.DefaultAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,12 +13,9 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -27,7 +24,7 @@ import android.widget.Toast;
 import com.nickpierson.me.StatsCalculator.R;
 import com.thecellutioncenter.mvplib.DataActionHandler;
 
-public class BasicView extends DataActionHandler {
+public abstract class BasicView extends DataActionHandler {
 
 	public enum Types {
 		DONE_PRESSED, EDITTEXT_CLICKED, MENU_SAVE, SAVE_LIST, LOAD_LIST, MENU_LOAD_OR_DELETE, DELETE_LIST, MENU_REFERENCE;
@@ -37,38 +34,25 @@ public class BasicView extends DataActionHandler {
 		LIST_NAME;
 	}
 
-	private RelativeLayout view;
-	private FrameLayout flFrame;
-	private ListView lvResults;
-	private TableLayout tlKeypad;
-	private EditText etInput;
-	private Activity activity;
-	private BasicAdapter resultsAdapter;
-	private KeypadHelper keypadHelper;
+	protected RelativeLayout view;
+	protected FrameLayout flFrame;
+	protected ListView lvResults;
+	protected TableLayout tlKeypad;
+	protected EditText etInput;
+	protected Activity activity;
+	protected DefaultAdapter resultsAdapter;
 
-	private String[] titles;
-
-	public BasicView(Activity activity) {
+	public BasicView(Activity activity, DefaultAdapter adapter) {
 		this.activity = activity;
 		view = (RelativeLayout) LayoutInflater.from(activity).inflate(R.layout.basic, null);
-		lvResults = (ListView) LayoutInflater.from(activity).inflate(R.layout.basic_results, null);
 		tlKeypad = (TableLayout) LayoutInflater.from(activity).inflate(R.layout.keypad, null);
 		flFrame = (FrameLayout) view.findViewById(R.id.basic_flContent);
+		resultsAdapter = adapter;
 		etInput = (EditText) view.findViewById(R.id.basic_etInput);
-		resultsAdapter = new BasicAdapter(activity, R.layout.basic_result_item);
-		keypadHelper = new KeypadHelper();
-		ImageButton btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
 
 		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			etInput.setMaxLines(2);
 		}
-
-		keypadHelper.disableSoftInputFromAppearing(etInput);
-		keypadHelper.watchEditText(etInput);
-
-		lvResults.setAdapter(resultsAdapter);
-
-		flFrame.addView(lvResults);
 
 		etInput.setOnTouchListener(new OnTouchListener() {
 
@@ -78,32 +62,12 @@ public class BasicView extends DataActionHandler {
 				return false;
 			}
 		});
-
-		btnBackspace.setOnLongClickListener(new OnLongClickListener() {
-
-			@Override
-			public boolean onLongClick(View v) {
-				keypadHelper.longPressBackspace(etInput);
-				return true;
-			}
-		});
-
-		titles = activity.getResources().getStringArray(R.array.descriptive_titles);
 	}
 
-	public void showResults(double[] results) {
-		resultsAdapter.clear();
-
-		for (int i = 0; i < results.length; i++) {
-			resultsAdapter.add(new BasicListItem(titles[i], results[i]));
-		}
-
+	public void showResults(HashMap<String, String> results) {
+		resultsAdapter.setResults(results);
+		resultsAdapter.notifyDataSetChanged();
 		showResults();
-	}
-
-	public void showResults() {
-		flFrame.removeAllViews();
-		flFrame.addView(lvResults);
 	}
 
 	public void showKeypad() {
@@ -116,7 +80,7 @@ public class BasicView extends DataActionHandler {
 	}
 
 	public void showErrorToast(int errorItem) {
-		Toast.makeText(activity, String.format(MyConstants.DESCRIPTIVE_NUMBER_ERROR, errorItem), Toast.LENGTH_SHORT).show();
+		Toast.makeText(activity, String.format(Constants.DESCRIPTIVE_NUMBER_ERROR, errorItem), Toast.LENGTH_SHORT).show();
 	}
 
 	public void selectInput(String string) {
@@ -193,20 +157,6 @@ public class BasicView extends DataActionHandler {
 		event(Types.MENU_LOAD_OR_DELETE);
 	}
 
-	public void menuReference() {
-		event(Types.MENU_REFERENCE);
-	}
-
-	public void keypadPress(Button button) {
-		/* Skips MVP */
-		keypadHelper.keypadPress(etInput, button.getText().charAt(0));
-	}
-
-	public void backspace() {
-		/* Skips MVP */
-		keypadHelper.backspace(etInput);
-	}
-
 	public void donePress() {
 		event(Types.DONE_PRESSED);
 	}
@@ -215,7 +165,7 @@ public class BasicView extends DataActionHandler {
 		return tlKeypad.isShown();
 	}
 
-	public RelativeLayout getView() {
+	public View getView() {
 		return view;
 	}
 
@@ -234,4 +184,10 @@ public class BasicView extends DataActionHandler {
 	public void setInputText(String list) {
 		etInput.setText(list);
 	}
+
+	public HashMap<String, String> getResults() {
+		return resultsAdapter.getResults();
+	}
+
+	public abstract void showResults();
 }

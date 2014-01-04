@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 
 import com.thecellutioncenter.mvplib.ActionListener;
 import com.thecellutioncenter.mvplib.DataActionListener;
@@ -13,12 +13,13 @@ import com.thecellutioncenter.mvplib.DataActionListener;
 public class PCPresenter {
 
 	protected static void setup(final PCModel model, final PCView view) {
-		view.showDefaultValues();
+		showEmptyResults(model, view);
 
 		view.addListener(new ActionListener() {
 
 			@Override
 			public void fire() {
+				model.clearResults();
 				validateInput(model, view);
 			}
 		}, PCView.Types.DONE_PRESSED);
@@ -38,45 +39,37 @@ public class PCPresenter {
 			@Override
 			public void fire(HashMap<Enum<?>, ?> data) {
 				int n = (Integer) data.get(PCModel.Keys.N_VALUE);
+				String nFact = format(model.factorial(n), model);
 
-				view.showResults();
-				setNFactorial(model, view, n);
-				view.setRFactorial(MyConstants.NOT_APPLICABLE);
-				view.setPermutation(MyConstants.NOT_APPLICABLE);
-				view.setCombination(MyConstants.NOT_APPLICABLE);
-				view.setIndistinct(MyConstants.NOT_APPLICABLE);
+				model.updateResult(Constants.N_FACT, nFact);
 			}
-		}, PCModel.Types.ONLY_VALID_N);
+		}, PCModel.Types.VALID_N);
 
 		model.addListener(new DataActionListener() {
 
 			@Override
 			public void fire(HashMap<Enum<?>, ?> data) {
 				int r = (Integer) data.get(PCModel.Keys.R_VALUE);
+				String rFact = format(model.factorial(r), model);
 
-				view.showResults();
-				view.setNFactorial(MyConstants.NOT_APPLICABLE);
-				setRFactorial(model, view, r);
-				view.setPermutation(MyConstants.NOT_APPLICABLE);
-				view.setCombination(MyConstants.NOT_APPLICABLE);
-				view.setIndistinct(MyConstants.NOT_APPLICABLE);
+				model.updateResult(Constants.R_FACT, rFact);
+
+				Integer n = (Integer) data.get(PCModel.Keys.N_VALUE);
+				if (n != null) {
+					String perm = format(model.permutation(n, r), model);
+					String comb = format(model.combination(n, r), model);
+					String repPerm = format(model.repetitivePermutation(n, r), model);
+					String repComb = format(model.repetitiveCombination(n, r), model);
+					String pigeon = format(model.pigeonhole(n, r), model);
+
+					model.updateResult(Constants.PERM, perm);
+					model.updateResult(Constants.COMB, comb);
+					model.updateResult(Constants.REP_PERM, repPerm);
+					model.updateResult(Constants.REP_COMB, repComb);
+					model.updateResult(Constants.PIGEONHOLE, pigeon);
+				}
 			}
-		}, PCModel.Types.ONLY_VALID_R);
-
-		model.addListener(new DataActionListener() {
-
-			@Override
-			public void fire(HashMap<Enum<?>, ?> data) {
-				int n = (Integer) data.get(PCModel.Keys.N_VALUE);
-				int r = (Integer) data.get(PCModel.Keys.R_VALUE);
-
-				view.showResults();
-				setNFactorial(model, view, n);
-				setRFactorial(model, view, r);
-				setPermAndComb(model, view, n, r);
-				view.setIndistinct(MyConstants.NOT_APPLICABLE);
-			}
-		}, PCModel.Types.VALID_N_AND_R);
+		}, PCModel.Types.VALID_R);
 
 		model.addListener(new DataActionListener() {
 
@@ -85,67 +78,51 @@ public class PCPresenter {
 			public void fire(HashMap<Enum<?>, ?> data) {
 				int n = (Integer) data.get(PCModel.Keys.N_VALUE);
 				ArrayList<Integer> nVals = (ArrayList<Integer>) data.get(PCModel.Keys.N_VALUES);
+				String indistinctPerm = format(model.indistinctPermutation(n, nVals), model);
 
-				view.showResults();
-				setNFactorial(model, view, n);
-				view.setRFactorial(MyConstants.NOT_APPLICABLE);
-				view.setPermutation(MyConstants.NOT_APPLICABLE);
-				view.setCombination(MyConstants.NOT_APPLICABLE);
-				setIndistinct(model, view, n, nVals);
+				model.updateResult(Constants.INDISTINCT_PERM, indistinctPerm);
 			}
-		}, PCModel.Types.VALID_N_AND_NS);
-
-		model.addListener(new DataActionListener() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void fire(HashMap<Enum<?>, ?> data) {
-				int n = (Integer) data.get(PCModel.Keys.N_VALUE);
-				int r = (Integer) data.get(PCModel.Keys.R_VALUE);
-				ArrayList<Integer> nVals = (ArrayList<Integer>) data.get(PCModel.Keys.N_VALUES);
-
-				view.showResults();
-				setNFactorial(model, view, n);
-				setRFactorial(model, view, r);
-				setPermAndComb(model, view, n, r);
-				setIndistinct(model, view, n, nVals);
-			}
-		}, PCModel.Types.ALL_VALUES_VALID);
+		}, PCModel.Types.VALID_NS);
 
 		model.addListener(new ActionListener() {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.MESSAGE_INPUT_OVER_MAX);
+				view.showToast(Constants.MESSAGE_INPUT_OVER_MAX);
 			}
 		}, PCModel.Types.INPUT_OVER_MAX_VALUE);
+
+		model.addListener(new ActionListener() {
+
+			@Override
+			public void fire() {
+				showResults(view, model.getResults());
+			}
+		}, PCModel.Types.DONE_VALIDATING);
 	}
 
-	private static void validateInput(final PCModel model, final PCView view) {
-		view.showDefaultValues();
+	private static void showEmptyResults(PCModel model, PCView view) {
+		model.clearResults();
+		showResults(view, model.getResults());
+	}
+
+	private static void showResults(PCView view, HashMap<String, String> results) {
+		for (String title : Constants.PC_TITLES) {
+			if (results.get(title) == null) {
+				results.put(title, Constants.PC_DEFAULT_RESULT_VALUE);
+			}
+		}
+
+		view.showResults(results);
+	}
+
+	private static void validateInput(PCModel model, PCView view) {
 		model.validateInput(view.getNVal(), view.getRVal(), view.getNVals());
-	}
-
-	private static void setNFactorial(final PCModel model, final PCView view, int n) {
-		view.setNFactorial(format(model.factorial(n), model));
-	}
-
-	private static void setRFactorial(final PCModel model, final PCView view, int r) {
-		view.setRFactorial(format(model.factorial(r), model));
-	}
-
-	private static void setPermAndComb(final PCModel model, final PCView view, int n, int r) {
-		view.setPermutation(format(model.permutation(n, r), model));
-		view.setCombination(format(model.combination(n, r), model));
-	}
-
-	private static void setIndistinct(final PCModel model, final PCView view, int n, ArrayList<Integer> nVals) {
-		view.setIndistinct(format(model.indistinctPermutation(n, nVals), model));
 	}
 
 	private static String format(BigInteger number, PCModel model) {
 		String stringValue;
-		if (number.compareTo(BigInteger.valueOf(MyConstants.MAX_PLAIN_FORMAT)) == 1) {
+		if (number.compareTo(BigInteger.valueOf(Constants.MAX_PLAIN_FORMAT)) == 1) {
 			stringValue = model.format(number);
 		} else {
 			stringValue = new DecimalFormat().format(number);

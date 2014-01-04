@@ -1,23 +1,22 @@
 package me.nickpierson.StatsCalculator.pc;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.KeypadActivity;
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.Button;
 
-public class PCActivity extends ActionBarActivity implements KeypadActivity {
+public abstract class PCActivity extends ActionBarActivity implements KeypadActivity {
 
 	protected PCModel model;
 	protected PCView view;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(MyConstants.RESULTS_KEY, view.getResults());
-		outState.putBoolean(MyConstants.KEYPAD_KEY, view.isKeypadVisible());
+		outState.putSerializable(Constants.RESULTS_KEY, view.getResults());
+		outState.putBoolean(Constants.KEYPAD_KEY, view.isKeypadVisible());
 		super.onSaveInstanceState(outState);
 	}
 
@@ -25,23 +24,13 @@ public class PCActivity extends ActionBarActivity implements KeypadActivity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			view.setResults((ArrayList<String>) savedInstanceState.getSerializable(MyConstants.RESULTS_KEY));
+			view.showResults((HashMap<String, String>) savedInstanceState.getSerializable(Constants.RESULTS_KEY));
 
-			if (savedInstanceState.getBoolean(MyConstants.KEYPAD_KEY)) {
+			if (savedInstanceState.getBoolean(Constants.KEYPAD_KEY)) {
 				view.showKeypad();
 			}
 		}
 		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	public void keypadPress(View button) {
-		view.keypadPress((Button) button);
-	}
-
-	@Override
-	public void backSpace(View button) {
-		view.backSpace();
 	}
 
 	@Override
@@ -57,5 +46,4 @@ public class PCActivity extends ActionBarActivity implements KeypadActivity {
 			super.onBackPressed();
 		}
 	}
-
 }

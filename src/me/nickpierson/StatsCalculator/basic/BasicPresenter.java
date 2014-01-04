@@ -3,7 +3,7 @@ package me.nickpierson.StatsCalculator.basic;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 import android.app.Activity;
 
 import com.thecellutioncenter.mvplib.ActionListener;
@@ -38,8 +38,8 @@ public class BasicPresenter {
 			@Override
 			public void fire(HashMap<Enum<?>, ?> data) {
 				ArrayList<Double> validList = (ArrayList<Double>) data.get(BasicModel.Keys.VALIDATED_LIST);
-				double[] calculateResults = model.calculateResults(validList);
-				view.showResults(calculateResults);
+				HashMap<String, Double> results = model.calculateResults(validList);
+				view.showResults(model.formatResults(results));
 			}
 		}, BasicModel.Types.VALID_INPUT);
 
@@ -72,7 +72,7 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.SAVE_SUCCESSFUL);
+				view.showToast(Constants.SAVE_SUCCESSFUL);
 			}
 		}, BasicModel.Types.SAVE_SUCCESSFUL);
 
@@ -80,7 +80,7 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.SAVE_FAILED);
+				view.showToast(Constants.SAVE_FAILED);
 			}
 		}, BasicModel.Types.SAVE_FAILED);
 
@@ -108,7 +108,7 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.LIST_LOAD_ERROR);
+				view.showToast(Constants.LIST_LOAD_ERROR);
 			}
 		}, BasicModel.Types.LOAD_ERROR);
 
@@ -126,14 +126,13 @@ public class BasicPresenter {
 
 			@Override
 			public void fire() {
-				view.showToast(MyConstants.LIST_DELETE_ERROR);
+				view.showToast(Constants.LIST_DELETE_ERROR);
 			}
 		}, BasicModel.Types.DELETE_ERROR);
-
 	}
 
 	private static void showEmptyResults(final BasicModel model, final BasicView view) {
-		view.showResults(model.getEmptyResults());
+		view.showResults(model.formatResults(model.getEmptyResults()));
 	}
 
 	private static void showSavedLists(final BasicModel model, final BasicView view) {

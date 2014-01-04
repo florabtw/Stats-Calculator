@@ -1,11 +1,14 @@
-package me.nickpierson.StatsCalculator;
+package me.nickpierson.StatsCalculator.home;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.home.HomeModel;
+import me.nickpierson.StatsCalculator.home.HomePresenter;
+import me.nickpierson.StatsCalculator.home.HomeView;
+import me.nickpierson.StatsCalculator.utils.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,10 +49,10 @@ public class HomePresenterTest {
 
 	@Test
 	public void whenContactDeveloperMenuItemSelected_ThenEmailIntentIsShown() {
-		Uri emailUri = Uri.fromParts("mailto", MyConstants.DEVELOPER_EMAIL, null);
+		Uri emailUri = Uri.fromParts("mailto", Constants.DEVELOPER_EMAIL, null);
 		Intent emailIntent = new Intent(Intent.ACTION_SENDTO, emailUri);
-		emailIntent.putExtra(Intent.EXTRA_SUBJECT, MyConstants.EMAIL_SUBJECT);
-		Intent testIntent = Intent.createChooser(emailIntent, MyConstants.EMAIL_CHOOSER_TITLE);
+		emailIntent.putExtra(Intent.EXTRA_SUBJECT, Constants.EMAIL_SUBJECT);
+		Intent testIntent = Intent.createChooser(emailIntent, Constants.EMAIL_CHOOSER_TITLE);
 
 		createPresenter();
 
@@ -90,6 +93,6 @@ public class HomePresenterTest {
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.RATE_ERROR);
+		verify(view).showToast(Constants.RATE_ERROR);
 	}
 }

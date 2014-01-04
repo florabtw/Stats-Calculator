@@ -1,4 +1,4 @@
-package me.nickpierson.StatsCalculator;
+package me.nickpierson.StatsCalculator.home;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

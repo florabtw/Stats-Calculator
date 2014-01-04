@@ -3,13 +3,14 @@ package me.nickpierson.StatsCalculator.basic;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.MyConstants;
+import me.nickpierson.StatsCalculator.utils.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,24 +44,24 @@ public class BasicPresenterTest {
 		listener = ArgumentCaptor.forClass(ActionListener.class);
 		dataListener = ArgumentCaptor.forClass(DataActionListener.class);
 
-		when(model.getEmptyResults()).thenReturn(new double[14]);
+		when(model.getEmptyResults()).thenReturn(makeEmptyResults());
 	}
 
-	public void createPresenter() {
+	public void setupPresenter() {
 		BasicPresenter.setup(activity, model, view);
 	}
 
 	@Test
 	public void viewIsInitializedByPresenter() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).getEmptyResults();
-		verify(view).showResults(model.getEmptyResults());
+		verify(view).showResults(model.formatResults(model.getEmptyResults()));
 	}
 
 	@Test
 	public void whenEditTextIsClicked_ThenKeypadIsShown() {
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.EDITTEXT_CLICKED));
 
@@ -72,7 +73,7 @@ public class BasicPresenterTest {
 	@Test
 	public void whenDoneIsClicked_ThenInputIsValidated() {
 		when(view.getInput()).thenReturn("15,32x4,17.9");
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.DONE_PRESSED));
 
@@ -86,13 +87,13 @@ public class BasicPresenterTest {
 		ArrayList<Double> testResults = new ArrayList<Double>();
 		HashMap<Enum<?>, ArrayList<Double>> testMap = new HashMap<Enum<?>, ArrayList<Double>>();
 		testMap.put(BasicModel.Keys.VALIDATED_LIST, testResults);
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(BasicModel.Types.VALID_INPUT));
 
 		dataListener.getValue().fire(testMap);
 
-		verify(view).showResults(model.calculateResults(testResults));
+		verify(view, times(2)).showResults(model.formatResults(model.calculateResults(testResults)));
 	}
 
 	@Test
@@ -102,7 +103,7 @@ public class BasicPresenterTest {
 		String errorText = "errrrerr";
 		testMap.put(BasicModel.Keys.INVALID_POSITION, errorPosition);
 		testMap.put(BasicModel.Keys.INVALID_TEXT, errorText);
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(BasicModel.Types.INVALID_INPUT));
 
@@ -114,7 +115,7 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenSaveListMenuIsClicked_ThenPopupIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_SAVE));
 
@@ -128,7 +129,7 @@ public class BasicPresenterTest {
 		String name = "test name";
 		HashMap<Enum<?>, String> testMap = new HashMap<Enum<?>, String>();
 		testMap.put(BasicView.Keys.LIST_NAME, name);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(dataListener.capture(), eq(BasicView.Types.SAVE_LIST));
 
@@ -139,30 +140,30 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenSaveIsSuccessful_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.SAVE_SUCCESSFUL));
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.SAVE_SUCCESSFUL);
+		verify(view).showToast(Constants.SAVE_SUCCESSFUL);
 	}
 
 	@Test
 	public void whenSaveIsNotSuccessful_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.SAVE_FAILED));
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.SAVE_FAILED);
+		verify(view).showToast(Constants.SAVE_FAILED);
 	}
 
 	@Test
 	public void whenLoadOrDeleteListMenuClicked_ThenPopupIsDisplayed() {
 		when(model.getSavedLists()).thenReturn(new String[] { "what's up?", "not much" });
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_LOAD_OR_DELETE));
 
@@ -174,7 +175,7 @@ public class BasicPresenterTest {
 	@Test
 	public void whenLoadOrDeleteListMenuClickedAndNoListsAvailable_ThenNothingHappens() {
 		when(model.getSavedLists()).thenReturn(null);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(BasicView.Types.MENU_LOAD_OR_DELETE));
 
@@ -191,7 +192,7 @@ public class BasicPresenterTest {
 		when(model.loadList(listName)).thenReturn("1,2,3,4,5");
 		HashMap<Enum<?>, String> testMap = new HashMap<Enum<?>, String>();
 		testMap.put(BasicView.Keys.LIST_NAME, listName);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(dataListener.capture(), eq(BasicView.Types.LOAD_LIST));
 
@@ -207,7 +208,7 @@ public class BasicPresenterTest {
 		String listName = "CatDog";
 		HashMap<Enum<?>, String> testMap = new HashMap<Enum<?>, String>();
 		testMap.put(BasicView.Keys.LIST_NAME, listName);
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(dataListener.capture(), eq(BasicView.Types.DELETE_LIST));
 
@@ -219,23 +220,32 @@ public class BasicPresenterTest {
 
 	@Test
 	public void whenErrorLoadingList_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.LOAD_ERROR));
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.LIST_LOAD_ERROR);
+		verify(view).showToast(Constants.LIST_LOAD_ERROR);
 	}
 
 	@Test
 	public void whenErrorDeletingList_ThenToastIsDisplayed() {
-		createPresenter();
+		setupPresenter();
 
 		verify(model).addListener(listener.capture(), eq(BasicModel.Types.DELETE_ERROR));
 
 		listener.getValue().fire();
 
-		verify(view).showToast(MyConstants.LIST_DELETE_ERROR);
+		verify(view).showToast(Constants.LIST_DELETE_ERROR);
+	}
+
+	private HashMap<String, Double> makeEmptyResults() {
+		HashMap<String, Double> results = new HashMap<String, Double>();
+		for (String key : Constants.BASIC_TITLES) {
+			results.put(key, Double.NaN);
+		}
+
+		return results;
 	}
 }

@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.nickpierson.StatsCalculator.utils.Constants;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,13 +35,13 @@ import com.thecellutioncenter.mvplib.DataActionListener;
 public class BasicModelTest {
 
 	public BasicModel model;
-	private double DELTA = .000001;
+	protected double DELTA = .000001;
 
 	private DataActionListener validDataListener;
 	private DataActionListener invalidDataListener;
 	private ActionListener validListener;
 	private ActionListener invalidListener;
-	private Activity activity;
+	protected Activity activity;
 
 	@Before
 	public void setup() {
@@ -54,10 +56,10 @@ public class BasicModelTest {
 
 	@Test
 	public void modelReturnsEmptyHashMapOnRequest() {
-		double[] emptyMap = model.getEmptyResults();
+		HashMap<String, Double> emptyMap = model.getEmptyResults();
 
-		for (int i = 0; i < emptyMap.length; i++) {
-			assertTrue(Double.isNaN(emptyMap[i]));
+		for (Double result : emptyMap.values()) {
+			assertTrue(Double.isNaN(result));
 		}
 	}
 
@@ -130,39 +132,51 @@ public class BasicModelTest {
 	public void calculateResults_CalculatesCorrectResult() {
 		ArrayList<Double> sampleInput = makeValidList(45, 68.1, 29.4, -54, -.19, 3.0001);
 
-		double[] actualResults = model.calculateResults(sampleInput);
+		HashMap<String, Double> actualResults = model.calculateResults(sampleInput);
 
-		assertEquals(6.0, actualResults[0], DELTA);
-		assertEquals(91.3101, actualResults[1], DELTA);
-		assertEquals(15.21835, actualResults[2], DELTA);
-		assertEquals(Double.NaN, actualResults[3], DELTA);
-		assertEquals(16.20005, actualResults[4], DELTA);
-		assertEquals(Double.NaN, actualResults[5], DELTA);
-		assertEquals(122.1, actualResults[6], DELTA);
-		assertEquals(1812.483527, actualResults[7], DELTA);
-		assertEquals(1510.402939, actualResults[8], DELTA);
-		assertEquals(42.573272, actualResults[9], DELTA);
-		assertEquals(38.863902, actualResults[10], DELTA);
-		assertEquals(2.797495, actualResults[11], DELTA);
-		assertEquals(-.4542037, actualResults[12], DELTA);
-		assertEquals(2.314556, actualResults[13], DELTA);
+		assertEquals(6.0, actualResults.get(Constants.SIZE), DELTA);
+		assertEquals(91.3101, actualResults.get(Constants.SUM), DELTA);
+		assertEquals(15.21835, actualResults.get(Constants.ARITH_MEAN), DELTA);
+		assertEquals(Double.NaN, actualResults.get(Constants.GEO_MEAN), DELTA);
+		assertEquals(16.20005, actualResults.get(Constants.MEDIAN), DELTA);
+		assertEquals(Double.NaN, actualResults.get(Constants.MODE), DELTA);
+		assertEquals(122.1, actualResults.get(Constants.RANGE), DELTA);
+		assertEquals(1812.483527, actualResults.get(Constants.SAMPLE_VAR), DELTA);
+		assertEquals(1510.402939, actualResults.get(Constants.POP_VAR), DELTA);
+		assertEquals(42.573272, actualResults.get(Constants.SAMPLE_DEV), DELTA);
+		assertEquals(38.863902, actualResults.get(Constants.POP_DEV), DELTA);
+		assertEquals(2.797495, actualResults.get(Constants.COEFF_VAR), DELTA);
+		assertEquals(-.4542037, actualResults.get(Constants.SKEWNESS), DELTA);
+		assertEquals(2.314556, actualResults.get(Constants.KURTOSIS), DELTA);
 
 		ArrayList<Double> sampleInput1 = makeValidList(45, 68.1, 29.4, 54, 5.3, 5.3);
-		double[] actualResult1 = model.calculateResults(sampleInput1);
-		assertEquals(22.695621, actualResult1[3], DELTA);
-		assertEquals(5.3, actualResult1[5], DELTA);
+		HashMap<String, Double> actualResult1 = model.calculateResults(sampleInput1);
+		assertEquals(22.695621, actualResult1.get(Constants.GEO_MEAN), DELTA);
+		assertEquals(5.3, actualResult1.get(Constants.MODE), DELTA);
 
 		ArrayList<Double> sampleInput2 = makeValidList(-99.5, -55, -32.2);
-		double[] actualResult2 = model.calculateResults(sampleInput2);
-		assertEquals(67.3, actualResult2[6], DELTA);
+		HashMap<String, Double> actualResult2 = model.calculateResults(sampleInput2);
+		assertEquals(67.3, actualResult2.get(Constants.RANGE), DELTA);
 	}
 
-	private ArrayList<Double> makeValidList(double... args) {
-		ArrayList<Double> validList = new ArrayList<Double>();
-		for (double val : args) {
-			validList.add(val);
-		}
-		return validList;
+	@Test
+	public void formatResults_FormatsResultsCorrectly() {
+		HashMap<String, Double> results = new HashMap<String, Double>();
+		results.put("1", 999.0);
+		results.put("2", 1000.0);
+		results.put("3", 2345.67);
+		results.put("4", 999999999.999);
+		results.put("5", 1000000000.0);
+		results.put("6", 123456789101112.0);
+
+		HashMap<String, String> testResults = model.formatResults(results);
+
+		assertEquals("999", testResults.get("1"));
+		assertEquals("1,000", testResults.get("2"));
+		assertEquals("2,345.67", testResults.get("3"));
+		assertEquals("999,999,999.999", testResults.get("4"));
+		assertEquals("1E9", testResults.get("5"));
+		assertEquals("1.234567891E14", testResults.get("6"));
 	}
 
 	@Test
@@ -220,9 +234,8 @@ public class BasicModelTest {
 
 		assertTrue(lists.length == 2);
 
-		/* file.list() lists in reverse order */
-		assertEquals(lists[1], listOne);
-		assertEquals(lists[0], listTwo);
+		assertEquals(lists[0], listOne);
+		assertEquals(lists[1], listTwo);
 
 		file1.delete();
 		file2.delete();
@@ -273,5 +286,13 @@ public class BasicModelTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected ArrayList<Double> makeValidList(double... args) {
+		ArrayList<Double> validList = new ArrayList<Double>();
+		for (double val : args) {
+			validList.add(val);
+		}
+		return validList;
 	}
 }
