@@ -35,7 +35,7 @@ public abstract class PCView extends DataActionHandler {
 	protected EditText etRVal;
 	protected EditText etNVals;
 	protected ImageButton btnBackspace;
-	private Activity activity;
+	protected Activity activity;
 	private Toast toast;
 	private TableLayout tlKeypad;
 	protected FrameLayout flFrame;
