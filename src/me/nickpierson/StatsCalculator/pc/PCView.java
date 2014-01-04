@@ -51,6 +51,8 @@ public abstract class PCView extends DataActionHandler {
 		resultsAdapter = adapter;
 		btnBackspace = (ImageButton) tlKeypad.findViewById(R.id.keypad_backspace);
 		Button btnMultiply = (Button) tlKeypad.findViewById(R.id.keypad_times);
+		Button btnNegative = (Button) tlKeypad.findViewById(R.id.keypad_negative);
+		Button btnDecimal = (Button) tlKeypad.findViewById(R.id.keypad_decimal);
 
 		subscriptNsTitle();
 
@@ -63,6 +65,8 @@ public abstract class PCView extends DataActionHandler {
 		setEditTextClickListener(etNVals);
 
 		btnMultiply.setEnabled(false);
+		btnNegative.setEnabled(false);
+		btnDecimal.setEnabled(false);
 	}
 
 	private void subscriptNsTitle() {
