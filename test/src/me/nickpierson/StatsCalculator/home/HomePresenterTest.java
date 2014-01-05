@@ -61,10 +61,10 @@ public class HomePresenterTest {
 	}
 
 	@Test
-	public void whenRateThisAppMenuItemIsSelected_ThenUserIsDirectedToPlayStore() {
+	public void whenRateThisAppMenuItemIsSelected_ThenUserIsDirectedToAmazonStore() {
 		when(activity.getApplicationContext()).thenReturn(mock(Context.class));
 		when(activity.getApplicationContext().getPackageName()).thenReturn("StatsCalculator");
-		Uri uri = Uri.parse("market://details?id=" + activity.getApplicationContext().getPackageName());
+		Uri uri = Uri.parse("http://www.amazon.com/gp/mas/dl/android?p=" + activity.getApplicationContext().getPackageName());
 		Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
 
 		setupPresenter();
@@ -77,10 +77,10 @@ public class HomePresenterTest {
 	}
 
 	@Test
-	public void whenRateThisAppMenuItemIsSelectedWithNoPlayStore_ThenUserIsShownError() {
+	public void whenRateThisAppMenuItemIsSelectedWithNoAmazonStore_ThenUserIsShownError() {
 		when(activity.getApplicationContext()).thenReturn(mock(Context.class));
 		when(activity.getApplicationContext().getPackageName()).thenReturn("StatsCalculator");
-		Uri uri = Uri.parse("market://details?id=" + activity.getApplicationContext().getPackageName());
+		Uri uri = Uri.parse("http://www.amazon.com/gp/mas/dl/android?p=" + activity.getApplicationContext().getPackageName());
 		Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
 		doThrow(new ActivityNotFoundException()).when(activity).startActivity(rateAppIntent);
 
