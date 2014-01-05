@@ -25,7 +25,7 @@ public class HomePresenter {
 
 			@Override
 			public void fire() {
-				Uri uri = Uri.parse("market://details?id=" + activity.getApplicationContext().getPackageName());
+				Uri uri = Uri.parse("http://www.amazon.com/gp/mas/dl/android?p=" + activity.getApplicationContext().getPackageName());
 				Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
 
 				try {
