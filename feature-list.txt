@@ -21,8 +21,8 @@
 - Menu option: Reference guide
 
         Perm & Comb:
-- Display factorial(n) if n is provided
-- Display factorial(r) if r is provided
+- Display factorial(n) and subfactorial(n) if n is provided
+- Display factorial(r) and subfactorial(n) if r is provided
 - Display permutation(n, r) & combination(n, r) is n and r is provided
 - Display indistinguishable-permutations(n, n1, n2...) if n and n1, n2...
   provided
