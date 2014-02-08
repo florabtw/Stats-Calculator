@@ -96,6 +96,7 @@ public class PCPresenterTest {
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
 		map.put(PCModel.Keys.N_VALUE, 6);
 		when(model.factorial(6)).thenReturn(BigInteger.valueOf(720));
+		when(model.subfactorial(6)).thenReturn(BigInteger.valueOf(265));
 		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
@@ -103,6 +104,7 @@ public class PCPresenterTest {
 		dataListener.getValue().fire(map);
 
 		verify(model).updateResult(Constants.N_FACT, "720");
+		verify(model).updateResult(Constants.N_SUBFACT, "265");
 	}
 
 	@Test
@@ -110,6 +112,7 @@ public class PCPresenterTest {
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
 		map.put(PCModel.Keys.R_VALUE, 5);
 		when(model.factorial(5)).thenReturn(BigInteger.valueOf(120));
+		when(model.subfactorial(5)).thenReturn(BigInteger.valueOf(44));
 		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_R));
@@ -117,7 +120,9 @@ public class PCPresenterTest {
 		dataListener.getValue().fire(map);
 
 		verify(model).updateResult(Constants.R_FACT, "120");
+		verify(model).updateResult(Constants.R_SUBFACT, "44");
 		verify(model, never()).updateResult(eq(Constants.N_FACT), any(String.class));
+		verify(model, never()).updateResult(eq(Constants.N_SUBFACT), any(String.class));
 	}
 
 	@Test
@@ -126,6 +131,7 @@ public class PCPresenterTest {
 		map.put(PCModel.Keys.N_VALUE, 8);
 		map.put(PCModel.Keys.R_VALUE, 4);
 		when(model.factorial(4)).thenReturn(BigInteger.valueOf(24));
+		when(model.subfactorial(4)).thenReturn(BigInteger.valueOf(9));
 		when(model.permutation(8, 4)).thenReturn(BigInteger.valueOf(1680));
 		when(model.combination(8, 4)).thenReturn(BigInteger.valueOf(70));
 		when(model.repetitivePermutation(8, 4)).thenReturn(BigInteger.valueOf(4096));
@@ -168,15 +174,21 @@ public class PCPresenterTest {
 		HashMap<Enum<?>, Integer> map = new HashMap<Enum<?>, Integer>();
 		map.put(PCModel.Keys.N_VALUE, 13);
 		BigInteger nFact = BigInteger.valueOf(6227020800L);
+		String nFactFormatted = "6.2270208E9";
+		BigInteger nSubfact = BigInteger.valueOf(2290792932L);
+		String nSubfactFormatted = "2.2907929E9";
 		when(model.factorial(13)).thenReturn(nFact);
-		when(model.format(nFact)).thenReturn("6.2270208E9");
+		when(model.subfactorial(13)).thenReturn(nSubfact);
+		when(model.format(nFact)).thenReturn(nFactFormatted);
+		when(model.format(nSubfact)).thenReturn(nSubfactFormatted);
 		setupPresenter();
 
 		verify(model).addListener(dataListener.capture(), eq(PCModel.Types.VALID_N));
 
 		dataListener.getValue().fire(map);
 
-		verify(model).updateResult(Constants.N_FACT, "6.2270208E9");
+		verify(model).updateResult(Constants.N_FACT, nFactFormatted);
+		verify(model).updateResult(Constants.N_SUBFACT, nSubfactFormatted);
 	}
 
 	@Test

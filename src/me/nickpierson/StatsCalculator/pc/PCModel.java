@@ -143,7 +143,7 @@ public class PCModel extends DataActionHandler {
 		return answer;
 	}
 
-	public BigInteger derangement(int num) {
+	public BigInteger subfactorial(int num) {
 		if (num == 0) {
 			return BigInteger.ONE;
 		}

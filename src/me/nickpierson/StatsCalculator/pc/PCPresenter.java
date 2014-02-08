@@ -40,8 +40,10 @@ public class PCPresenter {
 			public void fire(HashMap<Enum<?>, ?> data) {
 				int n = (Integer) data.get(PCModel.Keys.N_VALUE);
 				String nFact = format(model.factorial(n), model);
+				String nSubfact = format(model.subfactorial(n), model);
 
 				model.updateResult(Constants.N_FACT, nFact);
+				model.updateResult(Constants.N_SUBFACT, nSubfact);
 			}
 		}, PCModel.Types.VALID_N);
 
@@ -51,8 +53,10 @@ public class PCPresenter {
 			public void fire(HashMap<Enum<?>, ?> data) {
 				int r = (Integer) data.get(PCModel.Keys.R_VALUE);
 				String rFact = format(model.factorial(r), model);
+				String rSubfact = format(model.subfactorial(r), model);
 
 				model.updateResult(Constants.R_FACT, rFact);
+				model.updateResult(Constants.R_SUBFACT, rSubfact);
 
 				Integer n = (Integer) data.get(PCModel.Keys.N_VALUE);
 				if (n != null) {
