@@ -189,6 +189,15 @@ public class PCModelTest {
 	}
 
 	@Test
+	public void derangementReturnsCorrectValue() {
+		assertEquals(BigInteger.ONE, model.subfactorial(0));
+		assertEquals(BigInteger.ZERO, model.subfactorial(1));
+		assertEquals(BigInteger.valueOf(1), model.subfactorial(2));
+		assertEquals(BigInteger.valueOf(44), model.subfactorial(5));
+		assertEquals(BigInteger.valueOf(176214841), model.subfactorial(12));
+	}
+
+	@Test
 	public void permutationReturnCorrectValue() {
 		assertEquals(BigInteger.valueOf(60), model.permutation(5, 3));
 		assertEquals(BigInteger.valueOf(151200), model.permutation(10, 6));

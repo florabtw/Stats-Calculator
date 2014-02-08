@@ -22,14 +22,16 @@ public class Constants {
 
 	public static final String N_FACT = "n factorial";
 	public static final String R_FACT = "r factorial";
-	public static final String PERM = "Permutation";
-	public static final String REP_PERM = "Repetitive Permutation";
-	public static final String COMB = "Combination";
-	public static final String REP_COMB = "Repetitive Combination";
-	public static final String INDISTINCT_PERM = "Indistinct Permutation";
+	public static final String N_SUBFACT = "Subfactorial n";
+	public static final String R_SUBFACT = "Subfactorial r";
+	public static final String PERM = "Permutations";
+	public static final String REP_PERM = "Repetitive Permutations";
+	public static final String COMB = "Combinations";
+	public static final String REP_COMB = "Repetitive Combinations";
+	public static final String INDISTINCT_PERM = "Indistinct Permutations";
 	public static final String PIGEONHOLE = "Pigeonhole";
 
-	public static final String[] PC_TITLES = { N_FACT, R_FACT, PERM, REP_PERM, COMB, REP_COMB, INDISTINCT_PERM, PIGEONHOLE };
+	public static final String[] PC_TITLES = { N_FACT, R_FACT, N_SUBFACT, R_SUBFACT, PERM, REP_PERM, COMB, REP_COMB, INDISTINCT_PERM, PIGEONHOLE };
 
 	public static final String RESULTS_KEY = "RESULTS";
 	public static final String KEYPAD_KEY = "KEYPAD";

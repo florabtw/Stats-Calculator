@@ -2,6 +2,8 @@ package me.nickpierson.StatsCalculator.pc;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -139,6 +141,18 @@ public class PCModel extends DataActionHandler {
 
 		factCache.put(num, answer);
 		return answer;
+	}
+
+	public BigInteger subfactorial(int num) {
+		if (num == 0) {
+			return BigInteger.ONE;
+		}
+
+		BigDecimal fact = new BigDecimal(factorial(num));
+		BigDecimal answer = fact.divide(BigDecimal.valueOf(Math.E), MathContext.DECIMAL128);
+		answer = answer.setScale(0, RoundingMode.HALF_UP);
+
+		return answer.toBigInteger();
 	}
 
 	public BigInteger permutation(int n, int r) {

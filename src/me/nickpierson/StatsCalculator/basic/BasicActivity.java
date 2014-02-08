@@ -2,8 +2,8 @@ package me.nickpierson.StatsCalculator.basic;
 
 import java.util.HashMap;
 
-import me.nickpierson.StatsCalculator.utils.KeypadActivity;
 import me.nickpierson.StatsCalculator.utils.Constants;
+import me.nickpierson.StatsCalculator.utils.KeypadActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
