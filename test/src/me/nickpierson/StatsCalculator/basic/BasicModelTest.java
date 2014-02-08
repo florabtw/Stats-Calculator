@@ -136,11 +136,16 @@ public class BasicModelTest {
 
 		assertEquals(6.0, actualResults.get(Constants.SIZE), DELTA);
 		assertEquals(91.3101, actualResults.get(Constants.SUM), DELTA);
+		assertEquals(-54, actualResults.get(Constants.MIN), DELTA);
+		assertEquals(68.1, actualResults.get(Constants.MAX), DELTA);
 		assertEquals(15.21835, actualResults.get(Constants.ARITH_MEAN), DELTA);
 		assertEquals(Double.NaN, actualResults.get(Constants.GEO_MEAN), DELTA);
-		assertEquals(16.20005, actualResults.get(Constants.MEDIAN), DELTA);
 		assertEquals(Double.NaN, actualResults.get(Constants.MODE), DELTA);
 		assertEquals(122.1, actualResults.get(Constants.RANGE), DELTA);
+		assertEquals(-.19, actualResults.get(Constants.FIRST_QUART), DELTA);
+		assertEquals(16.20005, actualResults.get(Constants.MEDIAN), DELTA);
+		assertEquals(45, actualResults.get(Constants.THIRD_QUART), DELTA);
+		assertEquals(45.19, actualResults.get(Constants.IQR), DELTA);
 		assertEquals(1812.483527, actualResults.get(Constants.SAMPLE_VAR), DELTA);
 		assertEquals(1510.402939, actualResults.get(Constants.POP_VAR), DELTA);
 		assertEquals(42.573272, actualResults.get(Constants.SAMPLE_DEV), DELTA);
