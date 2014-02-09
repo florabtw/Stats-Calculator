@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public abstract class PCView extends DataActionHandler {
 	}
 
 	protected LinearLayout view;
+	protected ListView lvResults;
 	protected EditText etNVal;
 	protected EditText etRVal;
 	protected EditText etNVals;
@@ -136,6 +138,14 @@ public abstract class PCView extends DataActionHandler {
 
 	public HashMap<String, String> getResults() {
 		return resultsAdapter.getResults();
+	}
+
+	public int getScrollPosition() {
+		return lvResults.getFirstVisiblePosition();
+	}
+
+	public void setScrollPosition(int pos) {
+		lvResults.setSelectionFromTop(pos, 0);
 	}
 
 	public View getView() {
