@@ -5,9 +5,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import me.nickpierson.StatsCalculator.home.HomeModel;
-import me.nickpierson.StatsCalculator.home.HomePresenter;
-import me.nickpierson.StatsCalculator.home.HomeView;
 import me.nickpierson.StatsCalculator.utils.Constants;
 
 import org.junit.Before;
@@ -43,7 +40,7 @@ public class HomePresenterTest {
 		listener = ArgumentCaptor.forClass(ActionListener.class);
 	}
 
-	public void createPresenter() {
+	public void setupPresenter() {
 		HomePresenter.setup(activity, model, view);
 	}
 
@@ -54,7 +51,7 @@ public class HomePresenterTest {
 		emailIntent.putExtra(Intent.EXTRA_SUBJECT, Constants.EMAIL_SUBJECT);
 		Intent testIntent = Intent.createChooser(emailIntent, Constants.EMAIL_CHOOSER_TITLE);
 
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(HomeView.Types.MENU_CONTACT));
 
@@ -70,7 +67,7 @@ public class HomePresenterTest {
 		Uri uri = Uri.parse("market://details?id=" + activity.getApplicationContext().getPackageName());
 		Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
 
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(HomeView.Types.MENU_RATE));
 
@@ -87,7 +84,7 @@ public class HomePresenterTest {
 		Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
 		doThrow(new ActivityNotFoundException()).when(activity).startActivity(rateAppIntent);
 
-		createPresenter();
+		setupPresenter();
 
 		verify(view).addListener(listener.capture(), eq(HomeView.Types.MENU_RATE));
 

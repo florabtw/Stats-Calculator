@@ -29,7 +29,8 @@
 - Input over 1000 is not allowed. If user enters number over 1000, results
   are displayed as if the number wasn't there and a toast is shown.
 - Negative and decimal input is not allowed. The buttons are disabled.
-- Changing landscape/portrait mode keeps state of results and EditTexts
+- Changing landscape/portrait mode keeps state of results and EditTexts, and
+  scroll position of results listview
 - Up nagivation in action bar
 - Back button navigates to home screen
 
