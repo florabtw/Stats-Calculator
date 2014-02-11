@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.Constants;
 import me.nickpierson.StatsCalculator.utils.DefaultAdapter;
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -93,7 +93,7 @@ public abstract class BasicView extends DataActionHandler {
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@SuppressLint("NewApi")
 	public void showSaveListPopup() {
 		AlertDialog.Builder alertBuilder;
 		View alertView;
@@ -120,8 +120,15 @@ public abstract class BasicView extends DataActionHandler {
 		alertBuilder.show();
 	}
 
+	@SuppressLint("NewApi")
 	public void showLoadListPopup(final String[] savedLists) {
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
+		AlertDialog.Builder alertBuilder;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			alertBuilder = new AlertDialog.Builder(activity, getDialogTheme());
+		} else {
+			alertBuilder = new AlertDialog.Builder(activity);
+		}
+
 		alertBuilder.setSingleChoiceItems(savedLists, 0, null);
 		alertBuilder.setPositiveButton(R.string.load, new OnClickListener() {
 
