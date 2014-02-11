@@ -207,7 +207,14 @@ public class BasicModel extends DataActionHandler {
 			}
 		}
 
-		return calculateMedian(lowerHalf, lowerHalf.size());
+		double answer;
+		if (lowerHalf.isEmpty()) {
+			answer = median;
+		} else {
+			answer = calculateMedian(lowerHalf, lowerHalf.size());
+		}
+
+		return answer;
 	}
 
 	private double calculateMedian(List<Double> numberList, double length) {
@@ -237,7 +244,14 @@ public class BasicModel extends DataActionHandler {
 			}
 		}
 
-		return calculateMedian(upperHalf, upperHalf.size());
+		double answer;
+		if (upperHalf.isEmpty()) {
+			answer = median;
+		} else {
+			answer = calculateMedian(upperHalf, upperHalf.size());
+		}
+
+		return answer;
 	}
 
 	private double calculateMode(List<Double> numberList) {
