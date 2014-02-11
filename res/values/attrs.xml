@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="blueOutlinedDrawable" format="reference" />
-    <attr name="greenOutlinedDrawable" format="reference" />
+    <attr name="blueOutlinedSelector" format="reference" />
+    <attr name="greenOutlinedSelector" format="reference" />
+    <attr name="redOutlinedSelector" format="reference" />
+    <attr name="brownOutlinedSelector" format="reference" />
     <attr name="defaultOutlinedDrawable" format="reference" />
     <attr name="defaultOutlinedSelector" format="reference" />
     <attr name="textViewTextColor" format="reference" />

@@ -41,14 +41,14 @@
         <Button
             android:id="@+id/home_btnDescriptive"
             style="@style/home_screen_button"
-            android:background="?attr/blueOutlinedDrawable"
+            android:background="?attr/blueOutlinedSelector"
             android:text="@string/descriptive_stats"
             android:textColor="@color/pastel_blue" />
 
         <Button
             android:id="@+id/home_btnPermComb"
             style="@style/home_screen_button"
-            android:background="?attr/greenOutlinedDrawable"
+            android:background="?attr/greenOutlinedSelector"
             android:text="@string/permutations_combinations"
             android:textColor="@color/pastel_green" />
     </LinearLayout>
