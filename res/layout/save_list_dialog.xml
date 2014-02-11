@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fifa"
     android:orientation="vertical"
     android:padding="10dp" >
 
@@ -10,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/request_list_name"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/textViewTextColor"
         android:textSize="18sp" >
     </TextView>
 
@@ -20,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="@string/save_list_hint"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textColor="?attr/editTextColor" />
 
 </LinearLayout>
