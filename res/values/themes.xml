@@ -13,6 +13,10 @@
 
     <style name="NotHomeTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/white_texture</item>
+        <item name="defaultOutlinedDrawable">@drawable/black_border</item>
+        <item name="resultsTextViewTextColor">@android:color/black</item>
+        <item name="editTextColor">@android:color/black</item>
+        <item name="defaultOutlinedSelector">@drawable/black_border_selector</item>
     </style>
 
 </resources>

@@ -3,5 +3,9 @@
 
     <attr name="blueOutlinedDrawable" format="reference" />
     <attr name="greenOutlinedDrawable" format="reference" />
+    <attr name="defaultOutlinedDrawable" format="reference" />
+    <attr name="defaultOutlinedSelector" format="reference" />
+    <attr name="resultsTextViewTextColor" format="reference" />
+    <attr name="editTextColor" format="reference" />
 
 </resources>

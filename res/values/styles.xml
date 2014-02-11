@@ -62,15 +62,16 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="pc_results_textview">
+    <style name="results_textview">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/resultsTextViewTextColor</item>
     </style>
 
     <style name="default_style">
         <item name="android:layout_margin">3dp</item>
-        <item name="android:background">@drawable/black_border</item>
+        <item name="android:background">?attr/defaultOutlinedDrawable</item>
         <item name="android:padding">10dp</item>
     </style>
 
@@ -90,6 +91,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:inputType">textMultiLine</item>
+        <item name="android:textColor">?attr/editTextColor</item>
         <item name="android:maxLines">4</item>
     </style>
 
@@ -99,7 +101,7 @@
     </style>
 
     <style name="listview">
-        <item name="android:background">@drawable/black_border</item>
+        <item name="android:background">?attr/defaultOutlinedDrawable</item>
         <item name="android:padding">1dp</item>
         <item name="android:overScrollMode" tools:ignore="NewApi">never</item>
     </style>
