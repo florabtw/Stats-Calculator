@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fifa"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".HomeActivity" >
@@ -41,14 +40,14 @@
         <Button
             android:id="@+id/home_btnDescriptive"
             style="@style/home_screen_button"
-            android:background="@drawable/blue_border_selector"
+            android:background="?attr/blueOutlinedDrawable"
             android:text="@string/descriptive_stats"
             android:textColor="@color/pastel_blue" />
 
         <Button
             android:id="@+id/home_btnPermComb"
             style="@style/home_screen_button"
-            android:background="@drawable/green_border_selector"
+            android:background="?attr/greenOutlinedDrawable"
             android:text="@string/permutations_combinations"
             android:textColor="@color/pastel_green" />
     </LinearLayout>
