@@ -196,11 +196,16 @@ public class BasicModel extends DataActionHandler {
 		List<Double> lowerHalf = new ArrayList<Double>();
 		for (int i = 0; i < numberList.size(); i++) {
 			double d = numberList.get(i);
-			if (d < median) {
+			if (d <= median) {
 				lowerHalf.add(d);
 			} else {
 				break;
 			}
+		}
+
+		if (lowerHalf.contains(median)) {
+			// Remove only one median from the list, there could be more
+			lowerHalf.remove(median);
 		}
 
 		double answer;
@@ -229,11 +234,16 @@ public class BasicModel extends DataActionHandler {
 		List<Double> upperHalf = new ArrayList<Double>();
 		for (int i = numberList.size() - 1; i >= 0; i--) {
 			double d = numberList.get(i);
-			if (d > median) {
+			if (d >= median) {
 				upperHalf.add(d);
 			} else {
 				break;
 			}
+		}
+
+		if (upperHalf.contains(median)) {
+			// remove only one median, there could be more
+			upperHalf.remove(median);
 		}
 
 		double answer;
