@@ -193,10 +193,6 @@ public class BasicModel extends DataActionHandler {
 	}
 
 	private double calculateFirstQuartile(List<Double> numberList, double median) {
-		if (numberList.size() == 1) {
-			return numberList.get(0);
-		}
-
 		List<Double> lowerHalf = new ArrayList<Double>();
 		for (int i = 0; i < numberList.size(); i++) {
 			double d = numberList.get(i);
@@ -230,10 +226,6 @@ public class BasicModel extends DataActionHandler {
 	}
 
 	private double calculateThirdQuartile(List<Double> numberList, double median) {
-		if (numberList.size() == 1) {
-			return numberList.get(0);
-		}
-
 		List<Double> upperHalf = new ArrayList<Double>();
 		for (int i = numberList.size() - 1; i >= 0; i--) {
 			double d = numberList.get(i);
