@@ -153,9 +153,8 @@ public class BasicModel extends DataActionHandler {
 		Double size = (double) numberList.size();
 		Double sum = calculateSum(numberList);
 		Double arithMean = sum / size;
-		Double median = calculateMedian(numberList, size);
-		Double firstQuart = calculateFirstQuartile(numberList, median);
-		Double thirdQuart = calculateThirdQuartile(numberList, median);
+		Double firstQuart = calculateFirstQuartile(numberList);
+		Double thirdQuart = calculateThirdQuartile(numberList);
 		Double sampleVar = calculateSampleVariance(numberList, arithMean, size);
 		Double popVar = calculatePopVariance(numberList, arithMean, size);
 		Double sampleDev = Math.sqrt(sampleVar);
@@ -170,7 +169,7 @@ public class BasicModel extends DataActionHandler {
 		results.put(Constants.MODE, calculateMode(numberList));
 		results.put(Constants.RANGE, calculateRange(numberList));
 		results.put(Constants.FIRST_QUART, firstQuart);
-		results.put(Constants.MEDIAN, median);
+		results.put(Constants.MEDIAN, calculateMedian(numberList, size));
 		results.put(Constants.THIRD_QUART, thirdQuart);
 		results.put(Constants.IQR, thirdQuart - firstQuart);
 		results.put(Constants.SAMPLE_VAR, sampleVar);
@@ -192,30 +191,24 @@ public class BasicModel extends DataActionHandler {
 		return sum;
 	}
 
-	private double calculateFirstQuartile(List<Double> numberList, double median) {
-		List<Double> lowerHalf = new ArrayList<Double>();
-		for (int i = 0; i < numberList.size(); i++) {
-			double d = numberList.get(i);
-			if (d <= median) {
-				lowerHalf.add(d);
-			} else {
-				break;
-			}
+	private double calculateFirstQuartile(List<Double> numberList) {
+		if (numberList.size() == 1) {
+			return numberList.get(0);
 		}
 
-		if (lowerHalf.contains(median)) {
-			// Remove only one median from the list, there could be more
-			lowerHalf.remove(median);
-		}
-
-		double answer;
-		if (lowerHalf.isEmpty()) {
-			answer = median;
+		int index;
+		if (numberList.size() % 2 == 1) {
+			index = (int) Math.floor(numberList.size() / 2.0);
 		} else {
-			answer = calculateMedian(lowerHalf, lowerHalf.size());
+			index = numberList.size() / 2;
 		}
 
-		return answer;
+		List<Double> lowerHalf = new ArrayList<Double>();
+		for (int i = 0; i < index; i++) {
+			lowerHalf.add(numberList.get(i));
+		}
+
+		return calculateMedian(lowerHalf, lowerHalf.size());
 	}
 
 	private double calculateMedian(List<Double> numberList, double length) {
@@ -230,30 +223,24 @@ public class BasicModel extends DataActionHandler {
 		}
 	}
 
-	private double calculateThirdQuartile(List<Double> numberList, double median) {
-		List<Double> upperHalf = new ArrayList<Double>();
-		for (int i = numberList.size() - 1; i >= 0; i--) {
-			double d = numberList.get(i);
-			if (d >= median) {
-				upperHalf.add(d);
-			} else {
-				break;
-			}
+	private double calculateThirdQuartile(List<Double> numberList) {
+		if (numberList.size() == 1) {
+			return numberList.get(0);
 		}
 
-		if (upperHalf.contains(median)) {
-			// remove only one median, there could be more
-			upperHalf.remove(median);
-		}
-
-		double answer;
-		if (upperHalf.isEmpty()) {
-			answer = median;
+		int index;
+		if (numberList.size() % 2 == 1) {
+			index = ((int) Math.floor(numberList.size() / 2.0)) + 1;
 		} else {
-			answer = calculateMedian(upperHalf, upperHalf.size());
+			index = numberList.size() / 2;
 		}
 
-		return answer;
+		List<Double> upperHalf = new ArrayList<Double>();
+		for (int i = index; i < numberList.size(); i++) {
+			upperHalf.add(numberList.get(i));
+		}
+
+		return calculateMedian(upperHalf, upperHalf.size());
 	}
 
 	private double calculateMode(List<Double> numberList) {

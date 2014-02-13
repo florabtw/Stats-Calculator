@@ -167,13 +167,15 @@ public class BasicModelTest {
 		HashMap<String, Double> actualResult3 = model.calculateResults(sampleInput3);
 		assertEquals(25, actualResult3.get(Constants.FIRST_QUART), DELTA);
 
-		ArrayList<Double> sampleInput4 = makeValidList(42, 42, 42, 42, 42, 42, 42, 56.5, 9.8005);
+		ArrayList<Double> sampleInput4 = makeValidList(31.8, 32.4, 32.4, 36.2, 37.1);
 		HashMap<String, Double> actualResult4 = model.calculateResults(sampleInput4);
-		assertEquals(42, actualResult4.get(Constants.THIRD_QUART), DELTA);
+		assertEquals(32.1, actualResult4.get(Constants.FIRST_QUART), DELTA);
+		assertEquals(36.65, actualResult4.get(Constants.THIRD_QUART), DELTA);
 
-		ArrayList<Double> sampleInput5 = makeValidList(36, 46.3, 27);
+		ArrayList<Double> sampleInput5 = makeValidList(31.8, 34.2, 36.4, 36.4, 37.1);
 		HashMap<String, Double> actualResult5 = model.calculateResults(sampleInput5);
-		assertEquals(46.3, actualResult5.get(Constants.THIRD_QUART), DELTA);
+		assertEquals(33, actualResult5.get(Constants.FIRST_QUART), DELTA);
+		assertEquals(36.75, actualResult5.get(Constants.THIRD_QUART), DELTA);
 	}
 
 	@Test
