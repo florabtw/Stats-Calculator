@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="SharedTheme" parent="AppTheme">
+        <item name="blueOutlinedSelector">@drawable/blue_border_selector</item>
+        <item name="greenOutlinedSelector">@drawable/green_border_selector</item>
+    </style>
+
+    <style name="HomeTheme" parent="SharedTheme">
+        <item name="android:windowBackground">@color/fifa</item>
+    </style>
+
+    <style name="NotHomeTheme" parent="SharedTheme">
+        <item name="android:windowBackground">@drawable/white_texture</item>
+        <item name="defaultOutlinedDrawable">@drawable/black_border</item>
+        <item name="redOutlinedSelector">@drawable/red_border_selector</item>
+        <item name="brownOutlinedSelector">@drawable/brown_border_selector</item>
+        <item name="textViewTextColor">@android:color/black</item>
+        <item name="editTextColor">@android:color/black</item>
+        <item name="defaultOutlinedSelector">@drawable/black_border_selector</item>
+    </style>
+
+</resources>

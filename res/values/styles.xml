@@ -1,20 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="HomeTheme" parent="AppTheme">
-        <item name="android:windowBackground">@color/fifa</item>
-    </style>
-
-    <style name="NotHomeTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/white_texture</item>
-    </style>
-
     <style name="home_screen_button">
         <item name="android:layout_width">160dp</item>
         <item name="android:layout_height">120dp</item>
@@ -30,31 +15,32 @@
         <item name="android:layout_margin">2dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textSize">30sp</item>
+        <item name="android:textColor">?attr/textViewTextColor</item>
     </style>
 
     <style name="keypad_button_default" parent="keypad_button">
-        <item name="android:background">@drawable/black_border_selector</item>
+        <item name="android:background">?attr/defaultOutlinedSelector</item>
         <item name="android:onClick">keypadPress</item>
     </style>
 
     <style name="keypad_button_backspace" parent="keypad_button">
-        <item name="android:background">@drawable/red_border_selector</item>
+        <item name="android:background">?attr/redOutlinedSelector</item>
         <item name="android:longClickable">true</item>
         <item name="android:onClick">backSpace</item>
     </style>
 
     <style name="keypad_button_multiplier" parent="keypad_button">
-        <item name="android:background">@drawable/brown_border_selector</item>
+        <item name="android:background">?attr/brownOutlinedSelector</item>
         <item name="android:onClick">keypadPress</item>
     </style>
 
     <style name="keypad_button_comma" parent="keypad_button">
-        <item name="android:background">@drawable/blue_border_selector</item>
+        <item name="android:background">?attr/blueOutlinedSelector</item>
         <item name="android:onClick">keypadPress</item>
     </style>
 
     <style name="keypad_button_done" parent="keypad_button">
-        <item name="android:background">@drawable/green_border_selector</item>
+        <item name="android:background">?attr/greenOutlinedSelector</item>
         <item name="android:onClick">donePress</item>
     </style>
 
@@ -77,15 +63,16 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="pc_results_textview">
+    <style name="results_textview">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/textViewTextColor</item>
     </style>
 
     <style name="default_style">
         <item name="android:layout_margin">3dp</item>
-        <item name="android:background">@drawable/black_border</item>
+        <item name="android:background">?attr/defaultOutlinedDrawable</item>
         <item name="android:padding">10dp</item>
     </style>
 
@@ -99,24 +86,28 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_weight">2</item>
         <item name="android:lineSpacingExtra">3dp</item>
+        <item name="android:textColor">?attr/textViewTextColor</item>
     </style>
 
     <style name="basic_edittext" parent="default_style">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:inputType">textMultiLine</item>
+        <item name="android:textColor">?attr/editTextColor</item>
         <item name="android:maxLines">4</item>
     </style>
 
     <style name="pc_edittext" parent="pc_style">
         <item name="android:inputType">number</item>
         <item name="android:layout_weight">3</item>
+        <item name="android:textColor">?attr/editTextColor</item>
     </style>
 
     <style name="listview">
-        <item name="android:background">@drawable/black_border</item>
+        <item name="android:background">?attr/defaultOutlinedDrawable</item>
         <item name="android:padding">1dp</item>
         <item name="android:overScrollMode" tools:ignore="NewApi">never</item>
+        <item name="android:fadingEdgeLength">0dp</item>
     </style>
 
 </resources>

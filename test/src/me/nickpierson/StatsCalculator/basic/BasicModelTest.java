@@ -162,6 +162,10 @@ public class BasicModelTest {
 		ArrayList<Double> sampleInput2 = makeValidList(-99.5, -55, -32.2);
 		HashMap<String, Double> actualResult2 = model.calculateResults(sampleInput2);
 		assertEquals(67.3, actualResult2.get(Constants.RANGE), DELTA);
+
+		ArrayList<Double> sampleInput3 = makeValidList(25, 25, 36);
+		HashMap<String, Double> actualResult3 = model.calculateResults(sampleInput3);
+		assertEquals(25, actualResult3.get(Constants.FIRST_QUART), DELTA);
 	}
 
 	@Test

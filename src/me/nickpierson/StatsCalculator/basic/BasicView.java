@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import me.nickpierson.StatsCalculator.utils.Constants;
 import me.nickpierson.StatsCalculator.utils.DefaultAdapter;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -92,13 +93,15 @@ public abstract class BasicView extends DataActionHandler {
 		}
 	}
 
+	@SuppressLint("NewApi")
 	public void showSaveListPopup() {
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
-
+		AlertDialog.Builder alertBuilder;
 		View alertView;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			alertBuilder = new AlertDialog.Builder(activity, getDialogTheme());
 			alertView = LayoutInflater.from(activity).inflate(R.layout.save_list_dialog, null);
 		} else {
+			alertBuilder = new AlertDialog.Builder(activity);
 			alertView = LayoutInflater.from(activity).inflate(R.layout.save_list_dialog_old, null);
 		}
 
@@ -117,8 +120,15 @@ public abstract class BasicView extends DataActionHandler {
 		alertBuilder.show();
 	}
 
+	@SuppressLint("NewApi")
 	public void showLoadListPopup(final String[] savedLists) {
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
+		AlertDialog.Builder alertBuilder;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			alertBuilder = new AlertDialog.Builder(activity, getDialogTheme());
+		} else {
+			alertBuilder = new AlertDialog.Builder(activity);
+		}
+
 		alertBuilder.setSingleChoiceItems(savedLists, 0, null);
 		alertBuilder.setPositiveButton(R.string.load, new OnClickListener() {
 
@@ -190,4 +200,6 @@ public abstract class BasicView extends DataActionHandler {
 	}
 
 	public abstract void showResults();
+
+	public abstract int getDialogTheme();
 }

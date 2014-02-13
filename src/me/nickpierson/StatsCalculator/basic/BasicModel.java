@@ -193,10 +193,6 @@ public class BasicModel extends DataActionHandler {
 	}
 
 	private double calculateFirstQuartile(List<Double> numberList, double median) {
-		if (numberList.size() == 1) {
-			return numberList.get(0);
-		}
-
 		List<Double> lowerHalf = new ArrayList<Double>();
 		for (int i = 0; i < numberList.size(); i++) {
 			double d = numberList.get(i);
@@ -207,7 +203,14 @@ public class BasicModel extends DataActionHandler {
 			}
 		}
 
-		return calculateMedian(lowerHalf, lowerHalf.size());
+		double answer;
+		if (lowerHalf.isEmpty()) {
+			answer = median;
+		} else {
+			answer = calculateMedian(lowerHalf, lowerHalf.size());
+		}
+
+		return answer;
 	}
 
 	private double calculateMedian(List<Double> numberList, double length) {
@@ -223,10 +226,6 @@ public class BasicModel extends DataActionHandler {
 	}
 
 	private double calculateThirdQuartile(List<Double> numberList, double median) {
-		if (numberList.size() == 1) {
-			return numberList.get(0);
-		}
-
 		List<Double> upperHalf = new ArrayList<Double>();
 		for (int i = numberList.size() - 1; i >= 0; i--) {
 			double d = numberList.get(i);
@@ -237,7 +236,14 @@ public class BasicModel extends DataActionHandler {
 			}
 		}
 
-		return calculateMedian(upperHalf, upperHalf.size());
+		double answer;
+		if (upperHalf.isEmpty()) {
+			answer = median;
+		} else {
+			answer = calculateMedian(upperHalf, upperHalf.size());
+		}
+
+		return answer;
 	}
 
 	private double calculateMode(List<Double> numberList) {
